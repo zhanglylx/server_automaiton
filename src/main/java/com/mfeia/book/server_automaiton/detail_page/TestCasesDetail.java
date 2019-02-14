@@ -13,17 +13,24 @@ import java.util.Map;
  */
 public class TestCasesDetail implements AddTestCases {
     @Override
-    public void additionTestCases(PerformInspection performInspection, double number)  {
-           for(Map.Entry<Long, Books> booksEntry :
-                   AutomationBooksMap.getAutomationBooksMap().getBooksListMap().entrySet()) {
-               number = DoubleOperation.add(number, 0.00001);
-               performInspection.addtestFrameList(
-                       new Detail(JSONObject.fromObject(AutomationUtils.doGet(
-                               "cx/bookDetailYS", "bookid=" + booksEntry.getKey()
-                       )), number, booksEntry.getValue()),
-                       number
-               );
-           }
+    public void additionTestCases(PerformInspection performInspection, double number) {
+
+        for (Map.Entry<Long, Book> booksEntry :
+                AutomationBooksMap.getAutomationBooksMap().getBooksListMap().entrySet()) {
+            number = DoubleOperation.add(number, 0.00001);
+            try {
+                performInspection.addtestFrameList(
+                        new Detail(JSONObject.fromObject(AutomationUtils.doGet(
+                                AutomationUtils.DETAIL_PAGE_BOOK_DETAIL_YS, "bookid=" + booksEntry.getKey()
+                        )), number, booksEntry.getValue()),
+                        number
+                );
+            } catch (Exception e) {
+                performInspection.addtestFrameList(
+                        new ErrException(TestCasesDetail.class, booksEntry.getKey(), e, number), number
+                );
+            }
+        }
 
     }
 }

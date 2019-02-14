@@ -4,7 +4,7 @@ import com.mfeia.book.server_automaiton.AutomationBooksMap;
 import com.mfeia.book.server_automaiton.AutomationUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import com.mfeia.book.server_automaiton.Books;
+import com.mfeia.book.server_automaiton.Book;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -65,7 +65,7 @@ public class RoofNewExpress extends RoofRoot {
     public Object checkJsonObjec(Object object, int index, String key, int size) {
         JSONObject jsonObject = JSONObject.fromObject(object);
         try {
-            Books books = new Books(jsonObject.getInt("bookid"),
+            Book books = new Book(jsonObject.getInt("bookid"),
                     jsonObject.getString("newBookName"),
                     jsonObject.getString("authorName"),
                     jsonObject.getString("categoryColor"));

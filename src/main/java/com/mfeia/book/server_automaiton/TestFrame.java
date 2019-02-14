@@ -352,6 +352,7 @@ public abstract class TestFrame {
      */
     protected final void errException(String testCase, Exception e) {
         try {
+
             throw new Exception("\n" + this.className +
                     "[" + this.tag + "]"
                     + "\n{" + testCase + "}异常:\n" +

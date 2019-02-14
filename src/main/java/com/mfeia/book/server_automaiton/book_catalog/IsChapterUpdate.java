@@ -1,6 +1,6 @@
 package com.mfeia.book.server_automaiton.book_catalog;
 
-import com.mfeia.book.server_automaiton.Books;
+import com.mfeia.book.server_automaiton.Book;
 import com.mfeia.book.server_automaiton.TestFrame;
 import net.sf.json.JSONObject;
 
@@ -11,7 +11,7 @@ import java.util.regex.Pattern;
  * 目录刷新
  */
 public class IsChapterUpdate extends TestFrame {
-    public IsChapterUpdate(JSONObject jsonObject, Books books,double number){
+    public IsChapterUpdate(JSONObject jsonObject, Book books,double number){
         super(jsonObject);
         this.setCaseName("目录刷新:"+books.getBookId()+":"+number);
     }

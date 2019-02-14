@@ -27,7 +27,7 @@ public class RealizePerform implements PerformInspection {
     public void addtestFrameList(TestFrame testFrame, double number) {
         if (testFrame == null) {
             addtestFrameList(
-                    new ErrException("addtestFrameList",
+                    new ErrException(this.getClass(),"addtestFrameList",
                             new Exception(new NullPointerException()), number), number);
             return;
         }

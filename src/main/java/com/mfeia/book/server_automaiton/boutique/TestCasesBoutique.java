@@ -23,7 +23,7 @@ public class TestCasesBoutique implements AddTestCases {
             switch (i) {
                 case 0:
                     //精品页
-                    load(getJSONArray("cx/new/indexys", i),
+                    load(getJSONArray(AutomationUtils.BOUTIQUE_INDEX, i),
                             performInspection,
                             number);
 //                    loadRefresh(getJSONArray("cx/refreshbd", i),
@@ -33,20 +33,20 @@ public class TestCasesBoutique implements AddTestCases {
                 case 1:
                 case 2:
                     //男频，女频
-                    loadList(getJSONArray("cx/new/indexys", i),
+                    loadList(getJSONArray(AutomationUtils.BOUTIQUE_INDEX, i),
                             performInspection,
                             number + d);
-                    loadListRefresh(getJSONArray("cx/refreshbd", i),
+                    loadListRefresh(getJSONArray(AutomationUtils.BOUTIQUE_REFRESHBD, i),
                             performInspection,
                             number + d + 0.01);
                     break;
                 default:
                     //出版，新书，完结
-                    loadNewArrivals(getJSONArray("cx/new/indexys", i),
+                    loadNewArrivals(getJSONArray(AutomationUtils.BOUTIQUE_INDEX, i),
                             performInspection,
                             number + d, i);
                     loadListRefresh(JSONObject.fromObject(
-                            AutomationUtils.doGet("cx/refreshbd", "type=" + i)),
+                            AutomationUtils.doGet(AutomationUtils.BOUTIQUE_REFRESHBD, "type=" + i)),
                             performInspection,
                             number + d);
             }
@@ -157,7 +157,7 @@ public class TestCasesBoutique implements AddTestCases {
                     break;
                 default:
                     performInspection.addtestFrameList(
-                            new ErrException("FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
+                            new ErrException(this.getClass(),"FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
                                     new Exception("未找到FLAG"), number), number);
 
             }
@@ -237,7 +237,7 @@ public class TestCasesBoutique implements AddTestCases {
                     break;
                 default:
                     performInspection.addtestFrameList(
-                            new ErrException("FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
+                            new ErrException(this.getClass(),"FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
                                     new Exception("未找到FLAG"), number), number);
             }
         }
@@ -297,7 +297,7 @@ public class TestCasesBoutique implements AddTestCases {
                     break;
                 default:
                     performInspection.addtestFrameList(
-                            new ErrException("FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
+                            new ErrException(this.getClass(),"FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
                                     new Exception("未找到FLAG"), number), number);
             }
         }
@@ -350,7 +350,7 @@ public class TestCasesBoutique implements AddTestCases {
                     break;
                 default:
                     performInspection.addtestFrameList(
-                            new ErrException("FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
+                            new ErrException(this.getClass(),"FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
                                     new Exception("未找到FLAG"), number), number);
             }
         }
@@ -384,14 +384,14 @@ public class TestCasesBoutique implements AddTestCases {
                     break;
                 default:
                     performInspection.addtestFrameList(
-                            new ErrException("FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
+                            new ErrException(this.getClass(),"FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
                                     new Exception("未找到FLAG"), number), number);
             }
         }
 
         if (type == 5) {
             if (roofFlagOne == null) {
-                performInspection.addtestFrameList(new ErrException("type=5", new Exception(
+                performInspection.addtestFrameList(new ErrException(this.getClass(),"type=5", new Exception(
                         new NullPointerException()), number), number);
             } else {
                 performInspection.addtestFrameList(roofFlagOne.setShow(1), number);

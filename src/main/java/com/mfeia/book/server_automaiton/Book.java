@@ -1,23 +1,27 @@
 package com.mfeia.book.server_automaiton;
 
+import net.sf.json.JSON;
+import net.sf.json.JSONObject;
+import netscape.javascript.JSObject;
+
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
 
-public class Books {
+public class Book {
     private long bookId;
     private String bookName;
     private String authorName;
     private String bookImg;
     private String categoryColor;
 
-    public Books() {
+    public Book() {
     }
 
-    public Books(long bookId,
-                 String bookName,
-                 String authorName,
-                 String categoryColor
+    public Book(long bookId,
+                String bookName,
+                String authorName,
+                String categoryColor
     ) {
         this.bookName = bookName;
         this.bookId = bookId;
@@ -92,12 +96,36 @@ public class Books {
     public boolean equals(Object o) {
         if (this == o) return true;
         if (o == null || getClass() != o.getClass()) return false;
-        Books books = (Books) o;
+        Book books = (Book) o;
         return bookId == books.bookId &&
                 Objects.equals(bookName, books.bookName) &&
                 Objects.equals(authorName, books.authorName) &&
                 Objects.equals(bookImg, books.bookImg);
     }
+
+    public boolean equals(JSONObject jsObject) {
+        if (jsObject == null || jsObject.isEmpty()) return false;
+
+        try {
+            String bookImg;
+            if (jsObject.containsKey("bookImg")) {
+                bookImg = jsObject.getString("bookImg");
+            } else {
+                bookImg = jsObject.getString(AutomationUtils.BOOK_COVER);
+            }
+            return this.bookName.equals(
+                    jsObject.getString(AutomationUtils.BOOK_NAME)) &&
+                    this.bookId ==
+                            jsObject.getLong(AutomationUtils.BOOK_ID) &&
+                    this.authorName.equals(
+                            jsObject.getString(AutomationUtils.BOOK_AUTHOR_NAME)) &&
+                    this.bookImg.equals(bookImg);
+
+        } catch (Exception e) {
+            return false;
+        }
+    }
+
 
     @Override
     public int hashCode() {

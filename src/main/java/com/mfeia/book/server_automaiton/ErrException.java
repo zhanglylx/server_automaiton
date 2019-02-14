@@ -1,16 +1,14 @@
 package com.mfeia.book.server_automaiton;
 
-import net.sf.json.JSONObject;
-
 import java.util.Map;
 
 /**
  * 用于打印错误输出
  */
 public class ErrException extends TestFrame {
-    public ErrException(String errText, Exception e,double number) {
+    public ErrException(Class c , Object errText, Exception e, double number) {
         this.setTag(number);
-        errException(errText, e);
+        errException(c.getName()+" : "+errText, e);
     }
 
 

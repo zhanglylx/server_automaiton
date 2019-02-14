@@ -21,7 +21,7 @@ public class Morebdbooks extends RoofNewExpress {
             this.setJsonObject(
                     JSONObject.fromObject(
                             AutomationUtils.doGet(
-                                    "cx/morebdbooks",
+                                    AutomationUtils.BOUTIQUE_MOREBD_BOOKS,
                                     "bdId=" + id +
                                             "&pageNo=1")
                     )

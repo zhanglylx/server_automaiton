@@ -1,7 +1,7 @@
 package com.mfeia.book.server_automaiton.book_catalog;
 
 import com.mfeia.book.server_automaiton.AutomationUtils;
-import com.mfeia.book.server_automaiton.Books;
+import com.mfeia.book.server_automaiton.Book;
 import com.mfeia.book.server_automaiton.TestFrame;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -16,7 +16,7 @@ import java.util.Map;
 public class Catalog extends TestFrame {
     private List<Long> list = new ArrayList<>();
 
-    public Catalog(JSONObject jsonObject, JSONArray jsonArray, double number, Books books) {
+    public Catalog(JSONObject jsonObject, JSONArray jsonArray, double number, Book books) {
         super(jsonObject, jsonArray);
         this.setCaseName("目录:" + books.getBookId() + ":" + number);
     }

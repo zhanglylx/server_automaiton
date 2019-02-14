@@ -28,8 +28,8 @@ public class Test {
 //                break;
 //            }
 //        }
-        new RunnableAddTestCasess(new TestCasesDetail(), 2).run();
-        new RunnableAddTestCasess(new TestCasesCatalog(), 3).run();
+//        new RunnableAddTestCasess(new TestCasesDetail(), 2).run();
+//        new RunnableAddTestCasess(new TestCasesCatalog(), 3).run();
         new RunnableAddTestCasess(new TestCasesBookContent(), 4).run();
         while (true) {
             if (executorService.isTerminated()) {
@@ -60,7 +60,7 @@ public class Test {
                 className = addTestCase.getClass().getName();
                 addTestCase.additionTestCases(RealizePerform.getRealizePerform(), this.tag);
             } catch (Exception e) {
-                RealizePerform.getRealizePerform().addtestFrameList(new ErrException(
+                RealizePerform.getRealizePerform().addtestFrameList(new ErrException(this.getClass(),
                         className + ":addTestCasesException", e, this.tag
                 ), this.tag);
             }

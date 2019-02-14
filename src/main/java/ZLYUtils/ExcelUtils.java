@@ -37,7 +37,7 @@ public class ExcelUtils {
         dataMap.put(1, m);
         if (createExcelFile(new File("x.xlsx"), "测试", dataMap
 
-                ,true)) {
+                , true)) {
             System.out.println("data.xlsx is created successfully.");
         }
         Map<Integer, Map<String, String>> S;
@@ -56,7 +56,7 @@ public class ExcelUtils {
     public synchronized static boolean createExcelFile(File excelPath,
                                                        String sheetName, Map<Integer,
             Map<String, String>> dataMap) {
-        return createExcelFile(excelPath,sheetName,dataMap,false);
+        return createExcelFile(excelPath, sheetName, dataMap, false);
     }
 
     /**
@@ -67,11 +67,11 @@ public class ExcelUtils {
      */
     public synchronized static boolean createExcelFile(File excelPath,
                                                        String sheetName, Map<Integer,
-            Map<String, String>> dataMap,boolean successPopUp) {
+            Map<String, String>> dataMap, boolean successPopUp) {
         boolean isCreateSuccess = false;
         Workbook workbook = null;
-        if(!excelPath.getName().endsWith(".xlsx")){
-            excelPath = new File(excelPath+".xlsx");
+        if (!excelPath.getName().endsWith(".xlsx")) {
+            excelPath = new File(excelPath + ".xlsx");
         }
         try {
             // XSSFWork used for .xslx (>= 2007), HSSWorkbook for 03 .xsl
@@ -152,13 +152,13 @@ public class ExcelUtils {
                 outputStream.flush();
                 outputStream.close();
                 isCreateSuccess = true;
-                if(successPopUp)TooltipUtil.generalTooltip("保存成功:" + excelPath.getAbsolutePath());
+                if (successPopUp) TooltipUtil.generalTooltip("保存成功:" + excelPath.getAbsolutePath());
                 workbook.close();
                 System.out.println("保存成功:" + excelPath.getAbsolutePath());
             } catch (Exception e) {
                 System.out.println("It cause Error on WRITTING excel workbook: ");
                 e.printStackTrace();
-                if(successPopUp)TooltipUtil.errTooltip(e.toString());
+                if (successPopUp) TooltipUtil.errTooltip(e.toString());
                 return isCreateSuccess;
             }
         }
@@ -186,6 +186,7 @@ public class ExcelUtils {
 
     /**
      * 获取xlsx文件
+     *
      * @param file
      */
     public synchronized static Map<Integer, Map<String, String>> getExcelXlsx(File file) throws FileNotFoundException {

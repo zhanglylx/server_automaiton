@@ -2,7 +2,7 @@ package com.mfeia.book.server_automaiton.book_content;
 
 
 import com.mfeia.book.server_automaiton.AutomationUtils;
-import com.mfeia.book.server_automaiton.Books;
+import com.mfeia.book.server_automaiton.Book;
 import com.mfeia.book.server_automaiton.TestFrame;
 import net.sf.json.JSONObject;
 
@@ -14,7 +14,7 @@ import java.util.Map;
  */
 public class ChapterRead extends TestFrame {
 
-    public ChapterRead(JSONObject jsonObject, Books books, double number) {
+    public ChapterRead(JSONObject jsonObject, Book books, double number) {
         super(String.valueOf(books.getBookId()) + ":" + number,
                 jsonObject,
                 jsonObject.getJSONArray("chapterList"),

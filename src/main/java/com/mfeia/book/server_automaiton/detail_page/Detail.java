@@ -3,7 +3,7 @@ package com.mfeia.book.server_automaiton.detail_page;
 import com.mfeia.book.server_automaiton.AutomationUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-import com.mfeia.book.server_automaiton.Books;
+import com.mfeia.book.server_automaiton.Book;
 import com.mfeia.book.server_automaiton.TestFrame;
 
 import java.util.HashMap;
@@ -15,7 +15,7 @@ import java.util.regex.Pattern;
  */
 public class Detail extends TestFrame {
 
-    public Detail(JSONObject jsonObject, double number, final Books books) {
+    public Detail(JSONObject jsonObject, double number, final Book books) {
         super("详情页:" + books.getBookId(), jsonObject.getJSONObject("data"),
                 jsonObject.getJSONObject("data").getJSONArray("everyoneLookBookList"),
                 3 * 3);

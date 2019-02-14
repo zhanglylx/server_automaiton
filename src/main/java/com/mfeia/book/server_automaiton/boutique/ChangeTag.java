@@ -1,5 +1,6 @@
 package com.mfeia.book.server_automaiton.boutique;
 
+import com.mfeia.book.server_automaiton.AutomationUtils;
 import com.mfeia.book.server_automaiton.TestFrame;
 
 import java.util.Map;
@@ -17,7 +18,7 @@ public class ChangeTag extends ChangeBook {
         super(number);
         try {
             statr(testFrame,
-                    "cx/exchange",
+                    AutomationUtils.BOUTIQUE_EXCHANGE,
                     "bdId=" + testFrame.getJsonObject().getInt("id"),
                     null,
                     "list");
