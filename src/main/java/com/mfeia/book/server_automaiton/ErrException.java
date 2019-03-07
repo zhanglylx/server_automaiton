@@ -10,7 +10,10 @@ public class ErrException extends TestFrame {
         this.setTag(number);
         errException(c.getName()+" : "+errText, e);
     }
-
+    public ErrException(Class c , Object errText, Exception e) {
+        this.setTag(-1);
+        errException(c.getName()+" : "+errText, e);
+    }
 
     @Override
     public void settingJsonArrayMap(Map<String, Object> jsonArrayMap) {
@@ -25,5 +28,10 @@ public class ErrException extends TestFrame {
     @Override
     public Object checkJsonObjec(Object object, int index, String key, int size) {
         return null;
+    }
+
+    @Override
+    public void customCheck() {
+
     }
 }

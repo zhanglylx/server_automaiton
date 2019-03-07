@@ -37,4 +37,9 @@ public class IsChapterUpdate extends TestFrame {
     public Object checkJsonObjec(Object object, int index, String key, int size) {
         return null;
     }
+
+    @Override
+    public void customCheck() {
+
+    }
 }

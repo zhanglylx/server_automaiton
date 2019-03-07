@@ -8,5 +8,5 @@ public interface AddTestCases {
      * 添加测试用例
      * @param performInspection
      */
-    void additionTestCases(PerformInspection performInspection, double number) throws InterruptedException;
+    void additionTestCases(PerformInspection performInspection, double number) throws Exception;
 }

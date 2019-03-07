@@ -47,28 +47,34 @@ public abstract class TestFrame {
     }
 
     public TestFrame(String caseName, JSONObject jsonObject, JSONArray jsonArray, int showCount) {
-        this.className += " "+caseName;
+        this.className += " " + caseName;
         this.jsonObject = jsonObject;
         this.jsonArray = jsonArray;
         this.showCount = showCount;
     }
 
+    public abstract void settingJsonMap(Map<String, Object> jsonMap);
 
     public abstract void settingJsonArrayMap(Map<String, Object> jsonArrayMap);
 
-    public abstract void settingJsonMap(Map<String, Object> jsonMap);
-
     public abstract Object checkJsonObjec(Object object, int index, String key, int size);
 
-    public final TestFrame stratCheck() {
+    public abstract void customCheck();
 
+    public TestFrame stratCheck() {
         try {
             loadJsonMap();
             check(this.jsonObject, "stratCheckJsonObject");
             loadJsonArrayMap();
             check(this.jsonArray, "stratCheckJsonArray");
+
         } catch (Exception e) {
             errException("stratCheck", e);
+        }
+        try {
+            customCheck();
+        } catch (Exception e) {
+            errException("stratCheck : customCheck", e);
         }
         return this;
     }
@@ -80,8 +86,8 @@ public abstract class TestFrame {
      */
     public void checkJsonArrayShowCount(JSONArray jsonArray, int showCount) {
         if (showCount > 0) {
-            if (this.getJsonArray().size() < showCount)
-                check(false, showCount,
+            if (jsonArray.size() < showCount)
+                check(false, jsonArray.size(),
                         "检查数量是否符合要求:不符合，预期数量:"
                                 + showCount
                                 + "实际数量:" + this.getJsonArray().size());
@@ -376,8 +382,8 @@ public abstract class TestFrame {
      * @return
      */
     public String toString() {
-        if (this.checkBoolean == null) return this.className + ": null";
-        if (this.checkBoolean.length == 0) return this.className + ": 0";
+        if (this.checkBoolean == null) return this.className + ": false [checkBoolean=null]";
+        if (this.checkBoolean.length == 0) return this.className + ": false [checkBoolean.length=0]";
         for (boolean b : this.checkBoolean) {
             if (!b) return this.className + ": false";
         }

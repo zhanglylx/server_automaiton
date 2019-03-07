@@ -157,7 +157,7 @@ public class TestCasesBoutique implements AddTestCases {
                     break;
                 default:
                     performInspection.addtestFrameList(
-                            new ErrException(this.getClass(),"FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
+                            new ErrException(this.getClass(), "FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
                                     new Exception("未找到FLAG"), number), number);
 
             }
@@ -176,7 +176,7 @@ public class TestCasesBoutique implements AddTestCases {
         performInspection.addtestFrameList(roofFlagFifteen, number);
         performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne).setTag(number), number);
         performInspection.addtestFrameList(new ChangeBook(roofFlagFourteen, number).setTag(number), number);
-        performInspection.addtestFrameList(new ChangeTag(roofFlagNine,number).setTag(number), number);
+        performInspection.addtestFrameList(new ChangeTag(roofFlagNine, number).setTag(number), number);
     }
 
     /**
@@ -237,7 +237,7 @@ public class TestCasesBoutique implements AddTestCases {
                     break;
                 default:
                     performInspection.addtestFrameList(
-                            new ErrException(this.getClass(),"FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
+                            new ErrException(this.getClass(), "FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
                                     new Exception("未找到FLAG"), number), number);
             }
         }
@@ -266,6 +266,7 @@ public class TestCasesBoutique implements AddTestCases {
         TestFrame roofFlagOne = null;
         TestFrame MorebdbooksFlagOne = null;
         TestFrame roofFlagSeven = null;
+        TestFrame roofFlagFive = null;
         for (int i = 0; i < jsonArray.size(); i++) {
             switch (jsonArray.getJSONObject(i).getInt("flag")) {
                 case RoofFlagZero.FLAG:
@@ -293,11 +294,16 @@ public class TestCasesBoutique implements AddTestCases {
                             jsonArray.getJSONObject(i));
                     break;
                 case RoofFlagSeven.FLAG:
-                    roofFlagSeven = new RoofFlagSeven(jsonArray.getJSONObject(i));
+                    roofFlagSeven = new RoofFlagSeven(
+                            jsonArray.getJSONObject(i));
+                    break;
+                case RoofFlagFive.FLAG:
+                    roofFlagFive = new RoofFlagFive(
+                            jsonArray.getJSONObject(i));
                     break;
                 default:
                     performInspection.addtestFrameList(
-                            new ErrException(this.getClass(),"FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
+                            new ErrException(this.getClass(), "FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
                                     new Exception("未找到FLAG"), number), number);
             }
         }
@@ -305,6 +311,8 @@ public class TestCasesBoutique implements AddTestCases {
         performInspection.addtestFrameList(roofFlagOne, number);
         performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne).setTag(number), number);
         performInspection.addtestFrameList(roofFlagSeven, number);
+        if (roofFlagFive != null)
+            performInspection.addtestFrameList(roofFlagFive, number);
     }
 
 
@@ -350,7 +358,7 @@ public class TestCasesBoutique implements AddTestCases {
                     break;
                 default:
                     performInspection.addtestFrameList(
-                            new ErrException(this.getClass(),"FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
+                            new ErrException(this.getClass(), "FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
                                     new Exception("未找到FLAG"), number), number);
             }
         }
@@ -384,14 +392,14 @@ public class TestCasesBoutique implements AddTestCases {
                     break;
                 default:
                     performInspection.addtestFrameList(
-                            new ErrException(this.getClass(),"FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
+                            new ErrException(this.getClass(), "FLAG:" + jsonArray.getJSONObject(i).getInt("flag"),
                                     new Exception("未找到FLAG"), number), number);
             }
         }
 
         if (type == 5) {
             if (roofFlagOne == null) {
-                performInspection.addtestFrameList(new ErrException(this.getClass(),"type=5", new Exception(
+                performInspection.addtestFrameList(new ErrException(this.getClass(), "type=5", new Exception(
                         new NullPointerException()), number), number);
             } else {
                 performInspection.addtestFrameList(roofFlagOne.setShow(1), number);

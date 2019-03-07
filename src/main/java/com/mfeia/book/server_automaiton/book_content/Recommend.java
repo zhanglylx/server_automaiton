@@ -14,7 +14,7 @@ public class Recommend extends TestFrame {
     public Recommend(JSONObject jsonObject, Book books, double number) {
         super("尾页推荐:" + books.getBookId(), jsonObject,
                 jsonObject.getJSONObject("data").getJSONArray("otherBookInfo"),
-                3);
+                1);
         JSONObject thisBookInfoJSONObject = jsonObject.getJSONObject("data").getJSONObject("thisBookInfo");
         this.setTag(number);
         check(books.equals(thisBookInfoJSONObject),
@@ -39,5 +39,10 @@ public class Recommend extends TestFrame {
         return AutomationUtils.getCheckRules(AutomationUtils.BOOK_COVER,
                 JSONObject.fromObject(object).getLong(AutomationUtils.BOOK_ID)
         );
+    }
+
+    @Override
+    public void customCheck() {
+
     }
 }

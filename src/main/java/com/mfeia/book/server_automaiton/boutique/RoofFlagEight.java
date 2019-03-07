@@ -37,6 +37,7 @@ public class RoofFlagEight extends RoofRoot {
 
     @Override
     public Object checkJsonObjec(Object object, int index, String key, int size) {
+
         return TAB_NAME_ARRAYS[index];
     }
 

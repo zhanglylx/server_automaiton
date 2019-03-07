@@ -192,6 +192,7 @@ public class HttpUtils {
             , Map<String, String> requestHead
             , NetworkHeaders networkHeaders) {
         String resultString = "";
+
         try {
             HttpPost httpPost = getHttpPost(url, requestHead);
             // 创建参数列表
@@ -275,6 +276,9 @@ public class HttpUtils {
             , NetworkHeaders networkHeaders) {
         String result = "";
         try {
+            if (networkHeaders != null) {
+                networkHeaders.setResponseCode(closeableHttpResponse.getStatusLine().getStatusCode());
+            }
             if (closeableHttpResponse.getStatusLine().getStatusCode() != 200) {
                 result = closeableHttpResponse.getStatusLine().getStatusCode() + "";
             } else {

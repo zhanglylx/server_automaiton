@@ -17,7 +17,7 @@ public class ChangeBook extends RoofNewExpress {
         this.setTag(number);
     }
 
-    ChangeBook(TestFrame testFrame,double number) {
+    ChangeBook(TestFrame testFrame, double number) {
         super();
         this.setTag(number);
         statr(testFrame, AutomationUtils.BOUTIQUE_CHANGE_BOOKS,
@@ -75,9 +75,9 @@ public class ChangeBook extends RoofNewExpress {
             if (repetition == null) {
                 repetition = jsonObject.getString(getJSONArrayKey);
             } else {
-                errException(!repetition.equals(jsonObject.getString(getJSONArrayKey)),
-                        repetition,
-                        jsonObject.getString(getJSONArrayKey),
+                check(!repetition.equals(jsonObject.getString(getJSONArrayKey)),
+                        "上一次的结果:" + repetition + " \n" +
+                                "当前结果:" + jsonObject.getString(getJSONArrayKey),
                         "出现重复内容");
                 repetition = jsonObject.getString(getJSONArrayKey);
             }

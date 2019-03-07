@@ -79,6 +79,11 @@ public class RoofRoot extends TestFrame {
         return null;
     }
 
+    @Override
+    public void customCheck() {
+
+    }
+
     public Pattern getActionUrl() {
         return actionUrl;
     }

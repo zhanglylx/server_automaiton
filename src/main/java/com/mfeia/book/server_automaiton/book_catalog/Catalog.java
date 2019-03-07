@@ -53,6 +53,11 @@ public class Catalog extends TestFrame {
         return true;
     }
 
+    @Override
+    public void customCheck() {
+
+    }
+
     /**
      * 检查重复章节
      */

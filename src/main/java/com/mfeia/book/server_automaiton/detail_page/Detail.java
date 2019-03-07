@@ -51,6 +51,11 @@ public class Detail extends TestFrame {
                 public Object checkJsonObjec(Object object, int index, String key, int size) {
                     return null;
                 }
+
+                @Override
+                public void customCheck() {
+
+                }
             }.setJsonObject(jsonArray.getJSONObject(i)).setCaseName("检查otherBookList").setTag(number);
 
             this.check(testFrame.stratCheck().checkCaseResult(),
@@ -82,5 +87,10 @@ public class Detail extends TestFrame {
         return AutomationUtils.getCheckRules(
                 AutomationUtils.BOOK_COVER, ((JSONObject) object).getLong("bookId")
         );
+    }
+
+    @Override
+    public void customCheck() {
+
     }
 }

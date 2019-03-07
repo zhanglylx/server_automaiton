@@ -8,9 +8,10 @@ import java.util.*;
 public class RealizePerform implements PerformInspection {
     private Map<Double, List<TestFrame>> testFrameList;
     private static RealizePerform realizePerform = new RealizePerform();
+    private int defaultNumber = -1;
 
     private RealizePerform() {
-        this.testFrameList = Collections.synchronizedMap(new LinkedHashMap<>());
+        this.testFrameList = Collections.synchronizedMap(new TreeMap<>());
     }
 
     static RealizePerform getRealizePerform() {
@@ -27,7 +28,7 @@ public class RealizePerform implements PerformInspection {
     public void addtestFrameList(TestFrame testFrame, double number) {
         if (testFrame == null) {
             addtestFrameList(
-                    new ErrException(this.getClass(),"addtestFrameList",
+                    new ErrException(this.getClass(), "addtestFrameList",
                             new Exception(new NullPointerException()), number), number);
             return;
         }
@@ -42,6 +43,11 @@ public class RealizePerform implements PerformInspection {
                 this.testFrameList.put(number, list);
             }
         }
+    }
+
+    @Override
+    public void addtestFrameList(TestFrame testFrame) {
+        addtestFrameList(testFrame, this.defaultNumber);
     }
 
 

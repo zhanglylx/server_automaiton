@@ -55,4 +55,9 @@ public class ChapterRead extends TestFrame {
         }
         return true;
     }
+
+    @Override
+    public void customCheck() {
+
+    }
 }

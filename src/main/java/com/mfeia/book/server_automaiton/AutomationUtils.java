@@ -1,17 +1,31 @@
 package com.mfeia.book.server_automaiton;
 
 import ZLYUtils.HttpUtils;
+import ZLYUtils.NetworkHeaders;
+import com.microsoft.schemas.office.x2006.encryption.CTKeyEncryptor;
+import net.sf.json.JSONObject;
+import org.apache.http.NameValuePair;
+import org.apache.http.client.utils.URIBuilder;
 
 import java.io.IOException;
 import java.io.InputStream;
+import java.net.URI;
+import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
+import java.util.concurrent.ExecutorService;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ThreadPoolExecutor;
 import java.util.regex.Pattern;
 
 public class AutomationUtils {
     private static final Map<String, String> mapHeaders = new HashMap<>();
+    /*
+     *配置文件
+     */
     private static final String HOST = "host";
+    public static final String CNID = "cnid";
     public static final String BOUTIQUE_INDEX = "boutique.index";
     public static final String BOUTIQUE_REFRESHBD = "boutique.refreshbd";
     public static final String BOUTIQUE_CHANGE_BOOKS = "boutique.change.books";
@@ -19,12 +33,36 @@ public class AutomationUtils {
     public static final String BOUTIQUE_MOREBD_BOOKS = "boutique.morebdbooks";
     public static final String DETAIL_PAGE_BOOK_DETAIL_YS = "detail.page.bookDetailYS";
     public static final String BOOK_CONTENT_SUB_SIDY_MESSAGE = "book.content.subSidyMessage";
-    public static final String BOOK_CONTEN_CHAPTER_READ = "book.conten.chapterRead";
+    public static final String BOOK_CONTEN_CHAPTER_READ = "book.content.chapterRead";
     public static final String BOOK_CATALOG_GETVOLUME = "book.catalog.getvolume";
     public static final String BOOK_CATALOG_IS_CHAOTER_UPDATE = "book.catalog.isChapterUpdate";
     public static final String BOOK_CATALOG_RECOMMEND = "book.catalog.recommend";
+    public static final String BACKGROUND_INTERFACE = "background.interface.drCallBack";
+    public static final String BACKGROUND_FINGER = "background.interface.finger";
+    public static final String BACKGROUND_WECHATPAYCALLBACK = "background.interface.weChatPayCallback";
+    public static final String BACKGROUND_CALLBACK = "background.interface.callback";
+    public static final String BACKGROUND_TTLOGIN = "background.interface.ttLogin";
+    public static final String BACKGROUND_TASK_SYNCHRO = "background.interface.taskSynchro";
+    public static final String BACKGROUND_DUI_BA_CREADUTADD = "background.interface.diubaCreditAdd";
+    public static final String BACKGROUND_DUI_BA_CREDIT_CONFIRM = "background.interface.duibaCreditConfirm";
+    public static final String BACKGROUND_DUI_BA_CREDIT_CONSUME = "background.interface.duibaCreditConsume";
+    public static final String BACKGROUND_VIPMESSAGE = "background.interface.vipMessage";
+    public static final String BACKGROUND_USER = "background.interface.user";
+    public static final String BACKGROUND_ORDER_INFO = "background.interface.orderInfo";
 
+    //jenkins打包配置
+    public static final String JENKINS_PACKAGE_BOOK_INFO = "jenkins.packageBookInfo";
+    public static final String JENKINS_GET_CHAPTER = "jenkins.getchapter";
+    public static final String JENKINS_GET_CHAPTER_HOST = "jenkins.getchapter.host";
+    public static final String TEL = "tel";
 
+    //赚钱
+    public static final String MAKE_MONEY_LIST_EARN_INTERGRAL_BY_HD = "make.money.listEarnIntegralByHd";
+    public static final String MAKE_MONEY_TASK_STATUS_UPDATE = "make.money.taskStatusUpdate";
+    public static final String MAKE_MONEY_RECEIVE_TASK_OR_REWARD = "make.money.receiveTaskOrReward";
+    /*
+     * 匹配规则
+     */
     private static final Map<String, Object> checkRules = new HashMap<>();
     public static final String ID = "id";
     public static final String TEXT = "text";
@@ -43,7 +81,11 @@ public class AutomationUtils {
     public static final String TAG_IMG_URL = "tagImgUrl";
     public static final String RANK_LIST_AD_URL = "randListAdUrl";
     public static final String TAG_NAME = "tagName";
+
     private static Properties properties;
+
+
+    private static ThreadPoolExecutor executorService;
 
     static {
         properties = new Properties();
@@ -52,12 +94,17 @@ public class AutomationUtils {
             inputStream = AutomationUtils.class.getClassLoader().getResourceAsStream(
                     "config/server_automaiton.properties");
             properties.load(inputStream);
+            executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(
+                    Integer.parseInt(properties.getProperty("executorService")));
             mapHeaders.put("version", properties.getProperty("version").trim());
-            mapHeaders.put("cnid", properties.getProperty("cnid").trim());
+            mapHeaders.put("cnid", properties.getProperty(CNID).trim());
             mapHeaders.put("uid", properties.getProperty("uid").trim());
             mapHeaders.put("appname", properties.getProperty("appname").trim());
+
         } catch (IOException e) {
-            e.printStackTrace();
+            RealizePerform.getRealizePerform().addtestFrameList(
+                    new ErrException(AutomationUtils.class, "初始化", e)
+            );
         } finally {
             if (inputStream != null) {
                 try {
@@ -91,11 +138,28 @@ public class AutomationUtils {
 
     }
 
+    public static String getHeaders(String key) {
+        return mapHeaders.get(key);
+    }
+
     @SuppressWarnings("unchecked")
     public static <T> T getCheckRules(String key) {
         if (checkRules.containsKey(key)) return (T) checkRules.get(key);
         return null;
     }
+
+    public static String getServerAutomaitonProperties(String key) {
+        String values = null;
+        try {
+            values = properties.getProperty(key);
+        } catch (Exception e) {
+            RealizePerform.getRealizePerform().addtestFrameList(
+                    new ErrException(AutomationUtils.class,
+                            "getServerAutomaitonProperties:key-" + key, e));
+        }
+        return values;
+    }
+
 
     public static Map<String, Object> getCheckRulesAll(long bookId) {
         Map<String, Object> map = new HashMap<>();
@@ -130,18 +194,90 @@ public class AutomationUtils {
         return null;
     }
 
-
-    public static String doGet(String path, String querys) {
-        return HttpUtils.doGet(properties.getProperty(HOST).trim() +
-                        properties.getProperty(path).trim(),
-                querys, mapHeaders);
+    private static String getUrl(String host, String path) {
+        if (!host.endsWith("/")) host += "/";
+        if (path.startsWith("/")) path = path.substring(1);
+        return host + path;
     }
 
-    public static String doPost(String path, Object parm) {
+    public static String doGet(String path, String querys) {
+        return doGet(properties.getProperty(HOST).trim(),
+                properties.getProperty(path).trim(),
+                querys, getDoHeaders(querys));
+    }
 
-        return HttpUtils.doPost(properties.getProperty(HOST).trim()+
-                        properties.getProperty(path).trim(), parm,
-                mapHeaders, null);
+    public static String doGet(String path, String querys, Map<String, String> headers) {
+        return doGet(properties.getProperty(HOST).trim(),
+                properties.getProperty(path).trim(),
+                querys, headers);
+    }
+
+    public static String doGet(String host, String path, String querys) {
+        return doGet(host, path, querys, getDoHeaders(querys));
+    }
+
+
+    public static String doGet(String host, String path, String querys, Map<String, String> headers) {
+        NetworkHeaders networkHeaders = new NetworkHeaders();
+        try {
+            return HttpUtils.doGet(HttpUtils.getURI(getUrl(host, path), querys),
+                    headers,
+                    networkHeaders);
+        } finally {
+            if (networkHeaders.getResponseCode() != 200)
+                System.out.println(HttpUtils.getURI(getUrl(host, path), querys));
+        }
+    }
+
+
+    public static String doPost(String path, Object parm) {
+        return doPost(getUrl(properties.getProperty(HOST).trim(),
+                properties.getProperty(path).trim()), parm,
+                getDoHeaders(parm));
+    }
+
+    public static String doPost(String host, String path, Object parm) {
+        return doPost(getUrl(host,
+                properties.getProperty(path).trim()), parm,
+                getDoHeaders(parm));
+    }
+
+
+    public static String doPost(String path, Object parm, Map<String, String> Headers) {
+        NetworkHeaders networkHeaders = new NetworkHeaders();
+        try {
+            return HttpUtils.doPost(path, parm,
+                    Headers, networkHeaders);
+        } finally {
+            if (networkHeaders.getResponseCode() != 200)
+                System.out.println(path);
+        }
+    }
+
+    private static Map<String, String> getDoHeaders(Object querys) {
+
+        if (querys == null || querys.toString().isEmpty()) return mapHeaders;
+        Map<String, String> headers = new HashMap<>();
+        headers.putAll(mapHeaders);
+        if (querys instanceof String) {
+            String q = querys.toString().toLowerCase();
+            if (!q.contains("uid")) return headers;
+            q = q.substring(q.indexOf("uid"));
+            if (q.contains("&")) {
+                q = q.substring(0, q.indexOf("&"));
+            }
+            if (q.contains("=")) q = q.substring(q.indexOf("=") + 1);
+            headers.put("uid", q);
+
+        } else if (querys instanceof Map) {
+            Map<String, String> m = (Map) querys;
+            for (Map.Entry<String, String> entry : m.entrySet()) {
+                if ("uid".equals(entry.getKey().toLowerCase().trim())) {
+                    headers.put("uid", entry.getValue());
+                }
+            }
+        }
+        return headers;
     }
 
     public static String getHost() {
@@ -168,5 +304,28 @@ public class AutomationUtils {
     public static <T> T cast(Object obj, T t) throws ClassCastException {
         return cast(obj);
     }
+
+    public static int getExecutorServiceActiveCount() {
+        return executorService.getActiveCount();
+    }
+
+    public static void addExecute(Runnable runnable) throws Exception {
+        if (!executorService.isShutdown()) {
+            executorService.execute(runnable);
+        } else {
+            throw new Exception("executorService Is power off");
+        }
+
+    }
+
+    public static void executorServiceShutdown() {
+        if (!executorService.isShutdown())
+            executorService.shutdown();
+    }
+
+    public static boolean executorServiceisTerminated() {
+        return executorService.isTerminated();
+    }
+
 
 }
