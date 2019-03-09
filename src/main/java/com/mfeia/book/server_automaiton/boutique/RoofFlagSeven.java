@@ -33,7 +33,7 @@ public class RoofFlagSeven extends RoofRoot {
     }
 
     @Override
-    public Object checkJsonObjec(Object object, int index, String key, int size) {
+    public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
         return this.map.get(key);
     }
 

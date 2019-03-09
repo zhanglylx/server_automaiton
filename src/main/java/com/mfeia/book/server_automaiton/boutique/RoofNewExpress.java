@@ -62,7 +62,7 @@ public class RoofNewExpress extends RoofRoot {
     }
 
     @Override
-    public Object checkJsonObjec(Object object, int index, String key, int size) {
+    public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
         JSONObject jsonObject = JSONObject.fromObject(object);
         try {
             Book books = new Book(jsonObject.getInt("bookid"),

@@ -62,6 +62,11 @@ public class RoofRoot extends TestFrame {
     }
 
     @Override
+    public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
+        return null;
+    }
+
+    @Override
     public void settingJsonMap(Map<String, Object> jsonMap) {
         jsonMap.put("id", AutomationUtils.getCheckRules(
                 AutomationUtils.ID
@@ -74,10 +79,6 @@ public class RoofRoot extends TestFrame {
 
     }
 
-    @Override
-    public Object checkJsonObjec(Object object, int index, String key, int size) {
-        return null;
-    }
 
     @Override
     public void customCheck() {

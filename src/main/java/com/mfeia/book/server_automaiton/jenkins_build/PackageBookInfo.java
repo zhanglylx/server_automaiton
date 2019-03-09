@@ -38,7 +38,7 @@ public class PackageBookInfo extends TestFrame {
     }
 
     @Override
-    public Object checkJsonObjec(Object object, int index, String key, int size) {
+    public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
         return null;
     }
 

@@ -34,7 +34,7 @@ public class Catalog extends TestFrame {
     }
 
     @Override
-    public Object checkJsonObjec(Object object, int index, String key, int size) {
+    public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
         checkRepeatSections(JSONObject.fromObject(object).getLong("id"),
                 index, "卷");
         check(AutomationUtils.getCheckRules(AutomationUtils.BOOK_NAME),

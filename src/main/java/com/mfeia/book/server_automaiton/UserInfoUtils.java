@@ -35,7 +35,7 @@ public class UserInfoUtils {
         }
     }
 
-    public static String resetNewUserId() {
+    private static String resetNewUserId() {
         String newUd = null;
         try {
             newUd = new MySidebar().getNewUserId(true);

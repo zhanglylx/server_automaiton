@@ -26,6 +26,9 @@ public class AutomationUtils {
      */
     private static final String HOST = "host";
     public static final String CNID = "cnid";
+    public static final String VERCODE = "vercode";
+
+
     public static final String BOUTIQUE_INDEX = "boutique.index";
     public static final String BOUTIQUE_REFRESHBD = "boutique.refreshbd";
     public static final String BOUTIQUE_CHANGE_BOOKS = "boutique.change.books";
@@ -60,6 +63,20 @@ public class AutomationUtils {
     public static final String MAKE_MONEY_LIST_EARN_INTERGRAL_BY_HD = "make.money.listEarnIntegralByHd";
     public static final String MAKE_MONEY_TASK_STATUS_UPDATE = "make.money.taskStatusUpdate";
     public static final String MAKE_MONEY_RECEIVE_TASK_OR_REWARD = "make.money.receiveTaskOrReward";
+
+    //积分记录
+    public static final String INTEGRAL_RECORD_SUBSIDYLIST = "integral.record.subsidyList";
+    public static final String INTEGRAL_RECORD_COVERSIONLIST = "integral.record.conversionList";
+    public static final String INTEGRAL_RECORD_EARNLIST = "integral.record.earnList";
+
+    //启动相关
+    public static final String START_RELATED_CHECK_VERSION = "start_related.checkVersion";
+
+    //书架相关
+    public static final String SHELF_RELATED_SHELF_UPDATE_REQUEST_DATA = "shelf.related.shelfUpdate.request.data";
+    public static final String SHELF_RELATED_SHELF_UPDATE = "shelf.related.shelfUpdate";
+
+
     /*
      * 匹配规则
      */
@@ -200,15 +217,15 @@ public class AutomationUtils {
         return host + path;
     }
 
-    public static String doGet(String path, String querys) {
+    public static String doGet(String propertiesPath, String querys) {
         return doGet(properties.getProperty(HOST).trim(),
-                properties.getProperty(path).trim(),
+                properties.getProperty(propertiesPath).trim(),
                 querys, getDoHeaders(querys));
     }
 
-    public static String doGet(String path, String querys, Map<String, String> headers) {
+    public static String doGet(String propertiesPath, String querys, Map<String, String> headers) {
         return doGet(properties.getProperty(HOST).trim(),
-                properties.getProperty(path).trim(),
+                properties.getProperty(propertiesPath).trim(),
                 querys, headers);
     }
 
@@ -230,24 +247,29 @@ public class AutomationUtils {
     }
 
 
-    public static String doPost(String path, Object parm) {
-        return doPost(getUrl(properties.getProperty(HOST).trim(),
-                properties.getProperty(path).trim()), parm,
+    public static String doPost(String propertiesPath, Object parm) {
+        return doPost(properties.getProperty(HOST).trim(),
+                properties.getProperty(propertiesPath).trim(), parm,
                 getDoHeaders(parm));
     }
 
-    public static String doPost(String host, String path, Object parm) {
-        return doPost(getUrl(host,
-                properties.getProperty(path).trim()), parm,
+    public static String doPost(String host, String propertiesPath, Object parm) {
+        return doPost(host,
+                properties.getProperty(propertiesPath).trim(), parm,
                 getDoHeaders(parm));
     }
 
+    public static String doPost(String propertiesPath, Object parm, Map<String, String> headers) {
+        return doPost(properties.getProperty(HOST).trim(),
+                properties.getProperty(propertiesPath).trim(), parm,
+                headers);
+    }
 
-    public static String doPost(String path, Object parm, Map<String, String> Headers) {
+    public static String doPost(String host, String path, Object parm, Map<String, String> headers) {
         NetworkHeaders networkHeaders = new NetworkHeaders();
         try {
-            return HttpUtils.doPost(path, parm,
-                    Headers, networkHeaders);
+            return HttpUtils.doPost(getUrl(host, path), parm,
+                    headers, networkHeaders);
         } finally {
             if (networkHeaders.getResponseCode() != 200)
                 System.out.println(path);

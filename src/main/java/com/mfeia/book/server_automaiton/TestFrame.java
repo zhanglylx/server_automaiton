@@ -4,7 +4,9 @@ import ZLYUtils.JavaUtils;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import org.apache.commons.lang.StringUtils;
 
+import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
@@ -43,7 +45,7 @@ public abstract class TestFrame {
     public TestFrame(JSONObject jsonObject, JSONArray jsonArray) {
         this.jsonArray = jsonArray;
         this.jsonObject = jsonObject;
-        this.className += ": JSONObject jsonArray Constructor";
+        this.className += ": JSONObject & jsonArray Constructor";
     }
 
     public TestFrame(String caseName, JSONObject jsonObject, JSONArray jsonArray, int showCount) {
@@ -57,8 +59,10 @@ public abstract class TestFrame {
 
     public abstract void settingJsonArrayMap(Map<String, Object> jsonArrayMap);
 
-    public abstract Object checkJsonObjec(Object object, int index, String key, int size);
+    //如果实现内部已经自定义检查，请将返回值设为;true
+    public abstract Object customCheckJsonArrayObject(Object object, int index, String key, int size);
 
+    //自定义
     public abstract void customCheck();
 
     public TestFrame stratCheck() {
@@ -276,8 +280,14 @@ public abstract class TestFrame {
                                     testCaseName +
                                             ": " + getJsonTestCase(jsonArray, entry));
                         } else {
-                            check(checkJsonObjec(jsonArray.get(i), i, entry.getKey(), jsonArray.size()),
-                                    jsonArray.getJSONObject(i).getString(entry.getKey()),
+                            String actual = "";
+                            try {
+                                actual = jsonArray.getJSONObject(i).getString(entry.getKey());
+                            } catch (Exception e) {
+                                actual = entry.getKey();
+                            }
+                            check(customCheckJsonArrayObject(jsonArray.get(i), i, entry.getKey(), jsonArray.size()),
+                                    actual,
                                     testCaseName +
                                             ": " + getJsonTestCase(jsonArray, entry)
                             );
@@ -357,22 +367,25 @@ public abstract class TestFrame {
      * @param e
      */
     protected final void errException(String testCase, Exception e) {
+        PrintStream stream = null;
         try {
-
-            throw new Exception("\n" + this.className +
-                    "[" + this.tag + "]"
+            if (e == null) e = new Exception();
+            stream = (System.err);
+            stream.println(("\n" + StringUtils.repeat("-", 150) + "\n"
+                    + this.className + "[" + this.tag + "]"
                     + "\n{" + testCase + "}异常:\n" +
                     "JSONOBJECT:" + this.logJsonObject +
                     "\n" + "JSONOBJECTMAP:" + this.logJsonObjectMap + "\n" +
                     "JSONARRAYS:[" + this.jsonArrayIndex + "]:" +
                     this.logJsonArray +
-                    "\n" + "JSONARRAYSMAP:" + this.logJsonArrayMap + "\n" +
-                    e);
-        } catch (Exception e1) {
-            e1.printStackTrace();
+                    "\n" + "JSONARRAYSMAP:" + this.logJsonArrayMap));
+            stream.flush();
+            e.printStackTrace();
         } finally {
+            if (stream != null) stream.close();
             errAdd(false);
         }
+
 
     }
 
