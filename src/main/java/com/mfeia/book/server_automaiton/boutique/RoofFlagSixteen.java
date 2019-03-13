@@ -30,6 +30,7 @@ public class RoofFlagSixteen extends RoofRoot {
 
     @Override
     public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
+        //FLAG=16中包含list数组，每个数组的FLAG为-1
         TestFrame roofNewExpress = new RoofNewExpress(JSONObject.fromObject(object),
                 -1,
                 0,
@@ -40,7 +41,8 @@ public class RoofFlagSixteen extends RoofRoot {
                 3
 
         ).stratCheck();
-        return roofNewExpress.checkCaseResult();
+        check(roofNewExpress.checkCaseResult(), "使用匿名类检查，错误已打印", "检查图书3+3中的更多");
+        return true;
     }
 
 }

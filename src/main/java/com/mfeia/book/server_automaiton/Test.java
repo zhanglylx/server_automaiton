@@ -29,10 +29,10 @@ public class Test {
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
 //
-//
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(
-//                    new TestCasesBackgroundInterface(), 10
-//            ));
+
+            AutomationUtils.addExecute(new RunnableAddTestCasess(
+                    new TestCasesBackgroundInterface(), 10
+            ));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(
 //                    new TestCasesUserRelated(), 9
 //            ));
@@ -40,7 +40,7 @@ public class Test {
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(),13));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
 
             while (true) {
                 if (AutomationUtils.getExecutorServiceActiveCount() == 0) {

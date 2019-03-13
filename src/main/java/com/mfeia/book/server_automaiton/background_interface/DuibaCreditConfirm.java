@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * 兑吧兑换结果通知接口
+ * 提交错误信息，服务端返回空
  */
 public class DuibaCreditConfirm extends DrCallBack {
     DuibaCreditConfirm(JSONObject jsonObject) {

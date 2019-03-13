@@ -7,6 +7,7 @@ import java.util.regex.Pattern;
 
 /**
  * QQ登录回调
+ * 检查提交错误信息，服务端返回错误提示
  */
 public class TtLogin extends  DrCallBack {
     TtLogin(JSONObject jsonObject) {

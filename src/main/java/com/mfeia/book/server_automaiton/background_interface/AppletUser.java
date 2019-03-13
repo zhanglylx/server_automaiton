@@ -9,11 +9,14 @@ import java.util.Map;
 
 /**
  * 小程序获取免电用户信息
+ * 检查结果正确性
  */
 public class AppletUser extends TestFrame {
-    AppletUser(JSONObject jsonObject) {
-        super(jsonObject);
+    private String tel;
 
+    AppletUser(JSONObject jsonObject, String tel) {
+        super(jsonObject);
+        this.tel = tel;
     }
 
     @Override
@@ -27,6 +30,7 @@ public class AppletUser extends TestFrame {
         jsonMap.put("info", "SUCCESS");
         Map<String, String> map = new HashMap<>();
         map.put("id", AutomationUtils.getCheckRules(AutomationUtils.ID));
+        map.put("tel",String.valueOf(this.tel));
         check(this.getJsonObject().getJSONObject("data"), map, "检查用户id");
     }
 

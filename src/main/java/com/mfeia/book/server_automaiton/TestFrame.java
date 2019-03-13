@@ -312,23 +312,23 @@ public abstract class TestFrame {
      */
     private boolean checkJson(JSON json, Map<String, Object> map) {
         if (json == null || map == null) {
-            errException("[json || map] is null");
+            errException(false, "", "", "[json || map] is null");
             return false;
         } else if (json instanceof JSONObject) {
             if (map.size() == 0 && !json.isEmpty()) {
-                errException("[jsonMap] is 0");
+                errException(false, "", "", "[jsonMap] is 0");
                 return false;
             } else if (json.isEmpty() && map.size() != 0) {
-                errException("[JSONObject] is Empty");
+                errException(false, "", "", "[JSONObject] is Empty");
                 return false;
             }
 
         } else if (json instanceof JSONArray) {
             if (json.size() == 0 && map.size() != 0) {
-                errException("[jsonArray] is 0");
+                errException(false, "", "", "[jsonArray] is 0");
                 return false;
             } else if (json.size() != 0 && map.size() == 0) {
-                errException("[jsonArrayMap] is 0");
+                errException(false, "", "", "[jsonArrayMap] is 0");
                 return false;
             }
 
@@ -336,15 +336,18 @@ public abstract class TestFrame {
         return true;
     }
 
-    protected final void errException(boolean b, String expected, String actual, String testCase) {
+    private void errException(boolean b, String expected, String actual, String testCase) {
         try {
-            if (!b) throw new IllegalArgumentException(
-                    "\n预期结果:[" + expected + "] " +
-                            "\n实际结果:[" + actual + "] ");
+            if (!b) {
+                throw new IllegalArgumentException(
+                        "\n预期结果:[" + expected + "] " +
+                                "\n实际结果:[" + actual + "] ");
+            } else {
+                errAdd(b);
+            }
         } catch (Exception e) {
             errException(testCase, e);
         }
-        errAdd(true);
     }
 
 
@@ -352,13 +355,6 @@ public abstract class TestFrame {
         errException(b, this.object1, this.object2, testCase);
     }
 
-    private void errException(String testCase) {
-        try {
-            throw new Exception(testCase);
-        } catch (Exception e) {
-            errException(testCase, e);
-        }
-    }
 
     /**
      * 打印错误输出
@@ -367,10 +363,9 @@ public abstract class TestFrame {
      * @param e
      */
     protected final void errException(String testCase, Exception e) {
-        PrintStream stream = null;
         try {
             if (e == null) e = new Exception();
-            stream = (System.err);
+            PrintStream stream = new PrintStream(System.err, true);
             stream.println(("\n" + StringUtils.repeat("-", 150) + "\n"
                     + this.className + "[" + this.tag + "]"
                     + "\n{" + testCase + "}异常:\n" +
@@ -379,10 +374,8 @@ public abstract class TestFrame {
                     "JSONARRAYS:[" + this.jsonArrayIndex + "]:" +
                     this.logJsonArray +
                     "\n" + "JSONARRAYSMAP:" + this.logJsonArrayMap));
-            stream.flush();
             e.printStackTrace();
         } finally {
-            if (stream != null) stream.close();
             errAdd(false);
         }
 

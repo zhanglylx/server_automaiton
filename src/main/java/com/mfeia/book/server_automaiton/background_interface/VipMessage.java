@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * 同步小程序vip 信息
+ * 提交错误信息，服务端返回错误信息
  */
 public class VipMessage extends DrCallBack {
     VipMessage(JSONObject jsonObject) {

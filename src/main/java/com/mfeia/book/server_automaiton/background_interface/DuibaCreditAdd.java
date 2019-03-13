@@ -4,8 +4,12 @@ import net.sf.json.JSONObject;
 
 import java.util.Map;
 
-public class DuibaCredut extends DrCallBack {
-    DuibaCredut(JSONObject jsonObject) {
+/**
+ * 兑吧增加用户积分
+ *
+ */
+public class DuibaCreditAdd extends DrCallBack {
+    DuibaCreditAdd(JSONObject jsonObject) {
         super(jsonObject);
     }
 

@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * 兑吧扣除用户积分
+ *提交错误信息，服务端返回错误提示
  */
 public class DuibaCreditConsume extends DrCallBack {
     DuibaCreditConsume(JSONObject jsonObject) {

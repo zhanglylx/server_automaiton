@@ -6,6 +6,7 @@ import java.util.Map;
 
 /**
  * 松果积分墙
+ * 检查提交错误信息，服务端返回403
  */
 public class Callback extends DrCallBack {
 

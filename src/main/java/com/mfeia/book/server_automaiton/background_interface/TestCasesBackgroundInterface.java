@@ -10,7 +10,6 @@ import org.apache.http.client.utils.URIBuilder;
 
 import java.util.HashMap;
 import java.util.Map;
-import java.util.UUID;
 
 public class TestCasesBackgroundInterface implements AddTestCases {
 
@@ -60,6 +59,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         JSONObject jsonObject = JSONObject.fromObject(
                 AutomationUtils.doGet(AutomationUtils.BACKGROUND_INTERFACE, uriBuilder.build().getQuery())
         );
+
         performInspection.addtestFrameList(new DrCallBack(jsonObject), number);
     }
 
@@ -168,7 +168,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
                         AutomationUtils.BACKGROUND_DUI_BA_CREADUTADD,
                         uriBuilder.build().getQuery())
         );
-        performInspection.addtestFrameList(new DuibaCredut(jsonObject), number);
+        performInspection.addtestFrameList(new DuibaCreditAdd(jsonObject), number);
     }
 
     /**
@@ -241,22 +241,15 @@ public class TestCasesBackgroundInterface implements AddTestCases {
 
     /**
      * 小程序获取免电用户信息
-     *
+     * 使用配置中的手机号
      * @throws Exception
      */
     private static void addUser(PerformInspection performInspection, double number) throws Exception {
-
-        performInspection.addtestFrameList(new AppletUser(getUserJSONbject()), number);
+        String tel = AutomationUtils.getServerAutomaitonProperties(AutomationUtils.TEL);
+        performInspection.addtestFrameList(new AppletUser(UserInfoUtils.getUserJSONbject(tel), tel), number);
     }
 
-    public static JSONObject getUserJSONbject() {
-        Map<String, String> map = new HashMap<>();
-        map.put("tel", AutomationUtils.getServerAutomaitonProperties(AutomationUtils.TEL));
-        map.put("mac", UUID.randomUUID().toString());
-        String str =
-                AutomationUtils.doPost(AutomationUtils.BACKGROUND_USER, map);
-        return JSONObject.fromObject(str);
-    }
+
 
     /**
      * 小程序获取免电用户VIP信息

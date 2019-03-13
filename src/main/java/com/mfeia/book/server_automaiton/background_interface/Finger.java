@@ -7,6 +7,7 @@ import java.util.Map;
 
 /**
  * 转发SDK 点击回调接口
+ * 检查提交错误信息，服务端返回错误
  */
 public class Finger extends DrCallBack {
 

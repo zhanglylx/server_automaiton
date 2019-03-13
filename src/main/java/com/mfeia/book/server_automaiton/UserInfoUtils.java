@@ -6,6 +6,7 @@ import net.sf.json.JSONObject;
 
 import java.util.HashMap;
 import java.util.Map;
+import java.util.UUID;
 
 public class UserInfoUtils {
     private static String historyUserId;
@@ -23,8 +24,7 @@ public class UserInfoUtils {
 
     public static void resetHistoryUserId() {
         try {
-            historyUserId = TestCasesBackgroundInterface.
-                    getUserJSONbject().
+            historyUserId = getUserJSONbject(AutomationUtils.getServerAutomaitonProperties(AutomationUtils.TEL)).
                     getJSONObject("data").
                     getString("id");
         } catch (Exception e) {
@@ -49,5 +49,14 @@ public class UserInfoUtils {
 
     public static String getNewUserId() {
         return resetNewUserId();
+    }
+
+    public static JSONObject getUserJSONbject(String tel) {
+        Map<String, String> map = new HashMap<>();
+        map.put("tel", tel);
+        map.put("mac", UUID.randomUUID().toString());
+        String str =
+                AutomationUtils.doPost(AutomationUtils.BACKGROUND_USER, map);
+        return JSONObject.fromObject(str);
     }
 }
