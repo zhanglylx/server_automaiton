@@ -29,48 +29,10 @@ public class AutomationUtils {
     public static final String VERCODE = "vercode";
 
 
-    public static final String BOUTIQUE_INDEX = "boutique.index";
-    public static final String BOUTIQUE_REFRESHBD = "boutique.refreshbd";
-    public static final String BOUTIQUE_CHANGE_BOOKS = "boutique.change.books";
-    public static final String BOUTIQUE_EXCHANGE = "boutique.exchange";
-    public static final String BOUTIQUE_MOREBD_BOOKS = "boutique.morebdbooks";
-    public static final String DETAIL_PAGE_BOOK_DETAIL_YS = "detail.page.bookDetailYS";
-    public static final String BOOK_CONTENT_SUB_SIDY_MESSAGE = "book.content.subSidyMessage";
-    public static final String BOOK_CONTEN_CHAPTER_READ = "book.content.chapterRead";
-    public static final String BOOK_CATALOG_GETVOLUME = "book.catalog.getvolume";
-    public static final String BOOK_CATALOG_IS_CHAOTER_UPDATE = "book.catalog.isChapterUpdate";
-    public static final String BOOK_CATALOG_RECOMMEND = "book.catalog.recommend";
-    public static final String BACKGROUND_INTERFACE = "background.interface.drCallBack";
-    public static final String BACKGROUND_FINGER = "background.interface.finger";
-    public static final String BACKGROUND_WECHATPAYCALLBACK = "background.interface.weChatPayCallback";
-    public static final String BACKGROUND_CALLBACK = "background.interface.callback";
-    public static final String BACKGROUND_TTLOGIN = "background.interface.ttLogin";
-    public static final String BACKGROUND_TASK_SYNCHRO = "background.interface.taskSynchro";
-    public static final String BACKGROUND_DUI_BA_CREADUTADD = "background.interface.diubaCreditAdd";
-    public static final String BACKGROUND_DUI_BA_CREDIT_CONFIRM = "background.interface.duibaCreditConfirm";
-    public static final String BACKGROUND_DUI_BA_CREDIT_CONSUME = "background.interface.duibaCreditConsume";
-    public static final String BACKGROUND_VIPMESSAGE = "background.interface.vipMessage";
-    public static final String BACKGROUND_USER = "background.interface.user";
-    public static final String BACKGROUND_ORDER_INFO = "background.interface.orderInfo";
-
-    //jenkins打包配置
-    public static final String JENKINS_PACKAGE_BOOK_INFO = "jenkins.packageBookInfo";
-    public static final String JENKINS_GET_CHAPTER = "jenkins.getchapter";
-    public static final String JENKINS_GET_CHAPTER_HOST = "jenkins.getchapter.host";
     public static final String TEL = "tel";
 
-    //赚钱
-    public static final String MAKE_MONEY_LIST_EARN_INTERGRAL_BY_HD = "make.money.listEarnIntegralByHd";
-    public static final String MAKE_MONEY_TASK_STATUS_UPDATE = "make.money.taskStatusUpdate";
-    public static final String MAKE_MONEY_RECEIVE_TASK_OR_REWARD = "make.money.receiveTaskOrReward";
 
-    //积分记录
-    public static final String INTEGRAL_RECORD_SUBSIDYLIST = "integral.record.subsidyList";
-    public static final String INTEGRAL_RECORD_COVERSIONLIST = "integral.record.conversionList";
-    public static final String INTEGRAL_RECORD_EARNLIST = "integral.record.earnList";
 
-    //启动相关
-    public static final String START_RELATED_CHECK_VERSION = "start_related.checkVersion";
 
     //书架相关
     public static final String SHELF_RELATED_SHELF_UPDATE_REQUEST_DATA = "shelf.related.shelfUpdate.request.data";
