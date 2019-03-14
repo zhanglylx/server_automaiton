@@ -9,6 +9,7 @@ import java.util.Map;
  * 积分获取记录
  */
 public class EamList_ConversionList_SubsidyList extends TestFrame {
+    //判断具体是哪一个记录，因为图书记录中的key(List)是大写，其他是小写并且还多了一个参数dayIntegral
     private boolean eamList;
 
     EamList_ConversionList_SubsidyList(JSONObject jsonObject, boolean eamList, String EamList_ConversionList_SubsidyList) {

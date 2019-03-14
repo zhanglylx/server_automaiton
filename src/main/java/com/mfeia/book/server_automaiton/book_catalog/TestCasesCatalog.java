@@ -22,7 +22,7 @@ public class TestCasesCatalog implements AddTestCases {
             number = DoubleOperation.add(number, 0.00001);
             try {
                 jsonObject = JSONObject.fromObject(AutomationUtils.doGet(
-                        AutomationUtils.BOOK_CATALOG_GETVOLUME, "bookId=" + booksEntry.getKey()
+                        BookCatalogConfig.BOOK_CATALOG_GETVOLUME, "bookId=" + booksEntry.getKey()
                 ));
                 performInspection.addtestFrameList(
                         new Catalog(jsonObject, jsonObject.getJSONArray("list"), number,
@@ -30,7 +30,7 @@ public class TestCasesCatalog implements AddTestCases {
                         number
                 );
                 jsonObject = JSONObject.fromObject(AutomationUtils.doGet(
-                        AutomationUtils.BOOK_CATALOG_IS_CHAOTER_UPDATE, "updatetime=0&bookId=" + booksEntry.getKey()
+                        BookCatalogConfig.BOOK_CATALOG_IS_CHAOTER_UPDATE, "updatetime=0&bookId=" + booksEntry.getKey()
                 ));
                 performInspection.addtestFrameList(
                         new IsChapterUpdate(jsonObject, booksEntry.getValue(), number), number

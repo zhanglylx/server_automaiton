@@ -1,5 +1,6 @@
 package com.mfeia.book.server_automaiton;
 
+import com.mfeia.book.server_automaiton.background_interface.BackgroundInterfaceConfig;
 import com.mfeia.book.server_automaiton.background_interface.TestCasesBackgroundInterface;
 import com.mfeia.book.server_automaiton.user_related.MySidebar;
 import net.sf.json.JSONObject;
@@ -56,7 +57,7 @@ public class UserInfoUtils {
         map.put("tel", tel);
         map.put("mac", UUID.randomUUID().toString());
         String str =
-                AutomationUtils.doPost(AutomationUtils.BACKGROUND_USER, map);
+                AutomationUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_USER, map);
         return JSONObject.fromObject(str);
     }
 }

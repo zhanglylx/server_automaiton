@@ -12,16 +12,16 @@ import java.util.Map;
 public class TestCasesShelfRelated implements AddTestCases {
     @Override
     public void additionTestCases(PerformInspection performInspection, double number) throws Exception {
-        Map<String, String> map = AutomationUtils.getMapHeaders();
-        map.put("Content-Type", "application/json");
+        Map<String, String> headers = AutomationUtils.getMapHeaders();
+        headers.put("Content-Type", "application/json");
         JSONObject jsonObject = JSONObject.fromObject(
                 AutomationUtils.doPost(
-                        AutomationUtils.SHELF_RELATED_SHELF_UPDATE,
+                        ShelfRelatedConfig.SHELF_RELATED_SHELF_UPDATE,
                         (Object) AutomationUtils.
                                 getServerAutomaitonProperties(
-                                        AutomationUtils.SHELF_RELATED_SHELF_UPDATE_REQUEST_DATA),
-                        map)
+                                        ShelfRelatedConfig.SHELF_RELATED_SHELF_UPDATE_REQUEST_DATA),
+                        headers)
         );
-        performInspection.addtestFrameList(new ShelfUpdate(jsonObject),number);
+        performInspection.addtestFrameList(new ShelfUpdate(jsonObject), number);
     }
 }

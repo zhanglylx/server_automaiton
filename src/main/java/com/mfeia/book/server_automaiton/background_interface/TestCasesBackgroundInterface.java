@@ -57,7 +57,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("time", "9");
         uriBuilder.addParameter("checksum", "10");
         JSONObject jsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(AutomationUtils.BACKGROUND_INTERFACE, uriBuilder.build().getQuery())
+                AutomationUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_INTERFACE, uriBuilder.build().getQuery())
         );
 
         performInspection.addtestFrameList(new DrCallBack(jsonObject), number);
@@ -78,7 +78,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("order", "10");
         uriBuilder.addParameter("sign", "11");
         JSONObject jsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(AutomationUtils.BACKGROUND_FINGER, uriBuilder.build().getQuery())
+                AutomationUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_FINGER, uriBuilder.build().getQuery())
         );
         performInspection.addtestFrameList(new Finger(jsonObject), number);
     }
@@ -91,7 +91,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("transactionid", "3");
         String weChatPayCallback =
                 AutomationUtils.doGet(
-                        AutomationUtils.BACKGROUND_WECHATPAYCALLBACK, uriBuilder.build().getQuery());
+                        BackgroundInterfaceConfig.BACKGROUND_WECHATPAYCALLBACK, uriBuilder.build().getQuery());
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("message", weChatPayCallback);
         performInspection.addtestFrameList(new WeChatPayCallback(jsonObject), number);
@@ -113,7 +113,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("Signature", "6");
         uriBuilder.addParameter("t", "7");
         String str =
-                AutomationUtils.doGet(AutomationUtils.BACKGROUND_CALLBACK, uriBuilder.build().getQuery());
+                AutomationUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_CALLBACK, uriBuilder.build().getQuery());
         performInspection.addtestFrameList(new Callback(new JSONObject().accumulate("message", str)), number);
     }
 
@@ -128,7 +128,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("state", "2");
         uriBuilder.addParameter("version", "3");
         String str =
-                AutomationUtils.doGet(AutomationUtils.BACKGROUND_TTLOGIN, uriBuilder.build().getQuery());
+                AutomationUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_TTLOGIN, uriBuilder.build().getQuery());
         performInspection.addtestFrameList(new TtLogin(new JSONObject().accumulate("message", str)), number);
     }
 
@@ -143,7 +143,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         map.put("uid", "1");
         map.put("taskdata", "2");
         JSONObject jsonObject = JSONObject.fromObject(
-                AutomationUtils.doPost(AutomationUtils.BACKGROUND_TASK_SYNCHRO, map));
+                AutomationUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_TASK_SYNCHRO, map));
         performInspection.addtestFrameList(new TaskSynchro(jsonObject), number);
     }
 
@@ -165,7 +165,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("ip", "3");
         JSONObject jsonObject = JSONObject.fromObject(
                 AutomationUtils.doGet(
-                        AutomationUtils.BACKGROUND_DUI_BA_CREADUTADD,
+                        BackgroundInterfaceConfig.BACKGROUND_DUI_BA_CREADUTADD,
                         uriBuilder.build().getQuery())
         );
         performInspection.addtestFrameList(new DuibaCreditAdd(jsonObject), number);
@@ -186,7 +186,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("uid", "3");
         uriBuilder.addParameter("orderNum", "3");
         String str =
-                AutomationUtils.doGet(AutomationUtils.BACKGROUND_DUI_BA_CREDIT_CONFIRM, uriBuilder.build().getQuery());
+                AutomationUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_DUI_BA_CREDIT_CONFIRM, uriBuilder.build().getQuery());
         performInspection.addtestFrameList(new DuibaCreditConfirm(new JSONObject().accumulate("message", str)), number);
     }
 
@@ -214,7 +214,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("ip", "3");
         uriBuilder.addParameter("params", "3");
         String str =
-                AutomationUtils.doGet(AutomationUtils.BACKGROUND_DUI_BA_CREDIT_CONSUME, uriBuilder.build().getQuery());
+                AutomationUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_DUI_BA_CREDIT_CONSUME, uriBuilder.build().getQuery());
         performInspection.addtestFrameList(new DuibaCreditConsume(JSONObject.fromObject(str)), number);
     }
 
@@ -234,7 +234,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         map.put("oldPrice", "5");
         map.put("price", "6");
         String str =
-                AutomationUtils.doPost(AutomationUtils.BACKGROUND_VIPMESSAGE, map);
+                AutomationUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_VIPMESSAGE, map);
         performInspection.addtestFrameList(new VipMessage(JSONObject.fromObject(str)), number);
     }
 
@@ -260,7 +260,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         Map<String, String> map = new HashMap<>();
         map.put("userId", UserInfoUtils.getNewUserId());
         String str =
-                AutomationUtils.doPost(AutomationUtils.BACKGROUND_ORDER_INFO, map);
+                AutomationUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_ORDER_INFO, map);
         performInspection.addtestFrameList(new AppletOrderInfo(JSONObject.fromObject(str)), number);
     }
 

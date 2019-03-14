@@ -20,7 +20,7 @@ public class ChangeBook extends RoofNewExpress {
     ChangeBook(TestFrame testFrame, double number) {
         super();
         this.setTag(number);
-        statr(testFrame, AutomationUtils.BOUTIQUE_CHANGE_BOOKS,
+        statr(testFrame, BoutiqueConfig.BOUTIQUE_CHANGE_BOOKS,
                 "bdid=" + testFrame.getJsonObject().getInt("id")
                 , "pageIndex", "data");
     }

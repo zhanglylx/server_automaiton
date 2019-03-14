@@ -20,7 +20,7 @@ public class TestCasesJenkinsBuild implements AddTestCases {
                     String cnid = AutomationUtils.getServerAutomaitonProperties(
                             AutomationUtils.CNID);
                     String s = AutomationUtils.doGet(
-                            AutomationUtils.JENKINS_PACKAGE_BOOK_INFO,
+                            JenkinsBuildConfig.JENKINS_PACKAGE_BOOK_INFO,
                             "bookId=" + book.getBookId() + "&cnid=" +
                                     cnid
                     );
@@ -29,10 +29,10 @@ public class TestCasesJenkinsBuild implements AddTestCases {
                     performInspection.addtestFrameList(packageBookInfo, circulationNumber
                     );
                     String host = AutomationUtils.getServerAutomaitonProperties(
-                            AutomationUtils.JENKINS_GET_CHAPTER_HOST
+                            JenkinsBuildConfig.JENKINS_GET_CHAPTER_HOST
                     );
                     String path = AutomationUtils.getServerAutomaitonProperties(
-                            AutomationUtils.JENKINS_GET_CHAPTER
+                            JenkinsBuildConfig.JENKINS_GET_CHAPTER
                     );
                     jsonObject = JSONObject.fromObject(
                             AutomationUtils.doGet(host, path, "cnid=" + cnid +

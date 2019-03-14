@@ -5,17 +5,13 @@ import com.mfeia.book.server_automaiton.*;
 import com.mfeia.book.server_automaiton.detail_page.TestCasesDetail;
 import net.sf.json.JSONObject;
 
-import java.util.Iterator;
-import java.util.LinkedHashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 public class TestCasesBookContent implements AddTestCases {
-
     @Override
     public void additionTestCases(PerformInspection performInspection, double number) throws InterruptedException {
         JSONObject jsonObject = JSONObject.fromObject(AutomationUtils.doGet(
-                AutomationUtils.BOOK_CONTENT_SUB_SIDY_MESSAGE, ""
+                BookContentConfig.BOOK_CONTENT_SUB_SIDY_MESSAGE, ""
         ));
         performInspection.addtestFrameList(
                 new SubSidyMessage(jsonObject), number + 0.1
@@ -31,7 +27,7 @@ public class TestCasesBookContent implements AddTestCases {
             books = iterator.next().getValue();
             try {
                 jsonObject = JSONObject.fromObject(AutomationUtils.doGet(
-                        AutomationUtils.BOOK_CONTEN_CHAPTER_READ, "full=0&chapterId=0&bookId=" + books.getBookId()
+                        BookContentConfig.BOOK_CONTEN_CHAPTER_READ, "full=0&chapterId=0&bookId=" + books.getBookId()
                 ));
                 performInspection.addtestFrameList(
                         new ChapterRead(jsonObject, books, number), number);
@@ -41,7 +37,7 @@ public class TestCasesBookContent implements AddTestCases {
                     @Override
                     public void run() {
                         JSONObject jsonObject = JSONObject.fromObject(AutomationUtils.doPost(
-                                AutomationUtils.BOOK_CATALOG_RECOMMEND, AutomationUtils.getPostMap(bookRecommend)
+                                BookContentConfig.BOOK_CONTEN_RECOMMEND, AutomationUtils.getPostMap(bookRecommend)
                         ));
                         performInspection.addtestFrameList(
                                 new Recommend(jsonObject, bookRecommend, numberRecommend), numberRecommend

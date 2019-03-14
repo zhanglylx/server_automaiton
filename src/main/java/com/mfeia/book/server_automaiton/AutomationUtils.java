@@ -27,17 +27,7 @@ public class AutomationUtils {
     private static final String HOST = "host";
     public static final String CNID = "cnid";
     public static final String VERCODE = "vercode";
-
-
     public static final String TEL = "tel";
-
-
-
-
-    //书架相关
-    public static final String SHELF_RELATED_SHELF_UPDATE_REQUEST_DATA = "shelf.related.shelfUpdate.request.data";
-    public static final String SHELF_RELATED_SHELF_UPDATE = "shelf.related.shelfUpdate";
-
 
     /*
      * 匹配规则
@@ -62,8 +52,6 @@ public class AutomationUtils {
     public static final String TAG_NAME = "tagName";
 
     private static Properties properties;
-
-
     private static ThreadPoolExecutor executorService;
 
     static {
@@ -95,7 +83,7 @@ public class AutomationUtils {
         }
         checkRules.put(BOOK_ID, Pattern.compile("\\d{3,15}"));
         checkRules.put(BOOK_NAME, Pattern.compile(".+"));
-        checkRules.put(BOOK_INTRO, Pattern.compile(".+"));
+        checkRules.put(BOOK_INTRO, Pattern.compile(".*"));
         checkRules.put(BOOK_AUTHOR_NAME, Pattern.compile(".+"));
         checkRules.put(BOOK_WORD_COUNT, Pattern.compile("\\d+\\.\\d万字"));
         checkRules.put(BOOK_CATEGORY_COLOR, Pattern.compile("#[0-9a-zA-Z]{5,10}"));
@@ -221,7 +209,8 @@ public class AutomationUtils {
                 getDoHeaders(parm));
     }
 
-    public static String doPost(String propertiesPath, Object parm, Map<String, String> headers) {
+
+    public static String doPost(String propertiesPath,Object parm, Map<String, String> headers) {
         return doPost(properties.getProperty(HOST).trim(),
                 properties.getProperty(propertiesPath).trim(), parm,
                 headers);
@@ -269,7 +258,7 @@ public class AutomationUtils {
     }
 
     public static Map<String, String> getMapHeaders() {
-        return mapHeaders;
+        return new HashMap<>(mapHeaders);
     }
 
     public static Map<String, String> getPostMap(Book book) {

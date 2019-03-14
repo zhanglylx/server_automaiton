@@ -11,7 +11,7 @@ public class TestCasesStartRelated implements AddTestCases {
         int vercode = Integer.parseInt(AutomationUtils.getServerAutomaitonProperties(AutomationUtils.VERCODE));
         int cnid = Integer.parseInt(AutomationUtils.getServerAutomaitonProperties(AutomationUtils.CNID));
         JSONObject noUpdateJsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(AutomationUtils.START_RELATED_CHECK_VERSION,
+                AutomationUtils.doGet(StartRelatedConfig.START_RELATED_CHECK_VERSION,
                         "cnid=" + cnid +
                                 "&vercode=" + (vercode)
                 )
@@ -19,7 +19,7 @@ public class TestCasesStartRelated implements AddTestCases {
         performInspection.addtestFrameList(new CheckVersion(noUpdateJsonObject, cnid, false,vercode), number);
         vercode--;
         JSONObject updateJsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(AutomationUtils.START_RELATED_CHECK_VERSION,
+                AutomationUtils.doGet(StartRelatedConfig.START_RELATED_CHECK_VERSION,
                         "cnid=" + cnid +
                                 "&vercode=" + (vercode)
                 )

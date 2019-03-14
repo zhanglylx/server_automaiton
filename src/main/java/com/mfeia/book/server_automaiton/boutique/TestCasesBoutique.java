@@ -23,7 +23,7 @@ public class TestCasesBoutique implements AddTestCases {
             switch (i) {
                 case 0:
                     //精品页
-                    load(getJSONArray(AutomationUtils.BOUTIQUE_INDEX, i),
+                    load(getJSONArray(BoutiqueConfig.BOUTIQUE_INDEX, i),
                             performInspection,
                             number);
 //                    loadRefresh(getJSONArray("cx/refreshbd", i),
@@ -33,20 +33,20 @@ public class TestCasesBoutique implements AddTestCases {
                 case 1:
                 case 2:
                     //男频，女频
-                    loadList(getJSONArray(AutomationUtils.BOUTIQUE_INDEX, i),
+                    loadList(getJSONArray(BoutiqueConfig.BOUTIQUE_INDEX, i),
                             performInspection,
                             number + d);
-                    loadListRefresh(getJSONArray(AutomationUtils.BOUTIQUE_REFRESHBD, i),
+                    loadListRefresh(getJSONArray(BoutiqueConfig.BOUTIQUE_REFRESHBD, i),
                             performInspection,
                             number + d + 0.01);
                     break;
                 default:
                     //出版，新书，完结
-                    loadNewArrivals(getJSONArray(AutomationUtils.BOUTIQUE_INDEX, i),
+                    loadNewArrivals(getJSONArray(BoutiqueConfig.BOUTIQUE_INDEX, i),
                             performInspection,
                             number + d, i);
                     loadListRefresh(JSONObject.fromObject(
-                            AutomationUtils.doGet(AutomationUtils.BOUTIQUE_REFRESHBD, "type=" + i)),
+                            AutomationUtils.doGet(BoutiqueConfig.BOUTIQUE_REFRESHBD, "type=" + i)),
                             performInspection,
                             number + d);
             }

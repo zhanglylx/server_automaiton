@@ -15,16 +15,16 @@ public class TestCasesIntegralRecord implements AddTestCases {
         Map<String, String> headers = new HashMap<>(AutomationUtils.getMapHeaders());
         headers.put("uid", UserInfoUtils.getNewUserId());
         JSONObject jsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(AutomationUtils.INTEGRAL_RECORD_EARNLIST, "curpage=1", headers)
+                AutomationUtils.doGet(IntegralRecordConfig.INTEGRAL_RECORD_EARNLIST, "curpage=1", headers)
         );
-        performInspection.addtestFrameList(new EamList_ConversionList_SubsidyList(jsonObject,true,AutomationUtils.INTEGRAL_RECORD_EARNLIST),number);
+        performInspection.addtestFrameList(new EamList_ConversionList_SubsidyList(jsonObject,true,IntegralRecordConfig.INTEGRAL_RECORD_EARNLIST),number);
         jsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(AutomationUtils.INTEGRAL_RECORD_COVERSIONLIST, "curpage=1", headers)
+                AutomationUtils.doGet(IntegralRecordConfig.INTEGRAL_RECORD_COVERSIONLIST, "curpage=1", headers)
         );
-        performInspection.addtestFrameList(new EamList_ConversionList_SubsidyList(jsonObject,false,AutomationUtils.INTEGRAL_RECORD_COVERSIONLIST),number);
+        performInspection.addtestFrameList(new EamList_ConversionList_SubsidyList(jsonObject,false,IntegralRecordConfig.INTEGRAL_RECORD_COVERSIONLIST),number);
         jsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(AutomationUtils.INTEGRAL_RECORD_SUBSIDYLIST, "curpage=1", headers)
+                AutomationUtils.doGet(IntegralRecordConfig.INTEGRAL_RECORD_SUBSIDYLIST, "curpage=1", headers)
         );
-        performInspection.addtestFrameList(new EamList_ConversionList_SubsidyList(jsonObject,false,AutomationUtils.INTEGRAL_RECORD_SUBSIDYLIST),number);
+        performInspection.addtestFrameList(new EamList_ConversionList_SubsidyList(jsonObject,false,IntegralRecordConfig.INTEGRAL_RECORD_SUBSIDYLIST),number);
     }
 }

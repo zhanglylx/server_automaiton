@@ -18,7 +18,7 @@ public class ChangeTag extends ChangeBook {
         super(number);
         try {
             statr(testFrame,
-                    AutomationUtils.BOUTIQUE_EXCHANGE,
+                    BoutiqueConfig.BOUTIQUE_EXCHANGE,
                     "bdId=" + testFrame.getJsonObject().getInt("id"),
                     null,
                     "list");

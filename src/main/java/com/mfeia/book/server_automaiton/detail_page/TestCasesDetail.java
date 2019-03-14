@@ -21,7 +21,7 @@ public class TestCasesDetail implements AddTestCases {
             try {
                 performInspection.addtestFrameList(
                         new Detail(JSONObject.fromObject(AutomationUtils.doGet(
-                                AutomationUtils.DETAIL_PAGE_BOOK_DETAIL_YS, "bookid=" + booksEntry.getKey()
+                                DetailPageConfig.DETAIL_PAGE_BOOK_DETAIL_YS, "bookid=" + booksEntry.getKey()
                         )), number, booksEntry.getValue()),
                         number
                 );
