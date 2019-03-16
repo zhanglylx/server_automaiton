@@ -3,7 +3,11 @@ package com.mfeia.book.server_automaiton.detail_page;
 
 import ZLYUtils.DoubleOperation;
 import com.mfeia.book.server_automaiton.*;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import net.sf.json.JSONObject;
+import server_automaiton_gather.ErrException;
 
 import java.util.Map;
 
@@ -13,7 +17,7 @@ import java.util.Map;
  */
 public class TestCasesDetail implements AddTestCases {
     @Override
-    public void additionTestCases(PerformInspection performInspection, double number) {
+    public void additionTestCases(final PerformInspection performInspection, double number) {
 
         for (Map.Entry<Long, Book> booksEntry :
                 AutomationBooksMap.getAutomationBooksMap().getBooksListMap().entrySet()) {

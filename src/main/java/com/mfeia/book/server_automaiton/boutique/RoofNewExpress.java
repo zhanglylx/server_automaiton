@@ -1,8 +1,7 @@
 package com.mfeia.book.server_automaiton.boutique;
 
 import com.mfeia.book.server_automaiton.AutomationBooksMap;
-import com.mfeia.book.server_automaiton.AutomationUtils;
-import net.sf.json.JSONArray;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import net.sf.json.JSONObject;
 import com.mfeia.book.server_automaiton.Book;
 
@@ -65,7 +64,7 @@ public class RoofNewExpress extends RoofRoot {
     public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
         JSONObject jsonObject = JSONObject.fromObject(object);
         try {
-            Book books = new Book(jsonObject.getInt("bookid"),
+            Book books = new Book(jsonObject.getLong("bookid"),
                     jsonObject.getString("newBookName"),
                     jsonObject.getString("authorName"),
                     jsonObject.getString("categoryColor"));

@@ -1,4 +1,6 @@
-package com.mfeia.book.server_automaiton;
+package server_automaiton_gather;
+
+import server_automaiton_gather.TestFrame;
 
 import java.util.Map;
 

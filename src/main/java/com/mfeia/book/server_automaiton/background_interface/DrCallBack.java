@@ -1,6 +1,6 @@
 package com.mfeia.book.server_automaiton.background_interface;
 
-import com.mfeia.book.server_automaiton.TestFrame;
+import server_automaiton_gather.TestFrame;
 import net.sf.json.JSONObject;
 
 import java.util.Map;

@@ -1,9 +1,11 @@
 package com.mfeia.book.server_automaiton;
 
 import com.mfeia.book.server_automaiton.background_interface.BackgroundInterfaceConfig;
-import com.mfeia.book.server_automaiton.background_interface.TestCasesBackgroundInterface;
 import com.mfeia.book.server_automaiton.user_related.MySidebar;
 import net.sf.json.JSONObject;
+import server_automaiton_gather.ErrException;
+import server_automaiton_gather.RealizePerform;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -20,6 +22,7 @@ public class UserInfoUtils {
 
 
     public static String getHistoryUserId() {
+        resetHistoryUserId();
         return historyUserId;
     }
 

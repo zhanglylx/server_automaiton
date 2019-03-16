@@ -1,6 +1,6 @@
 package com.mfeia.book.server_automaiton.integral_record;
 
-import com.mfeia.book.server_automaiton.TestFrame;
+import server_automaiton_gather.TestFrame;
 import net.sf.json.JSONObject;
 
 import java.util.Map;

@@ -1,13 +1,13 @@
 package com.mfeia.book.server_automaiton.start_related;
 
-import com.mfeia.book.server_automaiton.AddTestCases;
-import com.mfeia.book.server_automaiton.AutomationUtils;
-import com.mfeia.book.server_automaiton.PerformInspection;
+import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import net.sf.json.JSONObject;
 
 public class TestCasesStartRelated implements AddTestCases {
     @Override
-    public void additionTestCases(PerformInspection performInspection, double number) throws Exception {
+    public void additionTestCases(final PerformInspection performInspection, double number) throws Exception {
         int vercode = Integer.parseInt(AutomationUtils.getServerAutomaitonProperties(AutomationUtils.VERCODE));
         int cnid = Integer.parseInt(AutomationUtils.getServerAutomaitonProperties(AutomationUtils.CNID));
         JSONObject noUpdateJsonObject = JSONObject.fromObject(

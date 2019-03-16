@@ -1,8 +1,8 @@
 package com.mfeia.book.server_automaiton.integral_record;
 
-import com.mfeia.book.server_automaiton.AddTestCases;
-import com.mfeia.book.server_automaiton.AutomationUtils;
-import com.mfeia.book.server_automaiton.PerformInspection;
+import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import com.mfeia.book.server_automaiton.UserInfoUtils;
 import net.sf.json.JSONObject;
 
@@ -11,7 +11,7 @@ import java.util.Map;
 
 public class TestCasesIntegralRecord implements AddTestCases {
     @Override
-    public void additionTestCases(PerformInspection performInspection, double number) throws Exception {
+    public void additionTestCases(final PerformInspection performInspection, double number) throws Exception {
         Map<String, String> headers = new HashMap<>(AutomationUtils.getMapHeaders());
         headers.put("uid", UserInfoUtils.getNewUserId());
         JSONObject jsonObject = JSONObject.fromObject(

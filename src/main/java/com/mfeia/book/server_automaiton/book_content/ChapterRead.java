@@ -1,9 +1,9 @@
 package com.mfeia.book.server_automaiton.book_content;
 
 
-import com.mfeia.book.server_automaiton.AutomationUtils;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import com.mfeia.book.server_automaiton.Book;
-import com.mfeia.book.server_automaiton.TestFrame;
+import server_automaiton_gather.TestFrame;
 import net.sf.json.JSONObject;
 
 import java.util.Map;

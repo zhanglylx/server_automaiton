@@ -3,15 +3,16 @@ package com.mfeia.book.server_automaiton.jenkins_build;
 import ZLYUtils.DoubleOperation;
 import com.mfeia.book.server_automaiton.*;
 import com.mfeia.book.server_automaiton.book_content.TestCasesBookContent;
+import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_interface.BooksMapCirculationCallBack;
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import net.sf.json.JSONObject;
-
-import java.util.Collections;
-import java.util.LinkedHashMap;
-import java.util.Map;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.ErrException;
 
 public class TestCasesJenkinsBuild implements AddTestCases {
     @Override
-    public void additionTestCases(PerformInspection performInspection, double number) throws Exception {
+    public void additionTestCases(final PerformInspection performInspection, double number) throws Exception {
         AutomationBooksMap.getAutomationBooksMap().booksMapCirculation(new BooksMapCirculationCallBack() {
             @Override
             public void bookCirculation(Book book, double circulationNumber) {

@@ -1,7 +1,6 @@
 package com.mfeia.book.server_automaiton.boutique;
 
-import com.mfeia.book.server_automaiton.AutomationUtils;
-import com.mfeia.book.server_automaiton.TestFrame;
+import server_automaiton_gather.TestFrame;
 
 import java.util.Map;
 

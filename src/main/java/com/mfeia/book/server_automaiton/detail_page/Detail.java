@@ -1,10 +1,10 @@
 package com.mfeia.book.server_automaiton.detail_page;
 
-import com.mfeia.book.server_automaiton.AutomationUtils;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import com.mfeia.book.server_automaiton.Book;
-import com.mfeia.book.server_automaiton.TestFrame;
+import server_automaiton_gather.TestFrame;
 
 import java.util.HashMap;
 import java.util.Map;

@@ -1,9 +1,9 @@
 package com.mfeia.book.server_automaiton.background_interface;
 
 import ZLYUtils.DoubleOperation;
-import com.mfeia.book.server_automaiton.AddTestCases;
-import com.mfeia.book.server_automaiton.AutomationUtils;
-import com.mfeia.book.server_automaiton.PerformInspection;
+import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import com.mfeia.book.server_automaiton.UserInfoUtils;
 import net.sf.json.JSONObject;
 import org.apache.http.client.utils.URIBuilder;

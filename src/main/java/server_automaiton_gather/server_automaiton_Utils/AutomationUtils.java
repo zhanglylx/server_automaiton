@@ -1,20 +1,16 @@
-package com.mfeia.book.server_automaiton;
+package server_automaiton_gather.server_automaiton_Utils;
 
 import ZLYUtils.HttpUtils;
 import ZLYUtils.NetworkHeaders;
-import com.microsoft.schemas.office.x2006.encryption.CTKeyEncryptor;
-import net.sf.json.JSONObject;
-import org.apache.http.NameValuePair;
-import org.apache.http.client.utils.URIBuilder;
+import com.mfeia.book.server_automaiton.Book;
+import server_automaiton_gather.ErrException;
+import server_automaiton_gather.RealizePerform;
 
 import java.io.IOException;
 import java.io.InputStream;
-import java.net.URI;
-import java.net.URISyntaxException;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
 import java.util.regex.Pattern;
@@ -50,7 +46,8 @@ public class AutomationUtils {
     public static final String TAG_IMG_URL = "tagImgUrl";
     public static final String RANK_LIST_AD_URL = "randListAdUrl";
     public static final String TAG_NAME = "tagName";
-
+    public static final String NEW_RANK_LIST_BDID = "cxNewRankListBDID";
+    public static final String NEW_CATE_LIST_FIND = "catelistnewFIND";
     private static Properties properties;
     private static ThreadPoolExecutor executorService;
 
@@ -97,6 +94,10 @@ public class AutomationUtils {
         checkRules.put(TAG_URL_DETAIL, Pattern.compile("http://cx\\.ikanshu\\.cn/cx/bookdetail\\?bookid=\\d{1,13}\\$parmurl"));
         checkRules.put(RANK_LIST_AD_URL,
                 Pattern.compile("http://cx\\.ikanshu\\.cn/cx/ranklist.*\\?bdid=\\d+\\$parmurl"));
+        checkRules.put(NEW_RANK_LIST_BDID,
+                Pattern.compile("http://cx\\.ikanshu\\.cn/cx/new/rankList.*\\?bdid=\\d+\\$parmurl"));
+        checkRules.put(NEW_CATE_LIST_FIND,
+                Pattern.compile("https://cx\\.ikanshu\\.cn//cx/new/catelistnew.*\\?flid=\\d+\\$parmurl"));
         checkRules.put(TAG_NAME, Pattern.compile(".+"));
         checkRules.put(ID, Pattern.compile("\\d+"));
         checkRules.put(TEXT, Pattern.compile(".+"));
@@ -210,7 +211,7 @@ public class AutomationUtils {
     }
 
 
-    public static String doPost(String propertiesPath,Object parm, Map<String, String> headers) {
+    public static String doPost(String propertiesPath, Object parm, Map<String, String> headers) {
         return doPost(properties.getProperty(HOST).trim(),
                 properties.getProperty(propertiesPath).trim(), parm,
                 headers);

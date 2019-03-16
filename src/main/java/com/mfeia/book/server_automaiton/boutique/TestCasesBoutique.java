@@ -1,8 +1,12 @@
 package com.mfeia.book.server_automaiton.boutique;
 
-import com.mfeia.book.server_automaiton.*;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
+import server_automaiton_gather.ErrException;
+import server_automaiton_gather.TestFrame;
 
 import java.util.Map;
 import java.util.regex.Pattern;
@@ -16,7 +20,7 @@ import java.util.regex.Pattern;
 public class TestCasesBoutique implements AddTestCases {
 
     @Override
-    public void additionTestCases(PerformInspection performInspection, double number) {
+    public void additionTestCases(final PerformInspection performInspection, double number) {
         double d;
         for (int i = 0; i < 6; i++) {
             d = i * 0.1;

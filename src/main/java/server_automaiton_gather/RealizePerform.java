@@ -1,4 +1,6 @@
-package com.mfeia.book.server_automaiton;
+package server_automaiton_gather;
+
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 
 import java.util.*;
 
@@ -7,14 +9,14 @@ import java.util.*;
  */
 public class RealizePerform implements PerformInspection {
     private Map<Double, List<TestFrame>> testFrameList;
-    private static RealizePerform realizePerform = new RealizePerform();
+    private final static RealizePerform realizePerform = new RealizePerform();
     private int defaultNumber = -1;
 
     private RealizePerform() {
         this.testFrameList = Collections.synchronizedMap(new TreeMap<>());
     }
 
-    static RealizePerform getRealizePerform() {
+    public  static RealizePerform getRealizePerform() {
 //        if (realizePerform == null) {
 //            synchronized (RealizePerform.class) {
 //                if (realizePerform == null) {
@@ -25,7 +27,7 @@ public class RealizePerform implements PerformInspection {
         return realizePerform;
     }
 
-    public void addtestFrameList(TestFrame testFrame, double number) {
+    public void addtestFrameList(final TestFrame testFrame, double number) {
         if (testFrame == null) {
             addtestFrameList(
                     new ErrException(this.getClass(), "addtestFrameList",
@@ -46,7 +48,7 @@ public class RealizePerform implements PerformInspection {
     }
 
     @Override
-    public void addtestFrameList(TestFrame testFrame) {
+    public void addtestFrameList(final TestFrame testFrame) {
         addtestFrameList(testFrame, this.defaultNumber);
     }
 

@@ -1,4 +1,6 @@
-package com.mfeia.book.server_automaiton;
+package server_automaiton_gather.server_automaiton_interface;
+
+import com.mfeia.book.server_automaiton.Book;
 
 import java.util.Map;
 

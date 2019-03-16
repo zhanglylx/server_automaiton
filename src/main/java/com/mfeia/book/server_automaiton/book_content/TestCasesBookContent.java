@@ -2,14 +2,17 @@ package com.mfeia.book.server_automaiton.book_content;
 
 import ZLYUtils.DoubleOperation;
 import com.mfeia.book.server_automaiton.*;
-import com.mfeia.book.server_automaiton.detail_page.TestCasesDetail;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import net.sf.json.JSONObject;
+import server_automaiton_gather.ErrException;
 
 import java.util.*;
 
 public class TestCasesBookContent implements AddTestCases {
     @Override
-    public void additionTestCases(PerformInspection performInspection, double number) throws InterruptedException {
+    public void additionTestCases(final PerformInspection performInspection, double number) throws InterruptedException {
         JSONObject jsonObject = JSONObject.fromObject(AutomationUtils.doGet(
                 BookContentConfig.BOOK_CONTENT_SUB_SIDY_MESSAGE, ""
         ));
@@ -18,8 +21,6 @@ public class TestCasesBookContent implements AddTestCases {
         );
         Book books;
         number = DoubleOperation.add(number, 0.20000);
-        JSONObject[] jsonObjects =
-                new JSONObject[AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size()];
         for (Iterator<Map.Entry<Long, Book>> iterator =
              AutomationBooksMap.getAutomationBooksMap().getBooksListMap().entrySet().iterator()
              ; iterator.hasNext(); ) {

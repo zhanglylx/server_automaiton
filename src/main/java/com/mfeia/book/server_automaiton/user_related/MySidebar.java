@@ -1,7 +1,7 @@
 package com.mfeia.book.server_automaiton.user_related;
 
-import com.mfeia.book.server_automaiton.AutomationUtils;
-import com.mfeia.book.server_automaiton.TestFrame;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.TestFrame;
 import com.mfeia.book.server_automaiton.UserInfoUtils;
 import net.sf.json.JSONObject;
 

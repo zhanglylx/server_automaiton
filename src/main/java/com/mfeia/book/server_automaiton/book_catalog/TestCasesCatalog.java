@@ -2,11 +2,13 @@ package com.mfeia.book.server_automaiton.book_catalog;
 
 import ZLYUtils.DoubleOperation;
 import com.mfeia.book.server_automaiton.*;
-import com.mfeia.book.server_automaiton.detail_page.Detail;
 import com.mfeia.book.server_automaiton.detail_page.TestCasesDetail;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import net.sf.json.JSONObject;
+import server_automaiton_gather.ErrException;
 
-import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -15,7 +17,7 @@ import java.util.Map;
  */
 public class TestCasesCatalog implements AddTestCases {
     @Override
-    public void additionTestCases(PerformInspection performInspection, double number) throws InterruptedException {
+    public void additionTestCases(final PerformInspection performInspection, double number) throws InterruptedException {
         JSONObject jsonObject;
         for (Map.Entry<Long, Book> booksEntry :
                 AutomationBooksMap.getAutomationBooksMap().getBooksListMap().entrySet()) {

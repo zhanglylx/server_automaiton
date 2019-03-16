@@ -1,6 +1,7 @@
-package com.mfeia.book.server_automaiton;
+package server_automaiton_gather;
 
 import ZLYUtils.JavaUtils;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
@@ -94,7 +95,7 @@ public abstract class TestFrame {
                 check(false, jsonArray.size(),
                         "检查数量是否符合要求:不符合，预期数量:"
                                 + showCount
-                                + "实际数量:" + this.getJsonArray().size());
+                                + "实际数量:" + jsonArray.size());
         }
     }
 
@@ -121,6 +122,8 @@ public abstract class TestFrame {
                 check((JSONObject) (object1), AutomationUtils.cast(object2), testCase);
             } else if (object1 instanceof JSONArray && object2 instanceof Map) {
                 check((JSONArray) (object1), AutomationUtils.cast(object2), testCase, showCount);
+            } else if (object1 instanceof Exception) {
+                errException("testCase:{" + testCase + "}\n预期结果:{" + object2 + "}", AutomationUtils.cast(object1));
             } else {
                 errException(false, "[" + testCase + "]未能解析");
             }
@@ -143,7 +146,7 @@ public abstract class TestFrame {
     private void check(JSONObject jsonObject, Map<String, Object> map, String testCaseName) {
         this.logJsonObject = jsonObject;
         this.logJsonObjectMap = map;
-        if (checkJson(jsonObject, map)) {
+        if (checkJson(jsonObject, map,testCaseName)) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 try {
                     check(entry.getValue(),
@@ -269,7 +272,7 @@ public abstract class TestFrame {
                        int showCount) {
         this.logJsonArrayMap = jsonArrayMap;
         this.logJsonArray = jsonArray;
-        if (checkJson(jsonArray, jsonArrayMap)) {
+        if (checkJson(jsonArray, jsonArrayMap,testCaseName)) {
             checkJsonArrayShowCount(jsonArray, showCount);
             for (Map.Entry<String, Object> entry : jsonArrayMap.entrySet()) {
                 for (int i = 0; i < jsonArray.size(); i++) {
@@ -310,25 +313,25 @@ public abstract class TestFrame {
      * @param map
      * @return
      */
-    private boolean checkJson(JSON json, Map<String, Object> map) {
+    private boolean checkJson(JSON json, Map<String, Object> map,String testCaseName) {
         if (json == null || map == null) {
-            errException(false, "", "", "[json || map] is null");
+            errException(false, "", "[json || map] is null", testCaseName);
             return false;
         } else if (json instanceof JSONObject) {
             if (map.size() == 0 && !json.isEmpty()) {
-                errException(false, "", "", "[jsonMap] is 0");
+                errException(false, "", "[jsonMap] is 0", testCaseName);
                 return false;
             } else if (json.isEmpty() && map.size() != 0) {
-                errException(false, "", "", "[JSONObject] is Empty");
+                errException(false, "", "[JSONObject] is Empty", testCaseName);
                 return false;
             }
 
         } else if (json instanceof JSONArray) {
             if (json.size() == 0 && map.size() != 0) {
-                errException(false, "", "", "[jsonArray] is 0");
+                errException(false, "", "[jsonArray] is 0", testCaseName);
                 return false;
             } else if (json.size() != 0 && map.size() == 0) {
-                errException(false, "", "", "[jsonArrayMap] is 0");
+                errException(false, "", "[jsonArrayMap] is 0", testCaseName);
                 return false;
             }
 

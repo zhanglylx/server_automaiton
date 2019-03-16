@@ -1,7 +1,12 @@
 package com.mfeia.book.server_automaiton.make_money;
 
 import com.mfeia.book.server_automaiton.*;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import net.sf.json.JSONObject;
+import server_automaiton_gather.ErrException;
+import server_automaiton_gather.TestFrame;
 
 import java.util.Map;
 
@@ -10,7 +15,7 @@ import java.util.Map;
  */
 public class TestCasesMakeMoney implements AddTestCases {
     @Override
-    public void additionTestCases(PerformInspection performInspection, double number) throws Exception {
+    public void additionTestCases(final PerformInspection performInspection, double number) throws Exception {
         String newUserId = UserInfoUtils.getNewUserId();
         //获取赚钱页
         ListEarnIntegralByHd listEarnIntegralByHd = null;

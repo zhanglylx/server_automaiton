@@ -1,17 +1,15 @@
 package com.mfeia.book.server_automaiton.shelf_related;
 
-import com.mfeia.book.server_automaiton.AddTestCases;
-import com.mfeia.book.server_automaiton.AutomationUtils;
-import com.mfeia.book.server_automaiton.PerformInspection;
-import com.mfeia.book.server_automaiton.book_content.SubSidyMessage;
+import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import net.sf.json.JSONObject;
 
-import java.util.HashMap;
 import java.util.Map;
 
 public class TestCasesShelfRelated implements AddTestCases {
     @Override
-    public void additionTestCases(PerformInspection performInspection, double number) throws Exception {
+    public void additionTestCases(final PerformInspection performInspection, double number) throws Exception {
         Map<String, String> headers = AutomationUtils.getMapHeaders();
         headers.put("Content-Type", "application/json");
         JSONObject jsonObject = JSONObject.fromObject(
