@@ -33,9 +33,9 @@ public class Test {
 
     public static void main(String[] args) throws IOException {
         try {
-//           new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG).run();
-//           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(),15));
-//           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(),20));
+//            new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG).run();
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(), 15));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
 //            while (true) {
 //                if (AutomationUtils.getExecutorServiceActiveCount() == 0) {
 //                    System.out.println(RealizePerform.getRealizePerform().toString());
@@ -48,19 +48,15 @@ public class Test {
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesCatalog(), 3));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
-////            //AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
+//////            //AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
 //
 //
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(
-//                    new TestCasesBackgroundInterface(), 10
-//            ));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(
-//                    new TestCasesUserRelated(), 9
-//            ));
-//
+           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
+    //        AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
+
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
-           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(),13));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
 //////
 
@@ -101,7 +97,7 @@ public class Test {
             try {
                 if (addTestCase == null) throw new NullPointerException();
                 className = addTestCase.getClass().getName();
-                addTestCase.additionTestCases( RealizePerform.getRealizePerform(), this.tag);
+                addTestCase.additionTestCases(RealizePerform.getRealizePerform(), this.tag);
             } catch (Exception e) {
                 RealizePerform.getRealizePerform().addtestFrameList(new ErrException(this.getClass(),
                         className + ":addTestCasesException", e, this.tag

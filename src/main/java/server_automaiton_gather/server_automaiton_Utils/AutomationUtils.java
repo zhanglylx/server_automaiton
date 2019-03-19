@@ -121,8 +121,9 @@ public class AutomationUtils {
 
     public static String getServerAutomaitonProperties(String key) {
         String values = null;
+        key=key.trim();
         try {
-            values = properties.getProperty(key);
+            values = properties.getProperty(key).trim();
         } catch (Exception e) {
             RealizePerform.getRealizePerform().addtestFrameList(
                     new ErrException(AutomationUtils.class,

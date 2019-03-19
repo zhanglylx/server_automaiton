@@ -13,7 +13,6 @@ import java.util.UUID;
  * 侧边栏
  */
 public class MySidebar extends TestFrame {
-    private Map<String, String> heades;
     private String newUserId = null;
 
     public MySidebar() {
@@ -22,7 +21,6 @@ public class MySidebar extends TestFrame {
 
     public MySidebar(double number) {
         this.setTag(number);
-        this.heades = new HashMap<>(AutomationUtils.getMapHeaders());
     }
 
     public TestFrame stratCheck() {
@@ -35,10 +33,11 @@ public class MySidebar extends TestFrame {
      * 检查获取新用户
      */
     private void checkGetNewUser() {
-        this.heades.put("mac", UUID.randomUUID().toString());
-        long userId1 = getJSONObjcetUserId();
-        this.heades.put("mac", UUID.randomUUID().toString());
-        long userId2 = getJSONObjcetUserId();
+        Map<String,String> heades =  new HashMap<>(AutomationUtils.getMapHeaders());
+        heades.put("mac", UUID.randomUUID().toString());
+        long userId1 = getJSONObjcetUserId(heades);
+        heades.put("mac", UUID.randomUUID().toString());
+        long userId2 = getJSONObjcetUserId(heades);
         if (userId2 <= userId1) {
             check(false,
                     "第一次获取userId:" + userId1 + " 第二次获取userId:" + userId2,
@@ -54,24 +53,25 @@ public class MySidebar extends TestFrame {
      * 检查获取历史用户
      */
     private void checkGetHistoryUser() {
-        this.heades.put("mac", UUID.randomUUID().toString());
-        this.heades.put("uid", this.newUserId);
-        long userId1 = getJSONObjcetUserId();
+        Map<String,String> heades =  new HashMap<>(AutomationUtils.getMapHeaders());
+        heades.put("mac", UUID.randomUUID().toString());
+        heades.put("uid", this.newUserId);
+        long userId1 = getJSONObjcetUserId(heades);
         check(userId1 == Long.parseLong(this.newUserId),
                 "获取的userId:" + userId1 + " 传入的userId:" + this.newUserId,
                 "检查获取历史用户id");
     }
 
 
-    private long getJSONObjcetUserId() {
-        return getMySidebarJSONObject().getJSONObject("user").getLong("id");
+    private long getJSONObjcetUserId(Map<String,String> heades) {
+        return getMySidebarJSONObject(heades).getJSONObject("user").getLong("id");
     }
 
 
-    private JSONObject getMySidebarJSONObject() {
+    private JSONObject getMySidebarJSONObject(Map<String,String> heades) {
         return JSONObject.fromObject(
                 AutomationUtils.doGet(
-                        UserInfoUtils.USER_MY_SIDEBAR, "", this.heades));
+                        UserInfoUtils.USER_MY_SIDEBAR, "", heades));
 
     }
 

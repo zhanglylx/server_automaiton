@@ -18,8 +18,13 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         /**
          * 因为涉及到此接口会影响线上，服务端没有对参数进行检查，所有的参数都会插入到数据库中，所以线上运行时此脚本关闭
          */
-        //        number = DoubleOperation.add(number, 0.01);
-//        addDrcallBack(performInspection, number);
+        if ("1".equals(AutomationUtils
+                .getServerAutomaitonProperties(
+                        BackgroundInterfaceConfig.BACKGROUND_INTERFACE_DR_CALL_BACL_Run))
+        ) {
+            number = DoubleOperation.add(number, 0.01);
+            addDrcallBack(performInspection, number);
+        }
         number = DoubleOperation.add(number, 0.01);
         addFinger(performInspection, number);
         number = DoubleOperation.add(number, 0.01);
@@ -57,7 +62,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("time", "9");
         uriBuilder.addParameter("checksum", "10");
         JSONObject jsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_INTERFACE, uriBuilder.build().getQuery())
+                AutomationUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_INTERFACE_DR_CALL_BACL, uriBuilder.build().getQuery())
         );
 
         performInspection.addtestFrameList(new DrCallBack(jsonObject), number);
@@ -242,13 +247,13 @@ public class TestCasesBackgroundInterface implements AddTestCases {
     /**
      * 小程序获取免电用户信息
      * 使用配置中的手机号
+     *
      * @throws Exception
      */
     private static void addUser(PerformInspection performInspection, double number) throws Exception {
         String tel = AutomationUtils.getServerAutomaitonProperties(AutomationUtils.TEL);
         performInspection.addtestFrameList(new AppletUser(UserInfoUtils.getUserJSONbject(tel), tel), number);
     }
-
 
 
     /**

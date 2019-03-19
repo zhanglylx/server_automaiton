@@ -1,7 +1,8 @@
 package com.mfeia.book.server_automaiton.background_interface;
 
 public class BackgroundInterfaceConfig {
-    static final String BACKGROUND_INTERFACE = "background.interface.drCallBack";
+    static final String BACKGROUND_INTERFACE_DR_CALL_BACL_Run = "background.interface.drCallBack.run";
+    static final String BACKGROUND_INTERFACE_DR_CALL_BACL = "background.interface.drCallBack";
     static final String BACKGROUND_FINGER = "background.interface.finger";
     static final String BACKGROUND_WECHATPAYCALLBACK = "background.interface.weChatPayCallback";
     static final String BACKGROUND_CALLBACK = "background.interface.callback";
