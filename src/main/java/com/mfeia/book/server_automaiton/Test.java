@@ -9,7 +9,9 @@ import com.mfeia.book.server_automaiton.integral_record.TestCasesIntegralRecord;
 import com.mfeia.book.server_automaiton.jenkins_build.TestCasesJenkinsBuild;
 import com.mfeia.book.server_automaiton.make_money.TestCasesMakeMoney;
 import com.mfeia.book.server_automaiton.paiHang_stackRoom.TestCasesPaiHangStackRoom;
+import com.mfeia.book.server_automaiton.search.TestCasesSearch;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_Utils.DBUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import com.mfeia.book.server_automaiton.shelf_related.TestCasesShelfRelated;
 import com.mfeia.book.server_automaiton.start_related.TestCasesStartRelated;
@@ -18,28 +20,35 @@ import server_automaiton_gather.ErrException;
 import server_automaiton_gather.RealizePerform;
 
 import java.io.IOException;
+import java.sql.Connection;
+import java.sql.PreparedStatement;
+import java.sql.ResultSet;
+import java.sql.Statement;
 
 /**
  * 精品页检查
  */
 public class Test {
-    public static final int BOUTIQUE_TAG = 1;//精品代码
+    private static final int BOUTIQUE_TAG = 1;//精品代码
 
     public static void main(String[] args) throws IOException {
         try {
 //           new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG).run();
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(),15));
-            while (true) {
-                if (AutomationUtils.getExecutorServiceActiveCount() == 0) {
-                    System.out.println(RealizePerform.getRealizePerform().toString());
-                    break;
-                }
-                Thread.sleep(1000);
-            }
+//           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(),15));
+//           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(),20));
+//            while (true) {
+//                if (AutomationUtils.getExecutorServiceActiveCount() == 0) {
+//                    System.out.println(RealizePerform.getRealizePerform().toString());
+//                    break;
+//                }
+//                Thread.sleep(1000);
+//            }
+//            System.out.println(AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
+//
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesCatalog(), 3));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
+////            //AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
 //
 //
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(
@@ -48,12 +57,12 @@ public class Test {
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(
 //                    new TestCasesUserRelated(), 9
 //            ));
-////            DBUtils.getConnection();
+//
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(),13));
+           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(),13));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
-
+//////
 
 
             while (true) {
@@ -78,7 +87,7 @@ public class Test {
         private AddTestCases addTestCases;
         private double tag;
 
-        public RunnableAddTestCasess(AddTestCases addTestCases, double tabNumber) {
+        RunnableAddTestCasess(AddTestCases addTestCases, double tabNumber) {
             this.addTestCases = addTestCases;
             this.tag = tabNumber;
         }

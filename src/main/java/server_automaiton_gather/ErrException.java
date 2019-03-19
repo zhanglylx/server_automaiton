@@ -10,10 +10,12 @@ import java.util.Map;
 public class ErrException extends TestFrame {
     public ErrException(Class c , Object errText, Exception e, double number) {
         this.setTag(number);
+        this.setCaseName(errText);
         errException(c.getName()+" : "+errText, e);
     }
     public ErrException(Class c , Object errText, Exception e) {
         this.setTag(-1);
+        this.setCaseName(errText);
         errException(c.getName()+" : "+errText, e);
     }
 

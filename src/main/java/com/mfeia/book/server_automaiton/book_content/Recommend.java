@@ -18,14 +18,14 @@ public class Recommend extends TestFrame {
         JSONObject thisBookInfoJSONObject = jsonObject.getJSONObject("data").getJSONObject("thisBookInfo");
         this.setTag(number);
         check(books.equals(thisBookInfoJSONObject),
-                "预期结果:" + books + " 实际结果:" + thisBookInfoJSONObject
+                "预期结果:" + books + " \n实际结果:" + thisBookInfoJSONObject
                 , "检查thisBookInfo:" + books.getBookId()
         );
     }
 
     @Override
     public void settingJsonArrayMap(Map<String, Object> jsonArrayMap) {
-        jsonArrayMap.putAll(AutomationUtils.getCheckRulesAll());
+        jsonArrayMap.putAll(AutomationUtils.getCheckBookAll());
     }
 
     @Override

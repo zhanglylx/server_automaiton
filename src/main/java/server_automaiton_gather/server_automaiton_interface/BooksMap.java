@@ -5,7 +5,7 @@ import com.mfeia.book.server_automaiton.Book;
 import java.util.Map;
 
 public interface BooksMap {
-    void addBooks(Book books);
+    void addBook(Book book);
 
     Map<Long, Book> getBooksListMap();
 

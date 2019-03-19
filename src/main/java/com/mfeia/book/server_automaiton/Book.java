@@ -13,7 +13,6 @@ public class Book {
     private String authorName;
     private String bookImg;
     private String categoryColor;
-
     public Book() {
     }
 

@@ -68,7 +68,7 @@ public class RoofNewExpress extends RoofRoot {
                     jsonObject.getString("newBookName"),
                     jsonObject.getString("authorName"),
                     jsonObject.getString("categoryColor"));
-            AutomationBooksMap.getAutomationBooksMap().addBooks(books);
+            AutomationBooksMap.getAutomationBooksMap().addBook(books);
             return books.getBookImg();
         } catch (Exception e) {
             this.errException("checkBooks", e);

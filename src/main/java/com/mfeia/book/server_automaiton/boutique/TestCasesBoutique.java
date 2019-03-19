@@ -30,9 +30,9 @@ public class TestCasesBoutique implements AddTestCases {
                     load(getJSONArray(BoutiqueConfig.BOUTIQUE_INDEX, i),
                             performInspection,
                             number);
-//                    loadRefresh(getJSONArray("cx/refreshbd", i),
-//                            performInspection,
-//                            number + d);
+                    loadRefresh(getJSONArray(BoutiqueConfig.BOUTIQUE_REFRESHBD, i),
+                            performInspection,
+                            number + d);
                     break;
                 case 1:
                 case 2:
@@ -184,7 +184,7 @@ public class TestCasesBoutique implements AddTestCases {
     }
 
     /**
-     * 顶部刷新
+     * 精品顶部刷新
      *
      * @param jsonArray
      * @param performInspection
@@ -438,7 +438,7 @@ public class TestCasesBoutique implements AddTestCases {
                         jsonMap.put("code", 0);
                     }
 
-                }.setCaseName("loadListRefresh")
+                }.setCaseName("loadListRefresh 出版，新书，完结")
                         .setJsonObject(jsonObject)
                         .setJsonArray(jsonObject.getJSONArray("data"))
                 , number);

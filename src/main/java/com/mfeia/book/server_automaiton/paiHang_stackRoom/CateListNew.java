@@ -39,10 +39,8 @@ public class CateListNew extends RoofNewExpress {
     public void customCheck() {
         JSONArray jsonArray = getJsonObject().getJSONObject("cateListTwo").getJSONArray("thirdCateList");
         List<String> list = new ArrayList<>();
-        Map<String,Object> checkMap = new HashMap<>();
-        checkMap.put("id", AutomationUtils.getCheckRules(AutomationUtils.ID));
-        checkMap.put("name", Pattern.compile(".{2,6}"));
-        check(jsonArray,checkMap,"检查thirdCateList",1);
+
+        check(jsonArray,PaiHangStackRoomConfig.getCheckThirdCateList(),"检查thirdCateList",1);
         for(int i=0;i<jsonArray.size();i++){
             list.add((jsonArray.getJSONObject(i).getString("id")));
         }

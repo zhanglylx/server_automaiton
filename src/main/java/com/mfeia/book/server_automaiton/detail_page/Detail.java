@@ -42,7 +42,7 @@ public class Detail extends TestFrame {
                 @Override
                 public void settingJsonMap(Map<String, Object> jsonMap) {
                     jsonMap.putAll(
-                            AutomationUtils.getCheckRulesAll(
+                            AutomationUtils.getCheckBookAll(
                                     bookid));
                     jsonMap.put("authorName", books.getAuthorName());
                 }

@@ -6,10 +6,10 @@ import com.mfeia.book.server_automaiton.Book;
 import server_automaiton_gather.ErrException;
 import server_automaiton_gather.RealizePerform;
 
-import java.io.IOException;
-import java.io.InputStream;
+import java.io.*;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Objects;
 import java.util.Properties;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ThreadPoolExecutor;
@@ -48,6 +48,7 @@ public class AutomationUtils {
     public static final String TAG_NAME = "tagName";
     public static final String NEW_RANK_LIST_BDID = "cxNewRankListBDID";
     public static final String NEW_CATE_LIST_FIND = "catelistnewFIND";
+    public static final String SHU_KU_IMG="shuKuImg";
     private static Properties properties;
     private static ThreadPoolExecutor executorService;
 
@@ -55,8 +56,8 @@ public class AutomationUtils {
         properties = new Properties();
         InputStream inputStream = null;
         try {
-            inputStream = AutomationUtils.class.getClassLoader().getResourceAsStream(
-                    "config/server_automaiton.properties");
+            inputStream = Objects.requireNonNull(AutomationUtils.class.getClassLoader().getResourceAsStream(
+                    "config/server_automaiton.properties"));
             properties.load(inputStream);
             executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(
                     Integer.parseInt(properties.getProperty("executorService")));
@@ -97,12 +98,14 @@ public class AutomationUtils {
         checkRules.put(NEW_RANK_LIST_BDID,
                 Pattern.compile("http://cx\\.ikanshu\\.cn/cx/new/rankList.*\\?bdid=\\d+\\$parmurl"));
         checkRules.put(NEW_CATE_LIST_FIND,
-                Pattern.compile("https://cx\\.ikanshu\\.cn//cx/new/catelistnew.*\\?flid=\\d+\\$parmurl"));
+                Pattern.compile("https://cxb-pro\\.cread\\.com//cx/new/catelistnew.*\\?flid=\\d+\\$parmurl"));
         checkRules.put(TAG_NAME, Pattern.compile(".+"));
         checkRules.put(ID, Pattern.compile("\\d+"));
         checkRules.put(TEXT, Pattern.compile(".+"));
         checkRules.put(TAG_URL_CLIENT,
                 Pattern.compile("client://channel_[1-5]"));
+        checkRules.put(SHU_KU_IMG,
+                Pattern.compile("https://images-pro\\.cread\\.com/cx/endimgs/[0-9a-zA-Z]{1,70}\\.png"));
 
     }
 
@@ -125,24 +128,17 @@ public class AutomationUtils {
                     new ErrException(AutomationUtils.class,
                             "getServerAutomaitonProperties:key-" + key, e));
         }
-        return values;
+        return HttpUtils.getURLDecoderString(values, "UTF-8");
     }
 
 
-    public static Map<String, Object> getCheckRulesAll(long bookId) {
-        Map<String, Object> map = new HashMap<>();
-        map.put("bookId", getCheckRules(BOOK_ID));
-        map.put("bookName", getCheckRules(BOOK_NAME));
-        map.put("authorName", getCheckRules(BOOK_AUTHOR_NAME));
-        map.put("wordCount", getCheckRules(BOOK_WORD_COUNT));
+    public static Map<String, Object> getCheckBookAll(long bookId) {
+        Map<String, Object> map = new HashMap<>(getCheckBookAll());
         map.put("bookImg", getCheckRules(BOOK_COVER, bookId));
-        map.put("introduction", getCheckRules(BOOK_INTRO));
-        map.put("categoryName", getCheckRules(BOOK_CATEGORY_NAME));
-        map.put("categoryColor", getCheckRules(BOOK_CATEGORY_COLOR));
         return map;
     }
 
-    public static Map<String, Object> getCheckRulesAll() {
+    public static Map<String, Object> getCheckBookAll() {
         Map<String, Object> map = new HashMap<>();
         map.put("bookId", getCheckRules(BOOK_ID));
         map.put("bookName", getCheckRules(BOOK_NAME));
@@ -162,11 +158,6 @@ public class AutomationUtils {
         return null;
     }
 
-    private static String getUrl(String host, String path) {
-        if (!host.endsWith("/")) host += "/";
-        if (path.startsWith("/")) path = path.substring(1);
-        return host + path;
-    }
 
     public static String doGet(String propertiesPath, String querys) {
         return doGet(properties.getProperty(HOST).trim(),
@@ -301,5 +292,16 @@ public class AutomationUtils {
         return executorService.isTerminated();
     }
 
-
+    /**
+     * 进行host与path拼接
+     *
+     * @param host
+     * @param path
+     * @return
+     */
+    public static String getUrl(String host, String path) {
+        if (!host.endsWith("/")) host += "/";
+        if (path.startsWith("/")) path = path.substring(1);
+        return host + path;
+    }
 }

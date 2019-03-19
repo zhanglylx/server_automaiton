@@ -6,26 +6,25 @@ import server_automaiton_gather.TestFrame;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 
 import java.util.*;
-import java.util.regex.Pattern;
 
 /**
  * 排行首页
  */
 public class Phindexys extends TestFrame {
+
     private String[] name = {"女生", "男生", "出版"};
     private Map<String, List<String>> itemId;
-    private String actionUrlIdName;
+    private String actionUrlIdName = AutomationUtils.NEW_RANK_LIST_BDID;
 
     Phindexys(JSONObject jsonObject, String actionUrlIdName) {
-        super(jsonObject, jsonObject.getJSONArray("data"));
-        setShowCount(3);
-        this.itemId = new HashMap<>();
+        this(jsonObject);
         this.actionUrlIdName = actionUrlIdName;
     }
 
     Phindexys(JSONObject jsonObject) {
-        this(jsonObject, AutomationUtils.NEW_RANK_LIST_BDID);
-
+        super(jsonObject, jsonObject.getJSONArray("data"));
+        setShowCount(3);
+        this.itemId = new HashMap<>();
     }
 
     @Override
@@ -45,18 +44,14 @@ public class Phindexys extends TestFrame {
                 " 实际结果:" + jsonObject.getString("name"), "检查标题");
         JSONArray jsonArray = jsonObject.getJSONArray("list");
         JSONArray itemJsonArray;
-        Map<String, Object> itemChcekMap = new HashMap<>();
-        itemChcekMap.put("id", AutomationUtils.getCheckRules(AutomationUtils.ID));
-        itemChcekMap.put("tagName", 0);
-        itemChcekMap.put("name", Pattern.compile(".{3,4}"));
-        itemChcekMap.put("actionUrl", AutomationUtils.getCheckRules(this.actionUrlIdName));
+
         ArrayList<String> bdidList;
         for (int i = 0; i < jsonArray.size(); i++) {
             itemJsonArray = jsonArray.getJSONObject(i).getJSONArray("item");
             check(itemJsonArray.size() > 0, "预期结果:大于0, 实际结果:" + itemJsonArray.size(), "检查item");
             bdidList = new ArrayList<>();
             for (int itemIndex = 0; itemIndex < itemJsonArray.size(); itemIndex++) {
-                check(itemJsonArray.getJSONObject(itemIndex), itemChcekMap, "检查item");
+                check(itemJsonArray.getJSONObject(itemIndex), PaiHangStackRoomConfig.getCheckItemMap(this.actionUrlIdName,false), "检查item");
                 try {
                     bdidList.addAll(
                             PaiHangStackRoomConfig.analysisActionUrl(
@@ -79,6 +74,13 @@ public class Phindexys extends TestFrame {
 
     }
 
+    public String[] getName() {
+        return name;
+    }
+
+    public String getActionUrlIdName() {
+        return actionUrlIdName;
+    }
 
     Map<String, List<String>> getItemId() {
         return itemId;

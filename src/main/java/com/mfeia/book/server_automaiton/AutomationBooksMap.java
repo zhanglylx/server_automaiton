@@ -25,7 +25,7 @@ public class AutomationBooksMap implements BooksMap {
     }
 
     @Override
-    public void addBooks(Book books) {
+    public void addBook(Book book) {
         //保存book到本地
 //        if (!this.booksList.containsKey(books.getBookId())) {
 //            try {
@@ -43,7 +43,7 @@ public class AutomationBooksMap implements BooksMap {
 //                e.printStackTrace();
 //            }
 //        }
-        this.booksList.put(books.getBookId(), books);
+        this.booksList.put(book.getBookId(), book);
     }
 
 

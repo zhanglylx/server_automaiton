@@ -93,7 +93,7 @@ public abstract class TestFrame {
         if (showCount > 0) {
             if (jsonArray.size() < showCount)
                 check(false, jsonArray.size(),
-                        "检查数量是否符合要求:不符合，预期数量:"
+                        "检查数量checkJsonArrayShowCount是否符合要求:不符合，预期数量:"
                                 + showCount
                                 + "实际数量:" + jsonArray.size());
         }
@@ -287,7 +287,7 @@ public abstract class TestFrame {
                             try {
                                 actual = jsonArray.getJSONObject(i).getString(entry.getKey());
                             } catch (Exception e) {
-                                actual = entry.getKey();
+                                actual =e.toString()+"|"+ entry.getKey();
                             }
                             check(customCheckJsonArrayObject(jsonArray.get(i), i, entry.getKey(), jsonArray.size()),
                                     actual,

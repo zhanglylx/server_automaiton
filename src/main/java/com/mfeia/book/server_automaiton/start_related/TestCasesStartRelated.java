@@ -1,9 +1,13 @@
 package com.mfeia.book.server_automaiton.start_related;
 
+import com.mfeia.book.server_automaiton.UserInfoUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import net.sf.json.JSONObject;
+
+import java.util.HashMap;
+import java.util.Map;
 
 public class TestCasesStartRelated implements AddTestCases {
     @Override
@@ -25,6 +29,25 @@ public class TestCasesStartRelated implements AddTestCases {
                 )
         );
         performInspection.addtestFrameList(new CheckVersion(updateJsonObject, cnid, true, vercode), number);
+
+
+        Map<String,String> headers = new HashMap<>(AutomationUtils.getMapHeaders());
+        String newUid=UserInfoUtils.getNewUserId();
+        headers.put("uid", newUid);
+        JSONObject ginfoJson=JSONObject.fromObject(
+                AutomationUtils.doGet(StartRelatedConfig.START_RELATED_GTINFO
+                        ,"jgcid="+System.currentTimeMillis()
+                ,headers)
+        );
+        performInspection.addtestFrameList(new GtInfo(ginfoJson),number);
+
+        JSONObject newUserIgnoreChannelJson=JSONObject.fromObject(
+                AutomationUtils.doGet(StartRelatedConfig.START_RELATED_NEW_USER_IGNORE_CHANNEL
+                        ,""
+                        ,headers)
+        );
+        performInspection.addtestFrameList(new NewUserIgnoreChannel(newUserIgnoreChannelJson,"-1"),number);
+
 
     }
 }
