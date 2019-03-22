@@ -13,6 +13,8 @@ public class ErrException extends TestFrame {
         this.setCaseName(errText);
         errException(c.getName()+" : "+errText, e);
     }
+
+
     public ErrException(Class c , Object errText, Exception e) {
         this.setTag(-1);
         this.setCaseName(errText);

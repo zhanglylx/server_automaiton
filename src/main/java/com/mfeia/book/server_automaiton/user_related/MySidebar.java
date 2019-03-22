@@ -9,6 +9,7 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.UUID;
 
+
 /**
  * 侧边栏
  */
@@ -33,10 +34,10 @@ public class MySidebar extends TestFrame {
      * 检查获取新用户
      */
     private void checkGetNewUser() {
-        Map<String,String> heades =  new HashMap<>(AutomationUtils.getMapHeaders());
-        heades.put("mac", UUID.randomUUID().toString());
+        Map<String, String> heades = new HashMap<>(AutomationUtils.getMapHeaders());
+        heades.put("mac", UserInfoUtils.getNewMac());
         long userId1 = getJSONObjcetUserId(heades);
-        heades.put("mac", UUID.randomUUID().toString());
+        heades.put("mac", UserInfoUtils.getNewMac());
         long userId2 = getJSONObjcetUserId(heades);
         if (userId2 <= userId1) {
             check(false,
@@ -53,7 +54,7 @@ public class MySidebar extends TestFrame {
      * 检查获取历史用户
      */
     private void checkGetHistoryUser() {
-        Map<String,String> heades =  new HashMap<>(AutomationUtils.getMapHeaders());
+        Map<String, String> heades = new HashMap<>(AutomationUtils.getMapHeaders());
         heades.put("mac", UUID.randomUUID().toString());
         heades.put("uid", this.newUserId);
         long userId1 = getJSONObjcetUserId(heades);
@@ -63,12 +64,12 @@ public class MySidebar extends TestFrame {
     }
 
 
-    private long getJSONObjcetUserId(Map<String,String> heades) {
+    private long getJSONObjcetUserId(Map<String, String> heades) {
         return getMySidebarJSONObject(heades).getJSONObject("user").getLong("id");
     }
 
 
-    private JSONObject getMySidebarJSONObject(Map<String,String> heades) {
+    private JSONObject getMySidebarJSONObject(Map<String, String> heades) {
         return JSONObject.fromObject(
                 AutomationUtils.doGet(
                         UserInfoUtils.USER_MY_SIDEBAR, "", heades));

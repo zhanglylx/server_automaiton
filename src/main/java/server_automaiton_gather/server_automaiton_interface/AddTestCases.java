@@ -1,9 +1,10 @@
 package server_automaiton_gather.server_automaiton_interface;
 
+
 /**
  * 添加测试用例
  */
-public interface AddTestCases {
+public interface AddTestCases  {
     /**
      * 添加测试用例
      *

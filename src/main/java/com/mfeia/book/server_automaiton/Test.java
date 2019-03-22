@@ -1,5 +1,6 @@
 package com.mfeia.book.server_automaiton;
 
+import ZLYUtils.WindosUtils;
 import com.mfeia.book.server_automaiton.background_interface.TestCasesBackgroundInterface;
 import com.mfeia.book.server_automaiton.book_catalog.TestCasesCatalog;
 import com.mfeia.book.server_automaiton.book_content.TestCasesBookContent;
@@ -12,6 +13,7 @@ import com.mfeia.book.server_automaiton.paiHang_stackRoom.TestCasesPaiHangStackR
 import com.mfeia.book.server_automaiton.search.TestCasesSearch;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.server_automaiton_Utils.DBUtils;
+import server_automaiton_gather.server_automaiton_Utils.HtmlUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import com.mfeia.book.server_automaiton.shelf_related.TestCasesShelfRelated;
 import com.mfeia.book.server_automaiton.start_related.TestCasesStartRelated;
@@ -32,10 +34,11 @@ public class Test {
     private static final int BOUTIQUE_TAG = 1;//精品代码
 
     public static void main(String[] args) throws IOException {
+        String date = WindosUtils.getDate();
         try {
 //            new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG).run();
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(), 15));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
+//           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
 //            while (true) {
 //                if (AutomationUtils.getExecutorServiceActiveCount() == 0) {
 //                    System.out.println(RealizePerform.getRealizePerform().toString());
@@ -44,21 +47,21 @@ public class Test {
 //                Thread.sleep(1000);
 //            }
 //            System.out.println(AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
-//
+////
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesCatalog(), 3));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
-//////            //AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
-//
-//
-           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
-    //        AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
-
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
+//////////            //AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
 //////
+//////
+//           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
+//
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
+           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
+           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
+
 
 
             while (true) {
@@ -66,7 +69,7 @@ public class Test {
                     AutomationUtils.executorServiceShutdown();
                 }
                 if (AutomationUtils.executorServiceisTerminated()) {
-                    System.out.println(RealizePerform.getRealizePerform().toString());
+                    HtmlUtils.saveCaseToHtml(RealizePerform.getRealizePerform().getLoss(),date);
                     break;
                 }
                 Thread.sleep(1000);

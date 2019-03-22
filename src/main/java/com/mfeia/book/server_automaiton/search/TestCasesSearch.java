@@ -1,11 +1,16 @@
 package com.mfeia.book.server_automaiton.search;
 
 import ZLYUtils.HttpUtils;
+import com.mfeia.book.server_automaiton.AutomationBooksMap;
+import com.mfeia.book.server_automaiton.Book;
 import com.mysql.cj.xdevapi.JsonArray;
 import net.sf.json.JSONObject;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
+import server_automaiton_gather.server_automaiton_interface.BooksMapCirculationCallBack;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
+
+import java.util.UUID;
 
 public class TestCasesSearch implements AddTestCases {
     @Override
@@ -36,30 +41,55 @@ public class TestCasesSearch implements AddTestCases {
                 , 20, new Morebdbooks(), false), number);
 
 
-        /*
-        搜索查询词
-         */
-        String keyword = AutomationUtils.getServerAutomaitonProperties(SearchConfig.SERACH_TERM);
-        JSONObject searchassociationwords = JSONObject.fromObject(
-                AutomationUtils.doGet(
-                        SearchConfig.SERACK_SEARCHASSOCIATIONWORDS, "keyword=" + keyword));
-        performInspection.addtestFrameList(new Searchassociationwords(searchassociationwords, keyword), number);
+        AutomationBooksMap.getAutomationBooksMap().booksMapCirculation(new BooksMapCirculationCallBack() {
+            @Override
+            public void bookCirculation(Book book, double circulationNumber) throws Exception {
 
-        /*
-        搜索结果
-         */
-        String host = AutomationUtils.getServerAutomaitonProperties(AutomationUtils.getHost());
-        String path = HttpUtils.getURI(
-                AutomationUtils.getServerAutomaitonProperties(SearchConfig.SERACK_SEARCHRESULT),
-                "keyword=" + keyword + "&pageNo=1" +
-                        "&version=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.VERCODE)).toString();
-        JSONObject searchResult = JSONObject.fromObject(
-                AutomationUtils.doPost(host, path, null, null)
-        );
-        performInspection.addtestFrameList(new SearchResult(searchResult,keyword),number);
-        performInspection.addtestFrameList(new SearchBooksCheck(
-                searchResult.getJSONArray("list")
-                , 20, new SearchResult(), true), number);
+                /*
+               搜索查询词
+                */
+                String keyword = book.getBookName();
+                String caseName = "["+keyword+"] "+book.getBookId();
+                JSONObject searchassociationwords = JSONObject.fromObject(
+                        AutomationUtils.doGet(
+                                SearchConfig.SERACK_SEARCHASSOCIATIONWORDS, "keyword=" + keyword));
+                performInspection.addtestFrameList(
+                        new Searchassociationwords(searchassociationwords, keyword).setCaseName(caseName), number);
+                  /*
+                   搜索结果
+                  */
+                String host = AutomationUtils.getServerAutomaitonProperties(AutomationUtils.getHost());
+                String path = HttpUtils.getURI(
+                        AutomationUtils.getServerAutomaitonProperties(SearchConfig.SERACK_SEARCHRESULT),
+                        "keyword=" + keyword + "&pageNo=1" +
+                                "&version=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.VERCODE)).toString();
+
+                JSONObject searchResult = JSONObject.fromObject(
+                        AutomationUtils.doPost(host, path, null, null)
+                );
+                performInspection.addtestFrameList(new SearchResult(searchResult, keyword).setCaseName(caseName), number);
+                performInspection.addtestFrameList(new SearchBooksCheck(
+                        searchResult.getJSONArray("list")
+                        , 20, new SearchResult(), true).setCaseName(caseName), number);
+            }
+        });
+
+//          暂时先不用
+//        /**
+//         * 执行无结果查询词
+//         * keyword使用时间戳加随机中文字符
+//         */
+//        String host = AutomationUtils.getServerAutomaitonProperties(AutomationUtils.getHost());
+//        String path = HttpUtils.getURI(
+//                AutomationUtils.getServerAutomaitonProperties(SearchConfig.SERACK_SEARCHRESULT),
+//                "keyword=" + System.currentTimeMillis() + "&pageNo=1" +
+//                        "&version=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.VERCODE)).toString();
+//        JSONObject ineffectivenessSearchResult = JSONObject.fromObject(
+//                AutomationUtils.doPost(host, path, null, null)
+//
+//        );
+//
+//        performInspection.addtestFrameList(new SearchResult(ineffectivenessSearchResult).setCaseName("搜索无结果检查"), number);
 
     }
 }

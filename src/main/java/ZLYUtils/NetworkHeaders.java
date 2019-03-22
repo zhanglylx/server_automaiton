@@ -9,7 +9,6 @@ import java.util.Map;
  * 消息头类型
  */
 public class NetworkHeaders {
-    private static NetworkHeaders networkHeaders;
     private Map<String,List<String>> headers;
 
     public int getResponseCode() {
@@ -21,6 +20,7 @@ public class NetworkHeaders {
     }
 
     private int responseCode;
+
     public NetworkHeaders(){
         this.headers = new HashMap<>();
         this.responseCode = -1;

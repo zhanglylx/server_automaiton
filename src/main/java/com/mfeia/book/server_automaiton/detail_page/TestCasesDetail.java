@@ -22,16 +22,16 @@ public class TestCasesDetail implements AddTestCases {
         for (Map.Entry<Long, Book> booksEntry :
                 AutomationBooksMap.getAutomationBooksMap().getBooksListMap().entrySet()) {
             number = DoubleOperation.add(number, 0.00001);
+            JSONObject jsonObject = JSONObject.fromObject(AutomationUtils.doGet(
+                    DetailPageConfig.DETAIL_PAGE_BOOK_DETAIL_YS, "bookid=" + booksEntry.getKey()));
             try {
                 performInspection.addtestFrameList(
-                        new Detail(JSONObject.fromObject(AutomationUtils.doGet(
-                                DetailPageConfig.DETAIL_PAGE_BOOK_DETAIL_YS, "bookid=" + booksEntry.getKey()
-                        )), number, booksEntry.getValue()),
+                        new Detail(jsonObject, number, booksEntry.getValue()),
                         number
                 );
             } catch (Exception e) {
                 performInspection.addtestFrameList(
-                        new ErrException(TestCasesDetail.class, booksEntry.getKey(), e, number), number
+                        new ErrException(TestCasesDetail.class, booksEntry.getKey()+":"+jsonObject, e, number), number
                 );
             }
         }

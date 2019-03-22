@@ -10,7 +10,9 @@ import java.util.Map;
  */
 public interface PerformInspection {
     Map<Double, List<TestFrame>> checkResult();
-
+    int getSucceedBranches();
+    int getFailureBranches();
     void addtestFrameList(final TestFrame testFrame, double number);
     void addtestFrameList(final TestFrame testFrame);
+    Map<String,List<String>> getLoss();
 }

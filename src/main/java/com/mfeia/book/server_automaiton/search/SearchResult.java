@@ -21,21 +21,36 @@ public class SearchResult extends TestFrame {
         this.keyword = keyword;
     }
 
+    SearchResult(JSONObject jsonObject) {
+        super(jsonObject, jsonObject.getJSONArray("list"));
+        this.keyword = null;
+    }
+
+
     @Override
     public void settingJsonMap(Map<String, Object> jsonMap) {
         jsonMap.put("code", 0);
-        jsonMap.put("count", Pattern.compile("[1-9]\\d*"));
-        jsonMap.put("pageCount", Pattern.compile("[1-9]\\d*"));
+        if (null == this.keyword) {
+            jsonMap.put("count", 0);
+            jsonMap.put("pageCount", 0);
+        } else {
+            jsonMap.put("count", Pattern.compile("[1-9]\\d*"));
+            jsonMap.put("pageCount", Pattern.compile("[1-9]\\d*"));
+        }
+
     }
 
     @Override
     public void settingJsonArrayMap(Map<String, Object> jsonArrayMap) {
-        jsonArrayMap.put("name",null);
+        if (null != this.keyword) {
+            jsonArrayMap.put("name", null);
+        }
+
     }
 
     @Override
     public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
-        if(index==0)return this.keyword;
+        if (index == 0 && null != this.keyword) return this.keyword;
         return true;
     }
 

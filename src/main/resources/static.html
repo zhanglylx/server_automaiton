@@ -1,0 +1,32 @@
+<!DOCTYPE html PUBLIC "-//W3C//DTD HTML 4.01 Transitional//EN" "http://www.w3.org/TR/html4/loose.dtd">
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <title>Insert title here</title>
+</head>
+<body>
+
+描述：${description}
+<br/>
+共成功:${succeedBranches}
+<br/>
+共失败:<label style="color:red">${failureBranches}</label>
+<br/>
+迭代执行结果集合：
+<br/>
+<#list weaponMap?keys as key>
+    ${key}
+    <br/>
+        <#assign item = weaponMap[key]>
+        <#list item as itemValue>
+            <#if (itemValue?ends_with("false"))>
+                <label style="color:red">${itemValue}</label>
+            <#else>
+                <label style="color:green">${itemValue}</label>
+            </#if>
+            <br/>
+        </#list>
+</#list>
+<br/>
+</body>
+</html>

@@ -48,7 +48,7 @@ public class AutomationUtils {
     public static final String TAG_NAME = "tagName";
     public static final String NEW_RANK_LIST_BDID = "cxNewRankListBDID";
     public static final String NEW_CATE_LIST_FIND = "catelistnewFIND";
-    public static final String SHU_KU_IMG="shuKuImg";
+    public static final String SHU_KU_IMG = "shuKuImg";
     private static Properties properties;
     private static ThreadPoolExecutor executorService;
 
@@ -83,15 +83,15 @@ public class AutomationUtils {
         checkRules.put(BOOK_NAME, Pattern.compile(".+"));
         checkRules.put(BOOK_INTRO, Pattern.compile(".*"));
         checkRules.put(BOOK_AUTHOR_NAME, Pattern.compile(".+"));
-        checkRules.put(BOOK_WORD_COUNT, Pattern.compile("\\d+\\.\\d万字"));
+        checkRules.put(BOOK_WORD_COUNT, Pattern.compile("[0-9]\\d*\\.?\\d*万?字"));
         checkRules.put(BOOK_CATEGORY_COLOR, Pattern.compile("#[0-9a-zA-Z]{5,10}"));
         checkRules.put(BOOK_CATEGORY_NAME, Pattern.compile(".+"));
         checkRules.put(BOOK_DETAIL_AD_URL,
                 Pattern.compile("http://cx\\.ikanshu\\.cn/cx/bookdetail\\?bookid=\\d{1,13}\\$parmurl"));
         checkRules.put(TAG_IMG_URL,
-                Pattern.compile("http://imgs\\.ikanshu\\.cn/cx/endimgs/[0-9a-zA-Z]{1,70}\\.((jpg)|(png))"));
+                Pattern.compile("http://images-pro\\.cread\\.com/cx/endimgs/[0-9a-zA-Z]{1,70}\\.((jpg)|(png))"));
         checkRules.put(AD_IMG_URL,
-                Pattern.compile("http://imgs\\.ikanshu\\.cn/cx/endimgs/[0-9a-zA-Z]{1,70}\\.((jpg)|(png))"));
+                Pattern.compile("http://images-pro\\.cread\\.com/cx/endimgs/[0-9a-zA-Z]{1,70}\\.((jpg)|(png))"));
         checkRules.put(TAG_URL_DETAIL, Pattern.compile("http://cx\\.ikanshu\\.cn/cx/bookdetail\\?bookid=\\d{1,13}\\$parmurl"));
         checkRules.put(RANK_LIST_AD_URL,
                 Pattern.compile("http://cx\\.ikanshu\\.cn/cx/ranklist.*\\?bdid=\\d+\\$parmurl"));
@@ -121,7 +121,7 @@ public class AutomationUtils {
 
     public static String getServerAutomaitonProperties(String key) {
         String values = null;
-        key=key.trim();
+        key = key.trim();
         try {
             values = properties.getProperty(key).trim();
         } catch (Exception e) {
@@ -185,7 +185,7 @@ public class AutomationUtils {
                     networkHeaders);
         } finally {
             if (networkHeaders.getResponseCode() != 200)
-                System.out.println(HttpUtils.getURI(getUrl(host, path), querys));
+                System.out.println("Get : " + HttpUtils.getURI(getUrl(host, path), querys));
         }
     }
 
@@ -216,7 +216,7 @@ public class AutomationUtils {
                     headers, networkHeaders);
         } finally {
             if (networkHeaders.getResponseCode() != 200)
-                System.out.println(path);
+                System.out.println("Post : " + path);
         }
     }
 

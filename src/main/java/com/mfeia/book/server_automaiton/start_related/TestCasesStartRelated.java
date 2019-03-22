@@ -46,8 +46,16 @@ public class TestCasesStartRelated implements AddTestCases {
                         ,""
                         ,headers)
         );
-        performInspection.addtestFrameList(new NewUserIgnoreChannel(newUserIgnoreChannelJson,"-1"),number);
+        performInspection.addtestFrameList(new NewUserIgnoreChannel(newUserIgnoreChannelJson,newUid),number);
 
+        newUid="-1";
+        headers.put("uid", newUid);
+        newUserIgnoreChannelJson=JSONObject.fromObject(
+                AutomationUtils.doGet(StartRelatedConfig.START_RELATED_NEW_USER_IGNORE_CHANNEL
+                        ,""
+                        ,headers)
+        );
+        performInspection.addtestFrameList(new NewUserIgnoreChannel(newUserIgnoreChannelJson,newUid),number);
 
     }
 }

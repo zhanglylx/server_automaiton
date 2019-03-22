@@ -25,7 +25,6 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
         Phindexys phindexys = new Phindexys(paiHangJson);
         phindexys.setTag(number);
         //需要执行对象，因为执行后可以获取到ItemId
-        phindexys.stratCheck();
         performInspection.addtestFrameList(phindexys, number);
         final String userId = UserInfoUtils.getHistoryUserId();
         /*
@@ -63,7 +62,6 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
         );
         StackRoom stackRoom = new StackRoom(stackRoomJson);
         stackRoom.setTag(number);
-        stackRoom.stratCheck();
         performInspection.addtestFrameList(stackRoom, number);
         //免追书库
         JSONObject catelogueJson = JSONObject.fromObject(

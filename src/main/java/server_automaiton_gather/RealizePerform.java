@@ -1,5 +1,6 @@
 package server_automaiton_gather;
 
+import server_automaiton_gather.server_automaiton_Utils.HtmlUtils;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 
 import java.util.*;
@@ -11,12 +12,14 @@ public class RealizePerform implements PerformInspection {
     private Map<Double, List<TestFrame>> testFrameList;
     private final static RealizePerform realizePerform = new RealizePerform();
     private int defaultNumber = -1;
+    private int succeedBranches = 0;
+    private int failureBranches = 0;
 
     private RealizePerform() {
         this.testFrameList = Collections.synchronizedMap(new TreeMap<>());
     }
 
-    public  static RealizePerform getRealizePerform() {
+    public static RealizePerform getRealizePerform() {
 //        if (realizePerform == null) {
 //            synchronized (RealizePerform.class) {
 //                if (realizePerform == null) {
@@ -44,7 +47,14 @@ public class RealizePerform implements PerformInspection {
                 list.add(testFrame);
                 this.testFrameList.put(number, list);
             }
+            if (testFrame.setTag(number).stratCheck().checkCaseResult()) {
+                this.succeedBranches++;
+            } else {
+                this.failureBranches++;
+            }
+
         }
+
     }
 
     @Override
@@ -60,11 +70,47 @@ public class RealizePerform implements PerformInspection {
         }
     }
 
+    @Override
+    public int getSucceedBranches() {
+        return this.succeedBranches;
+    }
+
+    @Override
+    public int getFailureBranches() {
+        return this.failureBranches;
+    }
+
+
+    public Map<String, List<String>> getLoss() {
+        StringBuilder stringBuilder = new StringBuilder();
+        Map<String, List<String>> html = new TreeMap<>();
+        synchronized (this) {
+            Map.Entry<Double, List<TestFrame>> mapEntry;
+            List<String> list;
+            for (Iterator<Map.Entry<Double, List<TestFrame>>> iterator =
+                 this.testFrameList.entrySet().iterator();
+                 iterator.hasNext(); ) {
+                mapEntry = iterator.next();
+                stringBuilder.append(mapEntry.getKey());
+                stringBuilder.append("\n");
+                list = new ArrayList<>();
+                for (TestFrame testFrame : mapEntry.getValue()) {
+                    stringBuilder.append(testFrame.toString());
+                    stringBuilder.append("\n");
+                    list.add(testFrame.toString());
+                }
+                html.put(String.valueOf(mapEntry.getKey()), list);
+            }
+        }
+
+        return html;
+    }
 
     public String toString() {
         StringBuilder stringBuilder = new StringBuilder();
         synchronized (this) {
             Map.Entry<Double, List<TestFrame>> mapEntry;
+            List<String> list;
             for (Iterator<Map.Entry<Double, List<TestFrame>>> iterator =
                  this.testFrameList.entrySet().iterator();
                  iterator.hasNext(); ) {
@@ -72,18 +118,14 @@ public class RealizePerform implements PerformInspection {
                 stringBuilder.append(mapEntry.getKey());
                 stringBuilder.append("\n");
                 for (TestFrame testFrame : mapEntry.getValue()) {
-                    stringBuilder.append(testFrame
-                            .setTag(mapEntry.getKey())
-                            .stratCheck()
-                            .toString());
+                    stringBuilder.append(testFrame.toString());
                     stringBuilder.append("\n");
                 }
-                iterator.remove();
             }
-
-
         }
+
         return stringBuilder.toString();
     }
+
 
 }

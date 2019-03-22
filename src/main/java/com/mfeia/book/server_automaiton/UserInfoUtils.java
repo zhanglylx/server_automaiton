@@ -58,9 +58,13 @@ public class UserInfoUtils {
     public static JSONObject getUserJSONbject(String tel) {
         Map<String, String> map = new HashMap<>();
         map.put("tel", tel);
-        map.put("mac", UUID.randomUUID().toString());
+        map.put("mac",UUID.randomUUID().toString());
         String str =
                 AutomationUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_USER, map);
         return JSONObject.fromObject(str);
+    }
+
+    public static String getNewMac(){
+        return  "ikanshu-test-"+UUID.randomUUID().toString()+System.currentTimeMillis();
     }
 }
