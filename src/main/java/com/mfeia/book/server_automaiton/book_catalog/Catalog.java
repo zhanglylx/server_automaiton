@@ -18,7 +18,7 @@ public class Catalog extends TestFrame {
 
     public Catalog(JSONObject jsonObject, JSONArray jsonArray, double number, Book books) {
         super(jsonObject, jsonArray);
-        this.setCaseName("目录:" + books.getBookId() + ":" + number);
+        this.setCaseName("目录:" + books + ":" + number);
     }
 
 

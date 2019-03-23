@@ -3,6 +3,7 @@ package com.mfeia.book.server_automaiton.jenkins_build;
 import ZLYUtils.DoubleOperation;
 import com.mfeia.book.server_automaiton.*;
 import com.mfeia.book.server_automaiton.book_content.TestCasesBookContent;
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import server_automaiton_gather.server_automaiton_interface.BooksMapCirculationCallBack;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
@@ -20,7 +21,7 @@ public class TestCasesJenkinsBuild implements AddTestCases {
                     circulationNumber = DoubleOperation.add(circulationNumber, number);
                     String cnid = AutomationUtils.getServerAutomaitonProperties(
                             AutomationUtils.CNID);
-                    String s = AutomationUtils.doGet(
+                    String s = AutoHttpUtils.doGet(
                             JenkinsBuildConfig.JENKINS_PACKAGE_BOOK_INFO,
                             "bookId=" + book.getBookId() + "&cnid=" +
                                     cnid
@@ -36,7 +37,7 @@ public class TestCasesJenkinsBuild implements AddTestCases {
                             JenkinsBuildConfig.JENKINS_GET_CHAPTER
                     );
                     jsonObject = JSONObject.fromObject(
-                            AutomationUtils.doGet(host, path, "cnid=" + cnid +
+                            AutoHttpUtils.doGet(host, path, "cnid=" + cnid +
                                     "&bookid=" + packageBookInfo.getBook().getBookId() +
                                     "&chapterid=" + packageBookInfo.getmFirstChapter())
                     );

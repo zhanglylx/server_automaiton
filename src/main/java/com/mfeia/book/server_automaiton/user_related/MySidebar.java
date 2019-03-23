@@ -1,5 +1,6 @@
 package com.mfeia.book.server_automaiton.user_related;
 
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.TestFrame;
 import com.mfeia.book.server_automaiton.UserInfoUtils;
@@ -34,7 +35,7 @@ public class MySidebar extends TestFrame {
      * 检查获取新用户
      */
     private void checkGetNewUser() {
-        Map<String, String> heades = new HashMap<>(AutomationUtils.getMapHeaders());
+        Map<String, String> heades = new HashMap<>(AutoHttpUtils.getMapHeaders());
         heades.put("mac", UserInfoUtils.getNewMac());
         long userId1 = getJSONObjcetUserId(heades);
         heades.put("mac", UserInfoUtils.getNewMac());
@@ -54,7 +55,7 @@ public class MySidebar extends TestFrame {
      * 检查获取历史用户
      */
     private void checkGetHistoryUser() {
-        Map<String, String> heades = new HashMap<>(AutomationUtils.getMapHeaders());
+        Map<String, String> heades = new HashMap<>(AutoHttpUtils.getMapHeaders());
         heades.put("mac", UUID.randomUUID().toString());
         heades.put("uid", this.newUserId);
         long userId1 = getJSONObjcetUserId(heades);
@@ -71,7 +72,7 @@ public class MySidebar extends TestFrame {
 
     private JSONObject getMySidebarJSONObject(Map<String, String> heades) {
         return JSONObject.fromObject(
-                AutomationUtils.doGet(
+                AutoHttpUtils.doGet(
                         UserInfoUtils.USER_MY_SIDEBAR, "", heades));
 
     }

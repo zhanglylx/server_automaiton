@@ -5,6 +5,7 @@ import ZLYUtils.DoubleOperation;
 import com.mfeia.book.server_automaiton.UserInfoUtils;
 import net.sf.json.JSONObject;
 import server_automaiton_gather.ErrException;
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
@@ -20,7 +21,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
     @Override
     public void additionTestCases(PerformInspection performInspection, double number) throws Exception {
         JSONObject paiHangJson = JSONObject.fromObject(
-                AutomationUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_PHINDEXYS, "")
+                AutoHttpUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_PHINDEXYS, "")
         );
         Phindexys phindexys = new Phindexys(paiHangJson);
         phindexys.setTag(number);
@@ -44,7 +45,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
                                 + "&name=" + name
                                 + "&index=1&pageSize=20&curpage=1";
                         JSONObject jsonObject = JSONObject.fromObject(
-                                AutomationUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_NEWRANKLIST, query)
+                                AutoHttpUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_NEWRANKLIST, query)
                         );
                         double pow = Math.pow(10, integer.trim().length());
                         performInspection.addtestFrameList(new NewRankList(jsonObject), DoubleOperation.add(number, DoubleOperation.div(Integer.parseInt(integer), pow)));
@@ -58,14 +59,14 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
     执行书库
      */
         JSONObject stackRoomJson = JSONObject.fromObject(
-                AutomationUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_FINDEXYS, "")
+                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_FINDEXYS, "")
         );
         StackRoom stackRoom = new StackRoom(stackRoomJson);
         stackRoom.setTag(number);
         performInspection.addtestFrameList(stackRoom, number);
         //免追书库
         JSONObject catelogueJson = JSONObject.fromObject(
-                AutomationUtils.doGet(PaiHangStackRoomConfig.STATCK_ROOM_MZ_CATELOGUE, "")
+                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STATCK_ROOM_MZ_CATELOGUE, "")
         );
         performInspection.addtestFrameList(new Catelogue(catelogueJson), number);
 
@@ -87,7 +88,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
                                     + "&name=" + name
                                     + "&thitdCateId=0&pageSize=20&curpage=1&bookStatus=0&sortType=0";
                             JSONObject jsonObject = JSONObject.fromObject(
-                                    AutomationUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_CATELISTNEW, query)
+                                    AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_CATELISTNEW, query)
                             );
                             double pow = Math.pow(10, integer.trim().length());
                             CateListNew cateListNew = new CateListNew(jsonObject, "flid=" + integer + "&name=" + name + "&thitdCateId=0&pageSize=20&curpage=1&bookStatus=0&sortType=0");
@@ -118,7 +119,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
                                                 "&bookStatus=" + bookStatu +
                                                 "&sortType=" + shrtTypeNumber;
                                         jsonObject = JSONObject.fromObject(
-                                                AutomationUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_CATELISTNEW,
+                                                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_CATELISTNEW,
                                                         query)
                                         );
                                         pow = Math.pow(10, integer.trim().length());

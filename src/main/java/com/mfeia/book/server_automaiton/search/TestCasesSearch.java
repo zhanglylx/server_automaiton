@@ -5,6 +5,7 @@ import com.mfeia.book.server_automaiton.AutomationBooksMap;
 import com.mfeia.book.server_automaiton.Book;
 import com.mysql.cj.xdevapi.JsonArray;
 import net.sf.json.JSONObject;
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import server_automaiton_gather.server_automaiton_interface.BooksMapCirculationCallBack;
@@ -20,7 +21,7 @@ public class TestCasesSearch implements AddTestCases {
         搜索首页
          */
         JSONObject searchHomePageJson = JSONObject.fromObject(
-                AutomationUtils.doGet(
+                AutoHttpUtils.doGet(
                         SearchConfig.SERACH_HOME_PAGE, ""));
         performInspection.addtestFrameList(new SearchHomePage(searchHomePageJson), number);
         performInspection.addtestFrameList(
@@ -33,7 +34,7 @@ public class TestCasesSearch implements AddTestCases {
         搜索更多
          */
         JSONObject morebdbooks = JSONObject.fromObject(
-                AutomationUtils.doGet(
+                AutoHttpUtils.doGet(
                         SearchConfig.SERACH_MOREBDBOOKS, "bdId=21&pageNo=1"));
         performInspection.addtestFrameList(new Morebdbooks(morebdbooks), number);
         performInspection.addtestFrameList(new SearchBooksCheck(
@@ -51,7 +52,7 @@ public class TestCasesSearch implements AddTestCases {
                 String keyword = book.getBookName();
                 String caseName = "["+keyword+"] "+book.getBookId();
                 JSONObject searchassociationwords = JSONObject.fromObject(
-                        AutomationUtils.doGet(
+                        AutoHttpUtils.doGet(
                                 SearchConfig.SERACK_SEARCHASSOCIATIONWORDS, "keyword=" + keyword));
                 performInspection.addtestFrameList(
                         new Searchassociationwords(searchassociationwords, keyword).setCaseName(caseName), number);
@@ -65,12 +66,12 @@ public class TestCasesSearch implements AddTestCases {
                                 "&version=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.VERCODE)).toString();
 
                 JSONObject searchResult = JSONObject.fromObject(
-                        AutomationUtils.doPost(host, path, null, null)
+                        AutoHttpUtils.doPost(host, path, null, null)
                 );
                 performInspection.addtestFrameList(new SearchResult(searchResult, keyword).setCaseName(caseName), number);
                 performInspection.addtestFrameList(new SearchBooksCheck(
                         searchResult.getJSONArray("list")
-                        , 20, new SearchResult(), true).setCaseName(caseName), number);
+                        , 2, new SearchResult(), true).setCaseName(caseName), number);
             }
         });
 
@@ -85,7 +86,7 @@ public class TestCasesSearch implements AddTestCases {
 //                "keyword=" + System.currentTimeMillis() + "&pageNo=1" +
 //                        "&version=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.VERCODE)).toString();
 //        JSONObject ineffectivenessSearchResult = JSONObject.fromObject(
-//                AutomationUtils.doPost(host, path, null, null)
+//                AutoHttpUtils.doPost(host, path, null, null)
 //
 //        );
 //

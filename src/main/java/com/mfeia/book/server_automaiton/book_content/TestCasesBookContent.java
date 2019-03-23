@@ -2,6 +2,7 @@ package com.mfeia.book.server_automaiton.book_content;
 
 import ZLYUtils.DoubleOperation;
 import com.mfeia.book.server_automaiton.*;
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
@@ -13,7 +14,7 @@ import java.util.*;
 public class TestCasesBookContent implements AddTestCases {
     @Override
     public void additionTestCases(final PerformInspection performInspection, double number) throws InterruptedException {
-        JSONObject jsonObject = JSONObject.fromObject(AutomationUtils.doGet(
+        JSONObject jsonObject = JSONObject.fromObject(AutoHttpUtils.doGet(
                 BookContentConfig.BOOK_CONTENT_SUB_SIDY_MESSAGE, ""
         ));
         performInspection.addtestFrameList(
@@ -27,7 +28,7 @@ public class TestCasesBookContent implements AddTestCases {
             number = DoubleOperation.add(number, 0.00001);
             books = iterator.next().getValue();
             try {
-                jsonObject = JSONObject.fromObject(AutomationUtils.doGet(
+                jsonObject = JSONObject.fromObject(AutoHttpUtils.doGet(
                         BookContentConfig.BOOK_CONTEN_CHAPTER_READ, "full=0&chapterId=0&bookId=" + books.getBookId()
                 ));
                 performInspection.addtestFrameList(
@@ -37,8 +38,8 @@ public class TestCasesBookContent implements AddTestCases {
                 AutomationUtils.addExecute(new Runnable() {
                     @Override
                     public void run() {
-                        JSONObject jsonObject = JSONObject.fromObject(AutomationUtils.doPost(
-                                BookContentConfig.BOOK_CONTEN_RECOMMEND, AutomationUtils.getPostMap(bookRecommend)
+                        JSONObject jsonObject = JSONObject.fromObject(AutoHttpUtils.doPost(
+                                BookContentConfig.BOOK_CONTEN_RECOMMEND, AutoHttpUtils.getPostMap(bookRecommend)
                         ));
                         performInspection.addtestFrameList(
                                 new Recommend(jsonObject, bookRecommend, numberRecommend), numberRecommend

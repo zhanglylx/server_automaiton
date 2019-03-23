@@ -5,6 +5,7 @@ import com.mfeia.book.server_automaiton.user_related.MySidebar;
 import net.sf.json.JSONObject;
 import server_automaiton_gather.ErrException;
 import server_automaiton_gather.RealizePerform;
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 
 import java.util.HashMap;
@@ -60,7 +61,7 @@ public class UserInfoUtils {
         map.put("tel", tel);
         map.put("mac",UUID.randomUUID().toString());
         String str =
-                AutomationUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_USER, map);
+                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_USER, map);
         return JSONObject.fromObject(str);
     }
 

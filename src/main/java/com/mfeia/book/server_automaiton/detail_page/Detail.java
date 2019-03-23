@@ -16,9 +16,9 @@ import java.util.regex.Pattern;
 public class Detail extends TestFrame {
 
     public Detail(JSONObject jsonObject, double number, final Book books) {
-        super("详情页:" + books.getBookId(), jsonObject.getJSONObject("data"),
+        super("详情页:" + books, jsonObject.getJSONObject("data"),
                 jsonObject.getJSONObject("data").getJSONArray("everyoneLookBookList"),
-                3 * 3);
+                4);
         this.setTag(number);
         Map<String, Object> map = new HashMap<>();
         map.put("code", "SUCCESS");

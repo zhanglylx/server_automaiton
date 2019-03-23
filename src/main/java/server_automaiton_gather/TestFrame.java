@@ -140,7 +140,7 @@ public abstract class TestFrame {
      * @param testCase 测试用例名称
      */
     private void check(String expected, String str2, String testCase) {
-        errException(expected.equals(str2.trim()), testCase);
+        errException(expected.equals(str2), testCase);
     }
 
     private void check(JSONObject jsonObject, Map<String, Object> map, String testCaseName) {

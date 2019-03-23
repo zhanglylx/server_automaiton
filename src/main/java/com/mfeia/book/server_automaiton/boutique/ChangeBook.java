@@ -1,5 +1,6 @@
 package com.mfeia.book.server_automaiton.boutique;
 
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.TestFrame;
 import net.sf.json.JSONObject;
@@ -62,7 +63,7 @@ public class ChangeBook extends RoofNewExpress {
         for (int i = 1; i < 50; i++) {
             this.setCaseName("for_" + i);
             jsonObject = JSONObject.fromObject(
-                    AutomationUtils.doGet(path,
+                    AutoHttpUtils.doGet(path,
                             IterativeParameter != null ?
                                     query + "&" + IterativeParameter + "=" + i
                                     : query

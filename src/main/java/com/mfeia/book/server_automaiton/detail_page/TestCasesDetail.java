@@ -3,6 +3,7 @@ package com.mfeia.book.server_automaiton.detail_page;
 
 import ZLYUtils.DoubleOperation;
 import com.mfeia.book.server_automaiton.*;
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
@@ -22,7 +23,7 @@ public class TestCasesDetail implements AddTestCases {
         for (Map.Entry<Long, Book> booksEntry :
                 AutomationBooksMap.getAutomationBooksMap().getBooksListMap().entrySet()) {
             number = DoubleOperation.add(number, 0.00001);
-            JSONObject jsonObject = JSONObject.fromObject(AutomationUtils.doGet(
+            JSONObject jsonObject = JSONObject.fromObject(AutoHttpUtils.doGet(
                     DetailPageConfig.DETAIL_PAGE_BOOK_DETAIL_YS, "bookid=" + booksEntry.getKey()));
             try {
                 performInspection.addtestFrameList(

@@ -15,7 +15,7 @@ import java.util.Map;
 public class ChapterRead extends TestFrame {
 
     public ChapterRead(JSONObject jsonObject, Book books, double number) {
-        super(String.valueOf(books.getBookId()) + ":" + number,
+        super(books + ":" + number,
                 jsonObject,
                 jsonObject.getJSONArray("chapterList"),
                 2);

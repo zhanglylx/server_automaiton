@@ -1,6 +1,7 @@
 package com.mfeia.book.server_automaiton.make_money;
 
 import com.mfeia.book.server_automaiton.*;
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
@@ -32,7 +33,7 @@ public class TestCasesMakeMoney implements AddTestCases {
 
         //领取任务taskId
         JSONObject jsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(MakeMoneyConfig.MAKE_MONEY_RECEIVE_TASK_OR_REWARD,
+                AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_RECEIVE_TASK_OR_REWARD,
                         "taskid=" + listEarnIntegralByHd.getTaskId() +
                                 "&uid=" + newUserId +
                                 "&status=0" +
@@ -46,7 +47,7 @@ public class TestCasesMakeMoney implements AddTestCases {
 
         //通知服务端激活任务
         jsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(MakeMoneyConfig.MAKE_MONEY_TASK_STATUS_UPDATE,
+                AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_TASK_STATUS_UPDATE,
                         "id=" + receiveTaskOrReward.getMyTaskId() +
                                 "&uid=" + newUserId +
                                 "&status=1")
@@ -55,7 +56,7 @@ public class TestCasesMakeMoney implements AddTestCases {
 
         //通知服务端完成任务
         jsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(MakeMoneyConfig.MAKE_MONEY_TASK_STATUS_UPDATE,
+                AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_TASK_STATUS_UPDATE,
                         "id=" + receiveTaskOrReward.getMyTaskId() +
                                 "&uid=" + newUserId +
                                 "&status=2")
@@ -65,7 +66,7 @@ public class TestCasesMakeMoney implements AddTestCases {
 
         //领取任务奖励
         jsonObject = JSONObject.fromObject(
-                AutomationUtils.doGet(MakeMoneyConfig.MAKE_MONEY_RECEIVE_TASK_OR_REWARD,
+                AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_RECEIVE_TASK_OR_REWARD,
                         "taskid=" + listEarnIntegralByHd.getTaskId() +
                                 "&uid=" + newUserId +
                                 "&status=2" +
@@ -135,7 +136,7 @@ public class TestCasesMakeMoney implements AddTestCases {
 
     private JSONObject getListEarnIntegralByHdJSONObject(String newUserId) {
         return JSONObject.fromObject(
-                AutomationUtils.doGet(MakeMoneyConfig.MAKE_MONEY_LIST_EARN_INTERGRAL_BY_HD,
+                AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_LIST_EARN_INTERGRAL_BY_HD,
                         "cnid=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.CNID) +
                                 "&uid=" + newUserId +
                                 "&updatetime=0")

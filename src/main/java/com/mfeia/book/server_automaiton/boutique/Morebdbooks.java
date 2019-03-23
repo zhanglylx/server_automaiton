@@ -1,5 +1,6 @@
 package com.mfeia.book.server_automaiton.boutique;
 
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.TestFrame;
 import net.sf.json.JSONObject;
@@ -20,7 +21,7 @@ public class Morebdbooks extends RoofNewExpress {
             this.id = roofFlagOne.getJsonObject().getInt("id");
             this.setJsonObject(
                     JSONObject.fromObject(
-                            AutomationUtils.doGet(
+                            AutoHttpUtils.doGet(
                                     BoutiqueConfig.BOUTIQUE_MOREBD_BOOKS,
                                     "bdId=" + id +
                                             "&pageNo=1")

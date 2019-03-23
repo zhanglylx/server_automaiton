@@ -1,6 +1,9 @@
 package ZLYUtils;
 
 
+import org.apache.http.client.methods.HttpRequestBase;
+
+import java.net.URI;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -11,6 +14,24 @@ import java.util.Map;
 public class NetworkHeaders {
     private Map<String,List<String>> headers;
 
+    public long getResponseTime() {
+        return responseTime;
+    }
+
+    public HttpRequestBase getHttpRequestBase() {
+        return httpRequestBase;
+    }
+
+     void setHttpRequestBase(HttpRequestBase httpRequestBase) {
+        this.httpRequestBase = httpRequestBase;
+    }
+
+    private HttpRequestBase httpRequestBase;
+    void setResponseTime(long responseTime) {
+        this.responseTime = responseTime;
+    }
+
+    private long responseTime;
     public int getResponseCode() {
         return responseCode;
     }

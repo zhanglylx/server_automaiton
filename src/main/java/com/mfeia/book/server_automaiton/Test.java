@@ -39,13 +39,6 @@ public class Test {
 //            new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG).run();
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(), 15));
 //           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
-//            while (true) {
-//                if (AutomationUtils.getExecutorServiceActiveCount() == 0) {
-//                    System.out.println(RealizePerform.getRealizePerform().toString());
-//                    break;
-//                }
-//                Thread.sleep(1000);
-//            }
 //            System.out.println(AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
 ////
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
@@ -56,11 +49,11 @@ public class Test {
 //////
 //           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
-//
+////
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
-           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
+//           AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
 
 
 

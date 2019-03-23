@@ -1,5 +1,6 @@
 package com.mfeia.book.server_automaiton.boutique;
 
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
@@ -50,7 +51,7 @@ public class TestCasesBoutique implements AddTestCases {
                             performInspection,
                             number + d, i);
                     loadListRefresh(JSONObject.fromObject(
-                            AutomationUtils.doGet(BoutiqueConfig.BOUTIQUE_REFRESHBD, "type=" + i)),
+                            AutoHttpUtils.doGet(BoutiqueConfig.BOUTIQUE_REFRESHBD, "type=" + i)),
                             performInspection,
                             number + d);
             }
@@ -60,7 +61,7 @@ public class TestCasesBoutique implements AddTestCases {
 
     private JSONArray getJSONArray(String path, int type) {
         return JSONObject.fromObject(
-                AutomationUtils.doGet(path, "type=" + type)).getJSONArray("data");
+                AutoHttpUtils.doGet(path, "type=" + type)).getJSONArray("data");
     }
 
     private void load(JSONArray jsonArray, PerformInspection performInspection, double number) {

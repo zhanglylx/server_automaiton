@@ -16,7 +16,7 @@ import java.util.concurrent.ThreadPoolExecutor;
 import java.util.regex.Pattern;
 
 public class AutomationUtils {
-    private static final Map<String, String> mapHeaders = new HashMap<>();
+
     /*
      *配置文件
      */
@@ -61,10 +61,7 @@ public class AutomationUtils {
             properties.load(inputStream);
             executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(
                     Integer.parseInt(properties.getProperty("executorService")));
-            mapHeaders.put("version", properties.getProperty("version").trim());
-            mapHeaders.put("cnid", properties.getProperty(CNID).trim());
-            mapHeaders.put("uid", properties.getProperty("uid").trim());
-            mapHeaders.put("appname", properties.getProperty("appname").trim());
+
 
         } catch (IOException e) {
             RealizePerform.getRealizePerform().addtestFrameList(
@@ -109,9 +106,6 @@ public class AutomationUtils {
 
     }
 
-    public static String getHeaders(String key) {
-        return mapHeaders.get(key);
-    }
 
     @SuppressWarnings("unchecked")
     public static <T> T getCheckRules(String key) {
@@ -160,105 +154,13 @@ public class AutomationUtils {
     }
 
 
-    public static String doGet(String propertiesPath, String querys) {
-        return doGet(properties.getProperty(HOST).trim(),
-                properties.getProperty(propertiesPath).trim(),
-                querys, getDoHeaders(querys));
-    }
 
-    public static String doGet(String propertiesPath, String querys, Map<String, String> headers) {
-        return doGet(properties.getProperty(HOST).trim(),
-                properties.getProperty(propertiesPath).trim(),
-                querys, headers);
-    }
-
-    public static String doGet(String host, String path, String querys) {
-        return doGet(host, path, querys, getDoHeaders(querys));
-    }
-
-
-    public static String doGet(String host, String path, String querys, Map<String, String> headers) {
-        NetworkHeaders networkHeaders = new NetworkHeaders();
-        try {
-            return HttpUtils.doGet(HttpUtils.getURI(getUrl(host, path), querys),
-                    headers,
-                    networkHeaders);
-        } finally {
-            if (networkHeaders.getResponseCode() != 200)
-                System.out.println("Get : " + HttpUtils.getURI(getUrl(host, path), querys));
-        }
-    }
-
-
-    public static String doPost(String propertiesPath, Object parm) {
-        return doPost(properties.getProperty(HOST).trim(),
-                properties.getProperty(propertiesPath).trim(), parm,
-                getDoHeaders(parm));
-    }
-
-    public static String doPost(String host, String propertiesPath, Object parm) {
-        return doPost(host,
-                properties.getProperty(propertiesPath).trim(), parm,
-                getDoHeaders(parm));
-    }
-
-
-    public static String doPost(String propertiesPath, Object parm, Map<String, String> headers) {
-        return doPost(properties.getProperty(HOST).trim(),
-                properties.getProperty(propertiesPath).trim(), parm,
-                headers);
-    }
-
-    public static String doPost(String host, String path, Object parm, Map<String, String> headers) {
-        NetworkHeaders networkHeaders = new NetworkHeaders();
-        try {
-            return HttpUtils.doPost(getUrl(host, path), parm,
-                    headers, networkHeaders);
-        } finally {
-            if (networkHeaders.getResponseCode() != 200)
-                System.out.println("Post : " + path);
-        }
-    }
-
-    private static Map<String, String> getDoHeaders(Object querys) {
-
-        if (querys == null || querys.toString().isEmpty()) return mapHeaders;
-        Map<String, String> headers = new HashMap<>();
-        headers.putAll(mapHeaders);
-        if (querys instanceof String) {
-            String q = querys.toString().toLowerCase();
-            if (!q.contains("uid")) return headers;
-            q = q.substring(q.indexOf("uid"));
-            if (q.contains("&")) {
-                q = q.substring(0, q.indexOf("&"));
-            }
-            if (q.contains("=")) q = q.substring(q.indexOf("=") + 1);
-            headers.put("uid", q);
-
-        } else if (querys instanceof Map) {
-            Map<String, String> m = (Map) querys;
-            for (Map.Entry<String, String> entry : m.entrySet()) {
-                if ("uid".equals(entry.getKey().toLowerCase().trim())) {
-                    headers.put("uid", entry.getValue());
-                }
-            }
-        }
-        return headers;
-    }
 
     public static String getHost() {
         return HOST;
     }
 
-    public static Map<String, String> getMapHeaders() {
-        return new HashMap<>(mapHeaders);
-    }
 
-    public static Map<String, String> getPostMap(Book book) {
-        Map<String, String> map = new HashMap<>(mapHeaders);
-        map.put("bookId", book.getBookId() + "");
-        return map;
-    }
 
 
     @SuppressWarnings("unchecked")
@@ -293,16 +195,5 @@ public class AutomationUtils {
         return executorService.isTerminated();
     }
 
-    /**
-     * 进行host与path拼接
-     *
-     * @param host
-     * @param path
-     * @return
-     */
-    public static String getUrl(String host, String path) {
-        if (!host.endsWith("/")) host += "/";
-        if (path.startsWith("/")) path = path.substring(1);
-        return host + path;
-    }
+
 }

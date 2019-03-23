@@ -28,7 +28,7 @@ public class HtmlUtils {
         if (!fileParent.exists()) fileParent.mkdirs();
     }
 
-    public static void saveCaseToHtml(Map<String, List<String>> map, String date) {
+    public static boolean saveCaseToHtml(Map<String, List<String>> map, String date) {
         try {
 //创建一个合适的Configration对象
             Configuration configuration = new Configuration();
@@ -45,13 +45,12 @@ public class HtmlUtils {
             paramMap.put("weaponMap", map);
             Writer writer = new OutputStreamWriter(new FileOutputStream(savelLog), "UTF-8");
             template.process(paramMap, writer);
-            System.out.println("html生成成功~~");
-        } catch (
-                IOException e) {
+
+            System.out.println("html生成成功");
+            return true;
+        } catch (Exception e) {
             e.printStackTrace();
-        } catch (
-                TemplateException e) {
-            e.printStackTrace();
+            return false;
         }
     }
 }
