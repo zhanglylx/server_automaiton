@@ -39,6 +39,8 @@ public class Searchassociationwords extends TestFrame {
         if("id".equals(key)){
             if(type == 1){
                 return AutomationUtils.getCheckRules(AutomationUtils.BOOK_ID);
+            }else if(type == 2){
+                return Pattern.compile(".*"+this.keyword+".*");
             }else{
                 return "";
             }

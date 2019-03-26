@@ -50,7 +50,7 @@ public class TestCasesSearch implements AddTestCases {
                搜索查询词
                 */
                 String keyword = book.getBookName();
-                String caseName = "["+keyword+"] "+book.getBookId();
+                String caseName = "关键词["+keyword+"] book:"+book;
                 JSONObject searchassociationwords = JSONObject.fromObject(
                         AutoHttpUtils.doGet(
                                 SearchConfig.SERACK_SEARCHASSOCIATIONWORDS, "keyword=" + keyword));

@@ -16,6 +16,7 @@ public class PackageBookInfo extends TestFrame {
     private long mFirstChapter;
     public PackageBookInfo(JSONObject jsonObject, Book book) {
         super(jsonObject.getJSONObject("data"));
+        setCaseName(book);
         this.book = book;
         this.mFirstChapter = this.getJsonObject().getLong("mFirstChapter");
     }

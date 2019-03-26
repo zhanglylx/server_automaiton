@@ -2,30 +2,35 @@
 <html>
 <head>
     <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
-    <title>Insert title here</title>
+    <title>server_automaiton</title>
 </head>
 <body>
 
-描述：${description}
+<strong>描述：</strong>${description}
 <br/>
-共成功:${succeedBranches}
+<strong>共成功:&nbsp;</strong><b><label style="color:green">${succeedBranches}</label></b>
 <br/>
-共失败:<label style="color:red">${failureBranches}</label>
+<strong>共失败:&nbsp;</strong><b><label style="color:red">${failureBranches}</label></b>
 <br/>
-迭代执行结果集合：
+<strong>错误结果集合：</strong>
+
 <br/>
 <#list weaponMap?keys as key>
-    ${key}
+    <p>
+    <#-- 占位符 &nbsp;-->
+        &nbsp;<strong>${key}</strong>
     <br/>
-        <#assign item = weaponMap[key]>
-        <#list item as itemValue>
-            <#if (itemValue?ends_with("false"))>
-                <label style="color:red">${itemValue}</label>
-            <#else>
-                <label style="color:green">${itemValue}</label>
-            </#if>
-            <br/>
-        </#list>
+    <#assign item = weaponMap[key]>
+    <#if (item?size)==0>
+        &nbsp;&nbsp;&nbsp;<label style="color:green">测试通过</label>
+    <br/>
+    </#if>
+    <#list item as itemValue>
+        &nbsp;&nbsp;&nbsp;<label style="color:red">${itemValue}</label>
+        <br/>
+        <br/>
+    </#list>
+    </p>
 </#list>
 <br/>
 </body>

@@ -26,17 +26,14 @@ import org.apache.http.message.BasicHeader;
 import org.apache.http.message.BasicNameValuePair;
 import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
+import server_automaiton_gather.ErrException;
+import server_automaiton_gather.RealizePerform;
 
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
-import java.io.IOException;
-import java.io.InterruptedIOException;
-import java.io.UnsupportedEncodingException;
+import java.io.*;
 import java.net.*;
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import java.util.*;
 
 /**
  * http类型，用于发送网络请求
@@ -47,24 +44,52 @@ public class HttpUtils {
     // utf-8字符编码
     public static final String CHARSET_UTF_8 = "UTF-8";
     // 超时时间:ms
-    private static final int SOCKET_TIME_OUT = 60 * 1000;
+    private static int SOCKET_TIME_OUT = 60 * 1000;
     //创建连接的最长时间:ms
-    private static final int CONNECTION_TIME_OUT = 60 * 2000;
+    private static int CONNECTION_TIME_OUT = 60 * 2000;
     // 从连接池中获取到连接的最长时间:ms
-    private static final int CONNECTION_REQUEST_TIME_OUT = 60 * 2000;
+    private static int CONNECTION_REQUEST_TIME_OUT = 60 * 2000;
     // 线程池最大连接数
-    private static final int POOL_MAX_TOTAL = 3 * 1000;
+    private static int POOL_MAX_TOTAL = 3 * 1000;
     //默认的每个路由的最大连接数
-    private static final int POOL_MAX_PERROUTE = 10;
+    private static int POOL_MAX_PERROUTE = 10;
     //检查永久链接的可用性:ms
-    private static final int POOL_VALIDATE_AFTER_INACTIVITY = 2 * 1000;
+    private static int POOL_VALIDATE_AFTER_INACTIVITY = 2 * 1000;
     //关闭Socket等待时间，单位:s
-    private static final int SOCKET_LINGER = 60;
+    private static int SOCKET_LINGER = 60;
     //建立httpClient配置
     private static HttpClientBuilder httpBulder;
 
     static {
+        InputStream inputStream = null;
         try {
+            Properties properties = new Properties();
+            inputStream =
+                    HttpUtils.class.getClassLoader().getResourceAsStream(
+                            "config" + File.separator + "HttpConfig.properties");
+            properties.load(inputStream);
+            SOCKET_TIME_OUT = Integer.parseInt(properties.getProperty("SOCKET_TIME_OUT").trim());
+            CONNECTION_TIME_OUT = Integer.parseInt(properties.getProperty("CONNECTION_TIME_OUT").trim());
+            CONNECTION_REQUEST_TIME_OUT = Integer.parseInt(properties.getProperty("CONNECTION_REQUEST_TIME_OUT").trim());
+            POOL_MAX_TOTAL = Integer.parseInt(properties.getProperty("POOL_MAX_TOTAL").trim());
+            POOL_MAX_PERROUTE = Integer.parseInt(properties.getProperty("POOL_MAX_PERROUTE").trim());
+            POOL_VALIDATE_AFTER_INACTIVITY = Integer.parseInt(properties.getProperty("POOL_VALIDATE_AFTER_INACTIVITY").trim());
+            SOCKET_LINGER = Integer.parseInt(properties.getProperty("SOCKET_LINGER").trim());
+
+        } catch (Exception e) {
+            RealizePerform.getRealizePerform().addtestFrameList(new ErrException(HttpUtils.class, "socketConfig", e));
+        } finally {
+            if (inputStream != null) {
+                try {
+                    inputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+            }
+        }
+        try {
+
+
             SSLContextBuilder builder = new SSLContextBuilder();
             builder.loadTrustMaterial(null, new TrustSelfSignedStrategy());
             SSLConnectionSocketFactory sslsf = new SSLConnectionSocketFactory(
@@ -113,7 +138,7 @@ public class HttpUtils {
                     .setRetryHandler(httpRequestRetryHandler);  // 设置重试次数
 
         } catch (Exception e) {
-            e.printStackTrace();
+            RealizePerform.getRealizePerform().addtestFrameList(new ErrException(HttpUtils.class, "httpClientBuilderConfig", e));
         }
     }
 
@@ -165,6 +190,8 @@ public class HttpUtils {
         try {
             result = getResponse(getHttpGet(uri, headers), networkHeaders);
         } catch (Exception e) {
+            RealizePerform.getRealizePerform().addtestFrameList(
+                    new ErrException(HttpUtils.class, "doGet", e));
             e.printStackTrace();
         } finally {
             //不可以关闭，不然连接池就会被关闭
@@ -212,6 +239,8 @@ public class HttpUtils {
             }
             resultString = getResponse(httpPost, networkHeaders);
         } catch (Exception e) {
+            RealizePerform.getRealizePerform().addtestFrameList(
+                    new ErrException(HttpUtils.class, "doPost", e));
             e.printStackTrace();
         }
         return resultString;
@@ -233,6 +262,8 @@ public class HttpUtils {
             // 执行http请求
             resultString = getResponse(httpPost, networkHeaders);
         } catch (Exception e) {
+            RealizePerform.getRealizePerform().addtestFrameList(
+                    new ErrException(HttpUtils.class, "doPostJson", e));
             e.printStackTrace();
         }
         return resultString;
@@ -280,7 +311,7 @@ public class HttpUtils {
             CloseableHttpClient closeableHttpClient = getHttpClient();
             long startTime = System.currentTimeMillis();
             closeableHttpResponse = closeableHttpClient.execute(httpRequestBase);
-            if (networkHeaders != null){
+            if (networkHeaders != null) {
                 networkHeaders.setResponseTime(System.currentTimeMillis() - startTime);
                 networkHeaders.setHttpRequestBase(httpRequestBase);
             }

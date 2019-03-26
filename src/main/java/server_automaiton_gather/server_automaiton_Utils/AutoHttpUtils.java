@@ -4,6 +4,8 @@ import ZLYUtils.HttpUtils;
 import ZLYUtils.NetworkHeaders;
 import com.mfeia.book.server_automaiton.Book;
 import org.apache.http.client.methods.HttpPost;
+import server_automaiton_gather.ErrException;
+import server_automaiton_gather.RealizePerform;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -44,11 +46,25 @@ public class AutoHttpUtils {
                     headers,
                     networkHeaders);
         } finally {
-            if (networkHeaders.getResponseCode() != 200)
-                System.out.println(networkHeaders.getHttpRequestBase());
+            checkNetwordHeades(networkHeaders);
         }
     }
+    /**
+     * 检查响应是不是200
+     *
+     * @param networkHeaders
+     */
+    private static void checkNetwordHeades(NetworkHeaders networkHeaders) {
+        if(networkHeaders==null){
+            RealizePerform.getRealizePerform().addtestFrameList(
+                    new ErrException(AutoHttpUtils.class, "checkNetwordHeades:NULL" , new Exception()));
+        }else{
+            if (networkHeaders.getResponseCode() != 200)
+                RealizePerform.getRealizePerform().addtestFrameList(
+                        new ErrException(AutoHttpUtils.class, "Response Not 200 :" + networkHeaders.getHttpRequestBase(), new Exception()));
+        }
 
+    }
 
     public static String doPost(String propertiesPath, Object parm) {
         return doPost(getServerAutomaitonProperties(AutomationUtils.getHost()).trim(),
@@ -75,8 +91,7 @@ public class AutoHttpUtils {
             return HttpUtils.doPost(getUrl(host, path), parm,
                     headers, networkHeaders);
         } finally {
-            if (networkHeaders.getResponseCode() != 200)
-                System.out.println(networkHeaders.getHttpRequestBase());
+            checkNetwordHeades(networkHeaders);
         }
     }
 

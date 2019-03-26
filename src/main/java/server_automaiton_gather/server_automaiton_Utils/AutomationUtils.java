@@ -2,6 +2,7 @@ package server_automaiton_gather.server_automaiton_Utils;
 
 import ZLYUtils.HttpUtils;
 import ZLYUtils.NetworkHeaders;
+import ZLYUtils.WindosUtils;
 import com.mfeia.book.server_automaiton.Book;
 import server_automaiton_gather.ErrException;
 import server_automaiton_gather.RealizePerform;
@@ -52,18 +53,22 @@ public class AutomationUtils {
     private static Properties properties;
     private static ThreadPoolExecutor executorService;
 
+    private static String caseStartTime;
+
     static {
+        caseStartTime =  WindosUtils.getDate();
         properties = new Properties();
         InputStream inputStream = null;
         try {
             inputStream = Objects.requireNonNull(AutomationUtils.class.getClassLoader().getResourceAsStream(
-                    "config/server_automaiton.properties"));
+                    "config" + File.separator + "server_automaiton.properties"));
             properties.load(inputStream);
             executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(
                     Integer.parseInt(properties.getProperty("executorService")));
 
 
         } catch (IOException e) {
+            e.printStackTrace();
             RealizePerform.getRealizePerform().addtestFrameList(
                     new ErrException(AutomationUtils.class, "初始化", e)
             );
@@ -89,7 +94,7 @@ public class AutomationUtils {
                 Pattern.compile("http://images-pro\\.cread\\.com/cx/endimgs/[0-9a-zA-Z]{1,70}\\.((jpg)|(png))"));
         checkRules.put(AD_IMG_URL,
                 Pattern.compile("http://images-pro\\.cread\\.com/cx/endimgs/[0-9a-zA-Z]{1,70}\\.((jpg)|(png))"));
-        checkRules.put(TAG_URL_DETAIL, Pattern.compile("http://cx\\.ikanshu\\.cn/cx/bookdetail\\?bookid=\\d{1,13}\\$parmurl"));
+        checkRules.put(TAG_URL_DETAIL, Pattern.compile("http://cxb-pro\\.cread\\.com/cx/bookdetail\\?bookid=\\d{1,13}\\$parmurl"));
         checkRules.put(RANK_LIST_AD_URL,
                 Pattern.compile("http://cx\\.ikanshu\\.cn/cx/ranklist.*\\?bdid=\\d+\\$parmurl"));
         checkRules.put(NEW_RANK_LIST_BDID,
@@ -119,6 +124,7 @@ public class AutomationUtils {
         try {
             values = properties.getProperty(key).trim();
         } catch (Exception e) {
+            e.printStackTrace();
             RealizePerform.getRealizePerform().addtestFrameList(
                     new ErrException(AutomationUtils.class,
                             "getServerAutomaitonProperties:key-" + key, e));
@@ -154,13 +160,9 @@ public class AutomationUtils {
     }
 
 
-
-
     public static String getHost() {
         return HOST;
     }
-
-
 
 
     @SuppressWarnings("unchecked")
@@ -196,4 +198,7 @@ public class AutomationUtils {
     }
 
 
+    public static String getCaseStartTime() {
+        return caseStartTime;
+    }
 }

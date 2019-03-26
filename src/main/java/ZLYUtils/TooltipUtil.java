@@ -10,6 +10,7 @@ public class TooltipUtil {
     public static void errTooltip(String errText){
         JOptionPane.showMessageDialog(null, errText, "错误提示", JOptionPane.ERROR_MESSAGE);
     }
+
     /**
      *普通提示框
      */

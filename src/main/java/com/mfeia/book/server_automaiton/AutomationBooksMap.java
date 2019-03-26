@@ -15,9 +15,16 @@ public class AutomationBooksMap implements BooksMap {
 
     private AutomationBooksMap() {
         this.booksList = Collections.synchronizedMap(new HashMap<>());
-        this.booksList.put(811400194l,
-                new Book(811400194, "侯府长媳", "淮西", "#f29fa9")
-        );
+        try {
+            this.booksList.put(811400194l,
+                    new Book(Long.parseLong(AutomationUtils.getServerAutomaitonProperties("inlayBookId")),
+                            AutomationUtils.getServerAutomaitonProperties("inlayBookName"),
+                            AutomationUtils.getServerAutomaitonProperties("inlayBookAuthon"),
+                            AutomationUtils.getServerAutomaitonProperties("inlayBookCategoryColor")));
+        } catch (Exception e) {
+            RealizePerform.getRealizePerform().addtestFrameList(new ErrException(AutomationBooksMap.class, "inlayBook", e));
+        }
+
     }
 
     public static AutomationBooksMap getAutomationBooksMap() {
@@ -43,6 +50,13 @@ public class AutomationBooksMap implements BooksMap {
 //                e.printStackTrace();
 //            }
 //        }
+        try {
+            int bookMap = Integer.parseInt(AutomationUtils.getServerAutomaitonProperties("bookMap"));
+            if (this.booksList.size() >= bookMap && bookMap > 0)
+                return;
+        } catch (Exception e) {
+            RealizePerform.getRealizePerform().addtestFrameList(new ErrException(AutomationBooksMap.class, "addBook", e));
+        }
         this.booksList.put(book.getBookId(), book);
     }
 

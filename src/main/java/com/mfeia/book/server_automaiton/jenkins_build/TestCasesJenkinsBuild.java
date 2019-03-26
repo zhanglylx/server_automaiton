@@ -36,16 +36,16 @@ public class TestCasesJenkinsBuild implements AddTestCases {
                     String path = AutomationUtils.getServerAutomaitonProperties(
                             JenkinsBuildConfig.JENKINS_GET_CHAPTER
                     );
+                    String quers = "cnid=" + cnid +
+                            "&bookid=" + packageBookInfo.getBook().getBookId() +
+                            "&chapterid=" + packageBookInfo.getmFirstChapter();
                     jsonObject = JSONObject.fromObject(
-                            AutoHttpUtils.doGet(host, path, "cnid=" + cnid +
-                                    "&bookid=" + packageBookInfo.getBook().getBookId() +
-                                    "&chapterid=" + packageBookInfo.getmFirstChapter())
-                    );
-                    performInspection.addtestFrameList(new Getchapter(jsonObject), circulationNumber);
+                            AutoHttpUtils.doGet(host, path, quers));
+                    performInspection.addtestFrameList(new Getchapter(jsonObject).setCaseName(quers), circulationNumber);
 
                 } catch (Exception e) {
                     performInspection.addtestFrameList(
-                            new ErrException(TestCasesBookContent.class, book.getBookId(), e, circulationNumber), circulationNumber
+                            new ErrException(TestCasesBookContent.class, book, e, circulationNumber), circulationNumber
                     );
                 }
 

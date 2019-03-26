@@ -21,7 +21,6 @@ public class NetworkHeaders {
     public HttpRequestBase getHttpRequestBase() {
         return httpRequestBase;
     }
-
      void setHttpRequestBase(HttpRequestBase httpRequestBase) {
         this.httpRequestBase = httpRequestBase;
     }
@@ -36,7 +35,7 @@ public class NetworkHeaders {
         return responseCode;
     }
 
-    public void setResponseCode(int responseCode) {
+    void setResponseCode(int responseCode) {
         this.responseCode = responseCode;
     }
 

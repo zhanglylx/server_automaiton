@@ -18,7 +18,7 @@ public class Detail extends TestFrame {
     public Detail(JSONObject jsonObject, double number, final Book books) {
         super("详情页:" + books, jsonObject.getJSONObject("data"),
                 jsonObject.getJSONObject("data").getJSONArray("everyoneLookBookList"),
-                4);
+                1);
         this.setTag(number);
         Map<String, Object> map = new HashMap<>();
         map.put("code", "SUCCESS");
@@ -29,8 +29,11 @@ public class Detail extends TestFrame {
 
         map.put("updateDate", Pattern.compile(".+"));
         check(jsonObject, map, "检查详情页:bookVo");
+        /*
+        作者其他书籍
+         */
         JSONArray jsonArray = this.getJsonObject().getJSONArray("otherBookList");
-        //检查otherBookList
+
         for (int i = 0; i < jsonArray.size(); i++) {
             final long bookid = jsonArray.getJSONObject(i).getLong("bookId");
             TestFrame testFrame = new TestFrame() {

@@ -1,15 +1,21 @@
 package server_automaiton_gather;
 
 import ZLYUtils.JavaUtils;
+import org.apache.log4j.Logger;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
+import server_automaiton_gather.server_automaiton_Utils.LogUtils;
 
+import java.io.File;
+import java.io.FileOutputStream;
+import java.io.OutputStreamWriter;
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashMap;
+import java.util.LinkedHashMap;
 import java.util.Map;
 import java.util.regex.Pattern;
 
@@ -33,24 +39,25 @@ public abstract class TestFrame {
     private JSONObject logJsonObject = new JSONObject();
     private double tag = -1;
     private int showCount = 0;
+    private static Logger logger = Logger.getLogger(TestFrame.class);
 
     public TestFrame() {
-        this.className += ": Default Constructor";
+        setCaseName("Default Constructor");
     }
 
     public TestFrame(JSONObject jsonObject) {
-        this.className += ": JSONObject Constructor";
+        setCaseName("JSONObject Constructor");
         this.jsonObject = jsonObject;
     }
 
     public TestFrame(JSONObject jsonObject, JSONArray jsonArray) {
         this.jsonArray = jsonArray;
         this.jsonObject = jsonObject;
-        this.className += ": JSONObject & jsonArray Constructor";
+        setCaseName("JSONObject & jsonArray Constructor");
     }
 
     public TestFrame(String caseName, JSONObject jsonObject, JSONArray jsonArray, int showCount) {
-        this.className += " " + caseName;
+        setCaseName(caseName);
         this.jsonObject = jsonObject;
         this.jsonArray = jsonArray;
         this.showCount = showCount;
@@ -146,7 +153,7 @@ public abstract class TestFrame {
     private void check(JSONObject jsonObject, Map<String, Object> map, String testCaseName) {
         this.logJsonObject = jsonObject;
         this.logJsonObjectMap = map;
-        if (checkJson(jsonObject, map,testCaseName)) {
+        if (checkJson(jsonObject, map, testCaseName)) {
             for (Map.Entry<String, Object> entry : map.entrySet()) {
                 try {
                     check(entry.getValue(),
@@ -203,7 +210,7 @@ public abstract class TestFrame {
      */
     private void check(Pattern pattern, String str2, String testCase) {
         str2 = JavaUtils.replaceLineBreak(str2, "");
-        errException(pattern.matcher(str2.trim()).matches(), testCase);
+        errException(pattern.matcher(str2).matches(), testCase);
     }
 
     /**
@@ -272,7 +279,7 @@ public abstract class TestFrame {
                        int showCount) {
         this.logJsonArrayMap = jsonArrayMap;
         this.logJsonArray = jsonArray;
-        if (checkJson(jsonArray, jsonArrayMap,testCaseName)) {
+        if (checkJson(jsonArray, jsonArrayMap, testCaseName)) {
             checkJsonArrayShowCount(jsonArray, showCount);
             for (Map.Entry<String, Object> entry : jsonArrayMap.entrySet()) {
                 for (int i = 0; i < jsonArray.size(); i++) {
@@ -287,7 +294,7 @@ public abstract class TestFrame {
                             try {
                                 actual = jsonArray.getJSONObject(i).getString(entry.getKey());
                             } catch (Exception e) {
-                                actual =e.toString()+"|"+ entry.getKey();
+                                actual = e.toString() + "|" + entry.getKey();
                             }
                             check(customCheckJsonArrayObject(jsonArray.get(i), i, entry.getKey(), jsonArray.size()),
                                     actual,
@@ -313,7 +320,7 @@ public abstract class TestFrame {
      * @param map
      * @return
      */
-    private boolean checkJson(JSON json, Map<String, Object> map,String testCaseName) {
+    private boolean checkJson(JSON json, Map<String, Object> map, String testCaseName) {
         if (json == null || map == null) {
             errException(false, "", "[json || map] is null", testCaseName);
             return false;
@@ -343,8 +350,8 @@ public abstract class TestFrame {
         try {
             if (!b) {
                 throw new IllegalArgumentException(
-                        "\n预期结果:[" + expected + "] " +
-                                "\n实际结果:[" + actual + "] ");
+                        "</br>\n预期结果:[" + expected + "] " +
+                                "</br>\n实际结果:[" + actual + "] </br>");
             } else {
                 errAdd(b);
             }
@@ -369,7 +376,7 @@ public abstract class TestFrame {
         try {
             if (e == null) e = new Exception();
             PrintStream stream = new PrintStream(System.err, true);
-            stream.println(("\n" + StringUtils.repeat("-", 150) + "\n"
+            stream.println(("\n" + StringUtils.repeat("-", 200) + "\n"
                     + this.className + "[" + this.tag + "]"
                     + "\n{" + testCase + "}异常:\n" +
                     "JSONOBJECT:" + this.logJsonObject +
@@ -377,7 +384,22 @@ public abstract class TestFrame {
                     "JSONARRAYS:[" + this.jsonArrayIndex + "]:" +
                     this.logJsonArray +
                     "\n" + "JSONARRAYSMAP:" + this.logJsonArrayMap));
-            e.printStackTrace();
+            e.printStackTrace(stream);
+
+            Map<String, String> textInfoMap = new LinkedHashMap<>();
+            textInfoMap.put("title", this.className + "[" + this.tag + "]");
+            textInfoMap.put("testCase", "{" + testCase + "}异常");
+            textInfoMap.put("jsonObject", this.logJsonObject.toString());
+            textInfoMap.put("jsonObjectMap", this.logJsonObjectMap.toString());
+            textInfoMap.put("jsonArrays[" + this.jsonArrayIndex + "]", this.logJsonArray.toString());
+            textInfoMap.put("jsonArraysMap", this.logJsonArrayMap.toString());
+
+            LogUtils.outErrinfo(textInfoMap, e);
+        } catch (Exception e1) {
+            e1.printStackTrace();
+            Map<String, String> map = new LinkedHashMap<>();
+            map.put(this.getClass().toString(), "errException");
+            LogUtils.outErrinfo(map, e1);
         } finally {
             errAdd(false);
         }
@@ -475,7 +497,16 @@ public abstract class TestFrame {
     }
 
     public TestFrame setCaseName(Object caseNmae) {
-        this.className = this.getClass().getName() + ": " + caseNmae.toString() + " ";
+        setCaseName(caseNmae, false);
+        return this;
+    }
+
+    public TestFrame setCaseName(Object caseNmae, boolean coverage) {
+        if (coverage) {
+            this.className = this.getClass().getName() + "【" + caseNmae.toString() + "】";
+        } else {
+            this.className += "【" + caseNmae.toString() + "】";
+        }
         return this;
     }
 

@@ -61,7 +61,7 @@ public class ChangeBook extends RoofNewExpress {
         }
         String repetition = null;//用于检查内容是否出现重复
         for (int i = 1; i < 50; i++) {
-            this.setCaseName("for_" + i);
+            this.setCaseName("for_" + i,true);
             jsonObject = JSONObject.fromObject(
                     AutoHttpUtils.doGet(path,
                             IterativeParameter != null ?
