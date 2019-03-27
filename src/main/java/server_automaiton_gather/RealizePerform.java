@@ -81,8 +81,8 @@ public class RealizePerform implements PerformInspection {
     }
 
 
-    public Map<String, List<String>> getLoss() {
-        Map<String, List<String>> html = new TreeMap<>();
+    public Map<String, List<String>> getErrLoss() {
+        Map<String, List<String>> errLoss = new TreeMap<>();
         synchronized (this) {
             Map.Entry<Double, List<TestFrame>> mapEntry;
             List<String> list;
@@ -97,11 +97,33 @@ public class RealizePerform implements PerformInspection {
                     }
 
                 }
-                html.put(String.valueOf(mapEntry.getKey()), list);
+                errLoss.put(String.valueOf(mapEntry.getKey()), list);
             }
         }
 
-        return html;
+        return errLoss;
+    }
+
+    @Override
+    public Map<String, List<String>> getAllLoss() {
+        Map<String, List<String>> allLoss = new TreeMap<>();
+        synchronized (this) {
+            Map.Entry<Double, List<TestFrame>> mapEntry;
+            List<String> list;
+            for (Iterator<Map.Entry<Double, List<TestFrame>>> iterator =
+                 this.testFrameList.entrySet().iterator();
+                 iterator.hasNext(); ) {
+                mapEntry = iterator.next();
+                list = new ArrayList<>();
+                for (TestFrame testFrame : mapEntry.getValue()) {
+                    list.add(testFrame.toString());
+
+                }
+                allLoss.put(String.valueOf(mapEntry.getKey()), list);
+            }
+        }
+
+        return allLoss;
     }
 
     public String toString() {

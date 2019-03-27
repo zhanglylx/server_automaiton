@@ -61,7 +61,7 @@ public class AutoHttpUtils {
         }else{
             if (networkHeaders.getResponseCode() != 200)
                 RealizePerform.getRealizePerform().addtestFrameList(
-                        new ErrException(AutoHttpUtils.class, "Response Not 200 :" + networkHeaders.getHttpRequestBase(), new Exception()));
+                        new ErrException(AutoHttpUtils.class, "Response Not 200 :ResponseCode[" +networkHeaders.getResponseCode()+"]"+ networkHeaders.getHttpRequestBase(), new Exception()));
         }
 
     }

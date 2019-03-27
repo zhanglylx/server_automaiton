@@ -14,5 +14,6 @@ public interface PerformInspection {
     int getFailureBranches();
     void addtestFrameList(final TestFrame testFrame, double number);
     void addtestFrameList(final TestFrame testFrame);
-    Map<String,List<String>> getLoss();
+    Map<String,List<String>> getErrLoss();
+    Map<String,List<String>> getAllLoss();
 }

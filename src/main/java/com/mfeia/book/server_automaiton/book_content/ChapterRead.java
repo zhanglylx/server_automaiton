@@ -44,12 +44,12 @@ public class ChapterRead extends TestFrame {
         JSONObject jsonObject = JSONObject.fromObject(object);
         if (index == 0) {
             check("curr".equals(jsonObject.getString("flag")),
-                    "预期结果:curr 实际结果:" + jsonObject.getString("flag"),
+                    "预期结果:curr </br>\n实际结果:" + jsonObject.getString("flag"),
                     "检查当前章节"
             );
         } else {
             check("next".equals(jsonObject.getString("flag")),
-                    "预期结果:next 实际结果:" + jsonObject.getString("flag"),
+                    "预期结果:next </br>\n实际结果:" + jsonObject.getString("flag"),
                     "检查下一章节"
             );
         }

@@ -32,7 +32,7 @@ import java.util.*;
 public class Test {
     private static final int BOUTIQUE_TAG = 1;//精品代码
     private static List<String> motivational;
-    private static List<String> colourList;
+    private static final boolean IS_JAR_RUN = true;
 
     static {
         motivational = new ArrayList<>();
@@ -60,17 +60,16 @@ public class Test {
         motivational.add("大丈夫处世，不能立功建业，几与草木同腐乎？");
         motivational.add("如果圆规的两只脚都动，永远也画不出一个圆。");
         motivational.add("古之立大事者，不惟有超世之材，亦必有坚忍不拨之志。");
-        colourList = new ArrayList<>();
-        colourList.add("339933");
-        colourList.add("66CC33");
-        colourList.add("99CC33");
-        colourList.add("006699");
-        colourList.add("000099");
-        colourList.add("0000CC");
-        colourList.add("FF0000");
-        colourList.add("CC00FF");
-        colourList.add("FFFF33");
-        colourList.add("FFCCFF");
+
+    }
+
+    /**
+     * 用于判断是否需要打包运行，如果要是运行，获取config文件时会选择指定的路径
+     *
+     * @return
+     */
+    public static boolean isJarRun() {
+        return IS_JAR_RUN;
     }
 
     public static void main(String[] args) {
@@ -79,23 +78,23 @@ public class Test {
             精品页，排行，搜索会将bookMap填充，所以需要先单独运行
              */
             AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(), 15));
-//            waitThread();
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
-//            waitThread();
-//            System.out.println(AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesCatalog(), 3));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(), 15));
+            waitThread();
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
+            waitThread();
+            System.out.println(AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesCatalog(), 3));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
         } catch (Exception e) {
-
+            RealizePerform.getRealizePerform().addtestFrameList(new ErrException(Test.class, "run", e));
         }
         File[] files = new File[]{};
         String html = "";
@@ -110,7 +109,7 @@ public class Test {
                 }
                 Thread.sleep(1000);
             }
-            boolean saveCaseToHtml = HtmlUtils.saveCaseToHtml(RealizePerform.getRealizePerform().getLoss(), AutomationUtils.getCaseStartTime());
+            boolean saveCaseToHtml = HtmlUtils.saveCaseToHtml(RealizePerform.getRealizePerform(), AutomationUtils.getCaseStartTime());
             boolean logUtils = LogUtils.logHtmlFormatting();
             html = "<!DOCTYPE html>";
             html += "<html>";
@@ -123,7 +122,7 @@ public class Test {
             html += "</br>";
             html += HtmlUtils.colourFormatting(HtmlUtils.getSeparator(4) + "大家好!", "663399");
             html += "</br>";
-            html += HtmlUtils.colourFormatting(HtmlUtils.getSeparator(4) + "今天，由松鼠接口智能检测系统为大家汇报" + HtmlUtils.colourFormatting("【免费电子书】", colourList.get(new Random().nextInt(colourList.size()))) + "执行结果", "663399");
+            html += HtmlUtils.colourFormatting(HtmlUtils.getSeparator(4) + "今天，由松鼠接口智能检测系统为大家汇报" + HtmlUtils.colourFormatting("【免费电子书】", HtmlUtils.getRandomColour()) + "执行结果", "663399");
             html += "</br>";
             html += HtmlUtils.getSeparator(4) + "执行汇总结果保存 :  "
                     + (saveCaseToHtml ? HtmlUtils.colourFormatting("成功", "339900") : HtmlUtils.colourFormatting("失败", "CC0000"));
@@ -142,7 +141,7 @@ public class Test {
             html += "</br>";
             html += "</br>";
             html += HtmlUtils.getSeparator(100)
-                    + HtmlUtils.colourFormatting(motivational.get(new Random().nextInt(motivational.size())), colourList.get(new Random().nextInt(colourList.size())));
+                    + HtmlUtils.colourFormatting(motivational.get(new Random().nextInt(motivational.size())), HtmlUtils.getRandomColour());
             html += "</b>";
 
 
@@ -159,7 +158,7 @@ public class Test {
             RealizePerform.getRealizePerform().addtestFrameList(new ErrException(Test.class, "stop", e));
         } finally {
             AutomationUtils.executorServiceShutdown();
-            MailUtils.sendMail(files, WindosUtils.getDate() + " 自动化脚本执行结果", html);
+            if(RealizePerform.getRealizePerform().getFailureBranches()>0)MailUtils.sendMail(files, WindosUtils.getDate() + " 自动化脚本执行结果", html);
         }
     }
 

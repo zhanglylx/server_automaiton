@@ -19,7 +19,7 @@ public class RoofFlagNine extends RoofRoot {
                 "热门标签",
                 Pattern.compile("换一换"),
                 Pattern.compile(""),
-                5);
+                4);
     }
 
     @Override

@@ -1,5 +1,6 @@
 package ZLYUtils;
 
+import com.mfeia.book.server_automaiton.Test;
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.*;
 import org.apache.http.client.HttpClient;
@@ -28,6 +29,8 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 import server_automaiton_gather.ErrException;
 import server_automaiton_gather.RealizePerform;
+import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_Utils.PropertiesConfig;
 
 import javax.net.ssl.SSLException;
 import javax.net.ssl.SSLHandshakeException;
@@ -59,15 +62,15 @@ public class HttpUtils {
     private static int SOCKET_LINGER = 60;
     //建立httpClient配置
     private static HttpClientBuilder httpBulder;
+    private static int localHostOpen = 0;
+    private static String localHost = "localhost";
+    private static int port = 8888;
 
     static {
-        InputStream inputStream = null;
+
         try {
-            Properties properties = new Properties();
-            inputStream =
-                    HttpUtils.class.getClassLoader().getResourceAsStream(
-                            "config" + File.separator + "HttpConfig.properties");
-            properties.load(inputStream);
+            Properties properties = PropertiesConfig.getPropertiesConfig(PropertiesConfig.HTTP_CONFIG);
+
             SOCKET_TIME_OUT = Integer.parseInt(properties.getProperty("SOCKET_TIME_OUT").trim());
             CONNECTION_TIME_OUT = Integer.parseInt(properties.getProperty("CONNECTION_TIME_OUT").trim());
             CONNECTION_REQUEST_TIME_OUT = Integer.parseInt(properties.getProperty("CONNECTION_REQUEST_TIME_OUT").trim());
@@ -75,17 +78,11 @@ public class HttpUtils {
             POOL_MAX_PERROUTE = Integer.parseInt(properties.getProperty("POOL_MAX_PERROUTE").trim());
             POOL_VALIDATE_AFTER_INACTIVITY = Integer.parseInt(properties.getProperty("POOL_VALIDATE_AFTER_INACTIVITY").trim());
             SOCKET_LINGER = Integer.parseInt(properties.getProperty("SOCKET_LINGER").trim());
-
+            localHostOpen = Integer.parseInt(properties.getProperty("LOCAL_OPEN"));
+            localHost = properties.getProperty("LOCAL_HOST");
+            port = Integer.parseInt(properties.getProperty("PORT"));
         } catch (Exception e) {
             RealizePerform.getRealizePerform().addtestFrameList(new ErrException(HttpUtils.class, "socketConfig", e));
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
         try {
 
@@ -131,6 +128,7 @@ public class HttpUtils {
                 return !(HttpClientContext.adapt(context).getRequest()
                         instanceof HttpEntityEnclosingRequest);
             };
+
             httpBulder = HttpClients.custom()
                     .setConnectionManager(pool) // 设置请求配置
                     .setDefaultRequestConfig(requestConfig())
@@ -160,12 +158,21 @@ public class HttpUtils {
      * 超时时间
      */
     private static RequestConfig requestConfig() {
-        return RequestConfig.custom()
-                .setConnectTimeout(CONNECTION_TIME_OUT) // 创建连接的最长时间
-                .setConnectionRequestTimeout(CONNECTION_REQUEST_TIME_OUT) // 从连接池中获取到连接的最长时间
-                .setSocketTimeout(SOCKET_TIME_OUT) // 数据传输的最长时间
-                .setProxy(new HttpHost("localhost", 8888))
-                .build();
+        if (localHostOpen == 1) {
+            return RequestConfig.custom()
+                    .setConnectTimeout(CONNECTION_TIME_OUT) // 创建连接的最长时间
+                    .setConnectionRequestTimeout(CONNECTION_REQUEST_TIME_OUT) // 从连接池中获取到连接的最长时间
+                    .setSocketTimeout(SOCKET_TIME_OUT) // 数据传输的最长时间
+                    .setProxy(new HttpHost(localHost, port))
+                    .build();
+        } else {
+            return RequestConfig.custom()
+                    .setConnectTimeout(CONNECTION_TIME_OUT) // 创建连接的最长时间
+                    .setConnectionRequestTimeout(CONNECTION_REQUEST_TIME_OUT) // 从连接池中获取到连接的最长时间
+                    .setSocketTimeout(SOCKET_TIME_OUT) // 数据传输的最长时间
+                    .build();
+        }
+
     }
 
     private static CloseableHttpClient getHttpClient() {

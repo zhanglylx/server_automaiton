@@ -37,7 +37,7 @@ public class test {
             configuration.setObjectWrapper(new DefaultObjectWrapper());
             configuration.setDefaultEncoding("UTF-8"); //这个一定要设置，不然在生成的页面中 会乱码
 //获取或创建一个模版。
-            Template template = configuration.getTemplate("static.html");
+            Template template = configuration.getTemplate("config/static.html");
             Map<String, Object> paramMap = new HashMap<String, Object>();
             paramMap.put("description", "我正在学习使用Freemarker生成静态文件！");
 

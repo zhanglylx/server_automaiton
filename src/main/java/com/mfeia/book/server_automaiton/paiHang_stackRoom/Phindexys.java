@@ -41,7 +41,7 @@ public class Phindexys extends TestFrame {
     public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
         JSONObject jsonObject = JSONObject.fromObject(object);
         check(this.name[index].equals(jsonObject.getString("name")), "预期结果:" + this.name[index] +
-                " 实际结果:" + jsonObject.getString("name"), "检查标题");
+                " </br>\n实际结果:" + jsonObject.getString("name"), "检查标题");
         JSONArray jsonArray = jsonObject.getJSONArray("list");
         JSONArray itemJsonArray;
 

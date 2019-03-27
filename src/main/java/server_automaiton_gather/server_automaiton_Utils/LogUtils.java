@@ -14,7 +14,7 @@ public class LogUtils {
     private static PrintWriter printWriter;
     private static File savelLog;
     private static final String LOG_TITLE =
-            "<strong>用例启动时间 : " + AutomationUtils.getCaseStartTime()+"</strong>";
+            "<strong>用例启动时间 : " + AutomationUtils.getCaseStartTime() + "</strong>";
 
     public static File getSavelLogFile() {
         return savelLog;
@@ -79,6 +79,7 @@ public class LogUtils {
 
     /**
      * 用于将html中的java系统保存进行过滤，加入换行符
+     *
      * @return
      */
     public synchronized static boolean logHtmlFormatting() {
@@ -100,6 +101,7 @@ public class LogUtils {
 
                 list.add(msg.replaceAll("at ", "</br>at "));
             }
+            list.add(HtmlUtils.colourFormatting(HtmlUtils.getSeparator(150) + "END", HtmlUtils.getRandomColour(), true));
             printWriter = new PrintWriter(
                     new OutputStreamWriter(new FileOutputStream(LogUtils.getSavelLogFile()), "UTF-8")
                     , true);

@@ -15,12 +15,12 @@
 <strong>错误结果集合：</strong>
 
 <br/>
-<#list weaponMap?keys as key>
+<#list errLogss?keys as key>
     <p>
     <#-- 占位符 &nbsp;-->
         &nbsp;<strong>${key}</strong>
     <br/>
-    <#assign item = weaponMap[key]>
+    <#assign item = errLogss[key]>
     <#if (item?size)==0>
         &nbsp;&nbsp;&nbsp;<label style="color:green">测试通过</label>
     <br/>
@@ -32,6 +32,25 @@
     </#list>
     </p>
 </#list>
+<br/> <br/> <br/> <br/>
+<label style="color:violet"><strong>全部结果集合：-------------------------------------------------</strong>
+<#list allLogss?keys as key>
+<p>
+    <#-- 占位符 &nbsp;-->
+    &nbsp;<strong>${key}</strong>
+    <br/>
+    <#assign item = allLogss[key]>
+<#list item as itemValue>
+&nbsp;&nbsp;&nbsp;${itemValue}</label>
+<br/>
+<br/>
+</#list>
+</p>
+<br/>
+</#list>
+
+
+
 <br/>
 </body>
 </html>

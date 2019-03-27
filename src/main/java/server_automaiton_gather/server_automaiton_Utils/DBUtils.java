@@ -1,8 +1,11 @@
 package server_automaiton_gather.server_automaiton_Utils;
 
+import com.mfeia.book.server_automaiton.Test;
 import org.apache.commons.dbcp2.BasicDataSource;
+import server_automaiton_gather.ErrException;
+import server_automaiton_gather.RealizePerform;
 
-import java.io.InputStream;
+import java.io.*;
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
@@ -20,14 +23,8 @@ public class DBUtils {
 
     static {
         try {
-            Properties properties
-                    = new Properties();
-            InputStream is
-                    = DBUtils.class.
-                    getClassLoader().
-                    getResourceAsStream("config/server_automaiton_database.properties");
-            properties.load(is);
-            is.close();
+            Properties properties = PropertiesConfig.getPropertiesConfig(PropertiesConfig.DATA_BASE_CONFIG);
+
             //初始化连接池
             ds = new BasicDataSource();
             //设置驱动
@@ -90,16 +87,16 @@ public class DBUtils {
         }
     }
 
-    public static int getDrCallBackStatus(String s,String ss,String sss) throws SQLException {
+    public static int getDrCallBackStatus(String s, String ss, String sss) throws SQLException {
         String sql = "SELECT status From ssss WHERE 1=? AND 2=? AND 3=?";
         PreparedStatement preparedStatement = getConnection().prepareStatement(sql);
-        preparedStatement.setString(1,s);
-        preparedStatement.setString(2,ss);
-        preparedStatement.setString(3,sss);
-        int status=0;
+        preparedStatement.setString(1, s);
+        preparedStatement.setString(2, ss);
+        preparedStatement.setString(3, sss);
+        int status = 0;
         ResultSet resultSet = preparedStatement.executeQuery();
-        while (resultSet.next()){
-            status=resultSet.getInt("sss");
+        while (resultSet.next()) {
+            status = resultSet.getInt("sss");
         }
         return status;
 

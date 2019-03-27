@@ -1,9 +1,10 @@
 package server_automaiton_gather.server_automaiton_Utils;
 
-import java.io.File;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.Reader;
+import com.mfeia.book.server_automaiton.Test;
+import server_automaiton_gather.ErrException;
+import server_automaiton_gather.RealizePerform;
+
+import java.io.*;
 import java.util.Arrays;
 import java.util.Date;
 import java.util.Properties;
@@ -33,13 +34,13 @@ public class MailUtils {
     private static Properties props;
 
     static {
-        Properties properties = new Properties();
-        InputStream inputStream = null;
         try {
-            inputStream = MailUtils.class.getClassLoader().getResourceAsStream("config" + File.separator + "server_automaiton_mail.properties");
-            properties.load(inputStream);
+            Properties properties = PropertiesConfig.getPropertiesConfig(PropertiesConfig.MAIL_CONFIG);
             recipientAddress = new InternetAddress[]{};
-            String[] addressees = properties.getProperty("addressee").trim().split(",");
+            String[] addressees = properties.getProperty("addressee")
+                    .trim()
+                    .replace("，", ",")
+                    .split(",");
             for (String address : addressees) {
                 recipientAddress = Arrays.copyOf(recipientAddress, recipientAddress.length + 1);
                 recipientAddress[recipientAddress.length - 1] = new InternetAddress(address.trim());
@@ -56,15 +57,8 @@ public class MailUtils {
             props.setProperty("mail.smtp.host", properties.getProperty("mail.smtp.host").trim());
 
         } catch (Exception e) {
+            RealizePerform.getRealizePerform().addtestFrameList(new ErrException(MailUtils.class, "load", e));
             e.printStackTrace();
-        } finally {
-            if (inputStream != null) {
-                try {
-                    inputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-            }
         }
     }
 
