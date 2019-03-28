@@ -73,7 +73,7 @@ public class MySidebar extends TestFrame {
     private JSONObject getMySidebarJSONObject(Map<String, String> heades) {
         return JSONObject.fromObject(
                 AutoHttpUtils.doGet(
-                        UserInfoUtils.USER_MY_SIDEBAR, "", heades));
+                        UserInfoUtils.USER_MY_SIDEBAR, "", heades,this.getTag()));
 
     }
 

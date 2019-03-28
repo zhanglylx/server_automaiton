@@ -1,6 +1,7 @@
 package server_automaiton_gather;
 
 import ZLYUtils.JavaUtils;
+import com.mfeia.book.server_automaiton.Test;
 import org.apache.log4j.Logger;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import net.sf.json.JSON;
@@ -39,6 +40,9 @@ public abstract class TestFrame {
     private JSONObject logJsonObject = new JSONObject();
     private double tag = -1;
     private int showCount = 0;
+
+
+    private String requestBody;
     private static Logger logger = Logger.getLogger(TestFrame.class);
 
     public TestFrame() {
@@ -375,25 +379,27 @@ public abstract class TestFrame {
     protected final void errException(String testCase, Exception e) {
         try {
             if (e == null) e = new Exception();
-            PrintStream stream = new PrintStream(System.err, true);
-            stream.println(("\n" + StringUtils.repeat("-", 200) + "\n"
-                    + this.className + "[" + this.tag + "]"
-                    + "\n{" + testCase + "}异常:\n" +
-                    "JSONOBJECT:" + this.logJsonObject +
-                    "\n" + "JSONOBJECTMAP:" + this.logJsonObjectMap + "\n" +
-                    "JSONARRAYS:[" + this.jsonArrayIndex + "]:" +
-                    this.logJsonArray +
-                    "\n" + "JSONARRAYSMAP:" + this.logJsonArrayMap));
-            e.printStackTrace(stream);
+            if (!Test.isJarRun()) {
+                PrintStream stream = new PrintStream(System.err, true);
+                stream.println(("\n" + StringUtils.repeat("-", 200) + "\n"
+                        + this.className + "[" + this.tag + "]"
+                        + "\n{" + testCase + "}异常:\n" +
+                        "JSONOBJECT:" + this.logJsonObject +
+                        "\n" + "JSONOBJECTMAP:" + this.logJsonObjectMap + "\n" +
+                        "JSONARRAYS:[" + this.jsonArrayIndex + "]:" +
+                        this.logJsonArray +
+                        "\n" + "JSONARRAYSMAP:" + this.logJsonArrayMap));
+                e.printStackTrace(stream);
+            }
 
             Map<String, String> textInfoMap = new LinkedHashMap<>();
-            textInfoMap.put("title", this.className + "[" + this.tag + "]");
+            textInfoMap.put("title", JavaUtils.strFormatting(this.toString(), String.valueOf(this.tag)));
             textInfoMap.put("testCase", "{" + testCase + "}异常");
             textInfoMap.put("jsonObject", this.logJsonObject.toString());
             textInfoMap.put("jsonObjectMap", this.logJsonObjectMap.toString());
             textInfoMap.put("jsonArrays[" + this.jsonArrayIndex + "]", this.logJsonArray.toString());
             textInfoMap.put("jsonArraysMap", this.logJsonArrayMap.toString());
-
+            if (this.requestBody != null) textInfoMap.put("requestBody", this.logJsonArrayMap.toString());
             LogUtils.outErrinfo(textInfoMap, e);
         } catch (Exception e1) {
             e1.printStackTrace();
@@ -413,8 +419,8 @@ public abstract class TestFrame {
      * @return
      */
     public String toString() {
-        if (this.checkBoolean == null) return this.className + ": false [checkBoolean=null]";
-        if (this.checkBoolean.length == 0) return this.className + ": false [checkBoolean.length=0]";
+        if (this.checkBoolean == null) return this.className + ": false [checkBooleanArrays=null]";
+        if (this.checkBoolean.length == 0) return this.className + ": false [checkBooleanArrays.length=0]";
         for (boolean b : this.checkBoolean) {
             if (!b) return this.className + ": false";
         }
@@ -503,9 +509,9 @@ public abstract class TestFrame {
 
     public TestFrame setCaseName(Object caseNmae, boolean coverage) {
         if (coverage) {
-            this.className = this.getClass().getName() + "【" + caseNmae.toString() + "】";
+            this.className = JavaUtils.strFormatting(this.getClass().getName(), caseNmae.toString());
         } else {
-            this.className += "【" + caseNmae.toString() + "】";
+            this.className += JavaUtils.strFormatting(caseNmae.toString());
         }
         return this;
     }
@@ -517,5 +523,13 @@ public abstract class TestFrame {
     public TestFrame setShowCount(int showCount) {
         this.showCount = showCount;
         return this;
+    }
+
+    public String getRequestBody() {
+        return requestBody;
+    }
+
+    public void setRequestBody(String requestBody) {
+        this.requestBody = requestBody;
     }
 }

@@ -15,7 +15,7 @@ public class TestCasesBookContent implements AddTestCases {
     @Override
     public void additionTestCases(final PerformInspection performInspection, double number) throws InterruptedException {
         JSONObject jsonObject = JSONObject.fromObject(AutoHttpUtils.doGet(
-                BookContentConfig.BOOK_CONTENT_SUB_SIDY_MESSAGE, ""
+                BookContentConfig.BOOK_CONTENT_SUB_SIDY_MESSAGE, "", number + 0.1
         ));
         performInspection.addtestFrameList(
                 new SubSidyMessage(jsonObject), number + 0.1
@@ -30,7 +30,7 @@ public class TestCasesBookContent implements AddTestCases {
             try {
                 jsonObject = JSONObject.fromObject(AutoHttpUtils.doGet(
                         BookContentConfig.BOOK_CONTEN_CHAPTER_READ, "full=0&chapterId=0&bookId=" + books.getBookId()
-                ));
+                        , number));
                 performInspection.addtestFrameList(
                         new ChapterRead(jsonObject, books, number), number);
                 final double numberRecommend = number;
@@ -40,7 +40,7 @@ public class TestCasesBookContent implements AddTestCases {
                     public void run() {
                         JSONObject jsonObject = JSONObject.fromObject(AutoHttpUtils.doPost(
                                 BookContentConfig.BOOK_CONTEN_RECOMMEND, AutoHttpUtils.getPostMap(bookRecommend)
-                        ));
+                                , numberRecommend));
                         performInspection.addtestFrameList(
                                 new Recommend(jsonObject, bookRecommend, numberRecommend), numberRecommend
                         );

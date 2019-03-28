@@ -14,8 +14,10 @@ public class Morebdbooks extends RoofNewExpress {
     private int id;
     private int pageNo;
     private Map<String, Object> map;
-    public Morebdbooks(TestFrame roofFlagOne) {
+
+    public Morebdbooks(TestFrame roofFlagOne, double number) {
         super();
+        this.setTag(number);
         try {
             this.map = roofFlagOne.getJsonArrayMap();
             this.id = roofFlagOne.getJsonObject().getInt("id");
@@ -24,7 +26,7 @@ public class Morebdbooks extends RoofNewExpress {
                             AutoHttpUtils.doGet(
                                     BoutiqueConfig.BOUTIQUE_MOREBD_BOOKS,
                                     "bdId=" + id +
-                                            "&pageNo=1")
+                                            "&pageNo=1", number)
                     )
             );
             this.setJsonArray(this.getJsonObject().getJSONArray("list"));

@@ -19,7 +19,7 @@ public class TestCasesShelfRelated implements AddTestCases {
                         (Object) AutomationUtils.
                                 getServerAutomaitonProperties(
                                         ShelfRelatedConfig.SHELF_RELATED_SHELF_UPDATE_REQUEST_DATA),
-                        headers)
+                        headers,number)
         );
         performInspection.addtestFrameList(new ShelfUpdate(jsonObject), number);
     }

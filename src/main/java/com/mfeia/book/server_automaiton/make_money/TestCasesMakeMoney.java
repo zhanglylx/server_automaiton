@@ -21,7 +21,7 @@ public class TestCasesMakeMoney implements AddTestCases {
         //获取赚钱页
         ListEarnIntegralByHd listEarnIntegralByHd = null;
         try {
-            listEarnIntegralByHd = getListEarnIntegralByHd(newUserId);
+            listEarnIntegralByHd = getListEarnIntegralByHd(newUserId,number);
         } catch (Exception e) {
             performInspection.addtestFrameList(
                     new ErrException(TestCasesMakeMoney.class,
@@ -38,7 +38,7 @@ public class TestCasesMakeMoney implements AddTestCases {
                                 "&uid=" + newUserId +
                                 "&status=0" +
                                 "&type=0" +
-                                "&myTaskId=" + listEarnIntegralByHd.getMyTaskId())
+                                "&myTaskId=" + listEarnIntegralByHd.getMyTaskId(), number)
         );
         ReceiveTaskOrReward receiveTaskOrReward = new ReceiveTaskOrReward(
                 jsonObject);
@@ -50,7 +50,7 @@ public class TestCasesMakeMoney implements AddTestCases {
                 AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_TASK_STATUS_UPDATE,
                         "id=" + receiveTaskOrReward.getMyTaskId() +
                                 "&uid=" + newUserId +
-                                "&status=1")
+                                "&status=1", number)
         );
         performInspection.addtestFrameList(new TaskStatusUpdate(jsonObject), number);
 
@@ -59,7 +59,7 @@ public class TestCasesMakeMoney implements AddTestCases {
                 AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_TASK_STATUS_UPDATE,
                         "id=" + receiveTaskOrReward.getMyTaskId() +
                                 "&uid=" + newUserId +
-                                "&status=2")
+                                "&status=2", number)
         );
         performInspection.addtestFrameList(new TaskStatusUpdate(jsonObject), number);
 
@@ -71,7 +71,7 @@ public class TestCasesMakeMoney implements AddTestCases {
                                 "&uid=" + newUserId +
                                 "&status=2" +
                                 "&type=2" +
-                                "&myTaskId=" + receiveTaskOrReward.getMyTaskId())
+                                "&myTaskId=" + receiveTaskOrReward.getMyTaskId(), number)
         );
 
         ListEarnIntegralByHd finalListEarnIntegralByHd = listEarnIntegralByHd;
@@ -124,28 +124,28 @@ public class TestCasesMakeMoney implements AddTestCases {
             @Override
             public void customCheck() {
                 check(finalListEarnIntegralByHd.getRewardIntegral(),
-                        getUserIntegral(newUserId),
+                        getUserIntegral(newUserId, number),
                         "检查时长任务完成后积分是否增加到账户中,用户ID:" + newUserId);
             }
         }, number);
     }
 
-    private int getUserIntegral(String newUserId) {
-        return getListEarnIntegralByHdJSONObject(newUserId).getInt("integral");
+    private int getUserIntegral(String newUserId, double number) {
+        return getListEarnIntegralByHdJSONObject(newUserId, number).getInt("integral");
     }
 
-    private JSONObject getListEarnIntegralByHdJSONObject(String newUserId) {
+    private JSONObject getListEarnIntegralByHdJSONObject(String newUserId, double number) {
         return JSONObject.fromObject(
                 AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_LIST_EARN_INTERGRAL_BY_HD,
                         "cnid=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.CNID) +
                                 "&uid=" + newUserId +
-                                "&updatetime=0")
+                                "&updatetime=0", number)
         );
     }
 
-    private ListEarnIntegralByHd getListEarnIntegralByHd(String newUserId) {
+    private ListEarnIntegralByHd getListEarnIntegralByHd(String newUserId,double number) {
         return new ListEarnIntegralByHd(
-                getListEarnIntegralByHdJSONObject(newUserId).getJSONArray("listObj").getJSONObject(0)
+                getListEarnIntegralByHdJSONObject(newUserId,number).getJSONArray("listObj").getJSONObject(0)
                         .getJSONArray("listTask").getJSONObject(0));
 
     }

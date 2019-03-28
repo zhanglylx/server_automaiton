@@ -18,7 +18,7 @@ public class TestCasesStartRelated implements AddTestCases {
         JSONObject noUpdateJsonObject = JSONObject.fromObject(
                 AutoHttpUtils.doGet(StartRelatedConfig.START_RELATED_CHECK_VERSION,
                         "cnid=" + cnid +
-                                "&vercode=" + (vercode)
+                                "&vercode=" + (vercode),number
                 )
         );
 
@@ -27,7 +27,7 @@ public class TestCasesStartRelated implements AddTestCases {
         JSONObject updateJsonObject = JSONObject.fromObject(
                 AutoHttpUtils.doGet(StartRelatedConfig.START_RELATED_CHECK_VERSION,
                         "cnid=" + cnid +
-                                "&vercode=" + (vercode)
+                                "&vercode=" + (vercode),number
                 )
         );
         performInspection.addtestFrameList(new CheckVersion(updateJsonObject, cnid, true, vercode), number);
@@ -39,14 +39,14 @@ public class TestCasesStartRelated implements AddTestCases {
         JSONObject ginfoJson=JSONObject.fromObject(
                 AutoHttpUtils.doGet(StartRelatedConfig.START_RELATED_GTINFO
                         ,"jgcid="+System.currentTimeMillis()
-                ,headers)
+                ,headers,number)
         );
         performInspection.addtestFrameList(new GtInfo(ginfoJson),number);
 
         JSONObject newUserIgnoreChannelJson=JSONObject.fromObject(
                 AutoHttpUtils.doGet(StartRelatedConfig.START_RELATED_NEW_USER_IGNORE_CHANNEL
                         ,""
-                        ,headers)
+                        ,headers,number)
         );
         performInspection.addtestFrameList(new NewUserIgnoreChannel(newUserIgnoreChannelJson,newUid),number);
 
@@ -55,7 +55,7 @@ public class TestCasesStartRelated implements AddTestCases {
         newUserIgnoreChannelJson=JSONObject.fromObject(
                 AutoHttpUtils.doGet(StartRelatedConfig.START_RELATED_NEW_USER_IGNORE_CHANNEL
                         ,""
-                        ,headers)
+                        ,headers,number)
         );
         performInspection.addtestFrameList(new NewUserIgnoreChannel(newUserIgnoreChannelJson,newUid),number);
 

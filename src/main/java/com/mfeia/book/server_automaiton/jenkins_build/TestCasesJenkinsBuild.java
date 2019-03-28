@@ -24,7 +24,7 @@ public class TestCasesJenkinsBuild implements AddTestCases {
                     String s = AutoHttpUtils.doGet(
                             JenkinsBuildConfig.JENKINS_PACKAGE_BOOK_INFO,
                             "bookId=" + book.getBookId() + "&cnid=" +
-                                    cnid
+                                    cnid, circulationNumber
                     );
                     JSONObject jsonObject = JSONObject.fromObject(s);
                     PackageBookInfo packageBookInfo = new PackageBookInfo(jsonObject, book);
@@ -40,7 +40,7 @@ public class TestCasesJenkinsBuild implements AddTestCases {
                             "&bookid=" + packageBookInfo.getBook().getBookId() +
                             "&chapterid=" + packageBookInfo.getmFirstChapter();
                     jsonObject = JSONObject.fromObject(
-                            AutoHttpUtils.doGet(host, path, quers));
+                            AutoHttpUtils.doGet(host, path, quers, circulationNumber));
                     performInspection.addtestFrameList(new Getchapter(jsonObject).setCaseName(quers), circulationNumber);
 
                 } catch (Exception e) {

@@ -21,7 +21,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
     @Override
     public void additionTestCases(PerformInspection performInspection, double number) throws Exception {
         JSONObject paiHangJson = JSONObject.fromObject(
-                AutoHttpUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_PHINDEXYS, "")
+                AutoHttpUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_PHINDEXYS, "", number)
         );
         Phindexys phindexys = new Phindexys(paiHangJson);
         phindexys.setTag(number);
@@ -39,16 +39,24 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
                 AutomationUtils.addExecute(new Runnable() {
                     @Override
                     public void run() {
+
+                        double pow = Math.pow(10, integer.trim().length());
+                              /*
+                        将bdid转换为0.XXX小数
+                         */
+                        double nb = DoubleOperation.add(number, DoubleOperation.div(Integer.parseInt(integer)
+                                , pow));
                         String query = "uid=" + userId
                                 + "&cnid=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.CNID)
                                 + "&bdid=" + integer
                                 + "&name=" + name
                                 + "&index=1&pageSize=20&curpage=1";
                         JSONObject jsonObject = JSONObject.fromObject(
-                                AutoHttpUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_NEWRANKLIST, query)
+                                AutoHttpUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_NEWRANKLIST, query, nb)
                         );
-                        double pow = Math.pow(10, integer.trim().length());
-                        performInspection.addtestFrameList(new NewRankList(jsonObject), DoubleOperation.add(number, DoubleOperation.div(Integer.parseInt(integer), pow)));
+
+                        performInspection.addtestFrameList(new NewRankList(jsonObject)
+                                , nb);
                     }
                 });
             }
@@ -59,14 +67,14 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
     执行书库
      */
         JSONObject stackRoomJson = JSONObject.fromObject(
-                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_FINDEXYS, "")
+                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_FINDEXYS, "", number)
         );
         StackRoom stackRoom = new StackRoom(stackRoomJson);
         stackRoom.setTag(number);
         performInspection.addtestFrameList(stackRoom, number);
         //免追书库
         JSONObject catelogueJson = JSONObject.fromObject(
-                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STATCK_ROOM_MZ_CATELOGUE, "")
+                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STATCK_ROOM_MZ_CATELOGUE, "", number)
         );
         performInspection.addtestFrameList(new Catelogue(catelogueJson), number);
 
@@ -82,17 +90,19 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
                             /*
                              * 书库二级分类
                              */
+                            double pow = Math.pow(10, integer.trim().length());
+                            double shuKuTwoNumber = DoubleOperation.add(number, DoubleOperation.div(Integer.parseInt(integer), pow));
                             String query = "uid=" + userId
                                     + "&cnid=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.CNID)
                                     + "&flid=" + integer
                                     + "&name=" + name
                                     + "&thitdCateId=0&pageSize=20&curpage=1&bookStatus=0&sortType=0";
                             JSONObject jsonObject = JSONObject.fromObject(
-                                    AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_CATELISTNEW, query)
+                                    AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_CATELISTNEW, query, shuKuTwoNumber)
                             );
-                            double pow = Math.pow(10, integer.trim().length());
+
                             CateListNew cateListNew = new CateListNew(jsonObject, "flid=" + integer + "&name=" + name + "&thitdCateId=0&pageSize=20&curpage=1&bookStatus=0&sortType=0");
-                            cateListNew.setTag(DoubleOperation.add(number, DoubleOperation.div(Integer.parseInt(integer), pow)));
+                            cateListNew.setTag(shuKuTwoNumber);
                             //需要执行对象，因为执行后可以获取到ThirdCateListId
                             cateListNew.stratCheck();
                             performInspection.addtestFrameList(cateListNew, DoubleOperation.add(number, DoubleOperation.div(Integer.parseInt(integer), pow)));
@@ -110,6 +120,8 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
                                 if ("出版".equals(name)) continue;
                                 for (String bookStatu : bookStatus) {
                                     for (String shrtTypeNumber : sortType) {
+                                        pow = Math.pow(10, integer.trim().length());
+                                        shuKuTwoNumber = DoubleOperation.add(number, DoubleOperation.div(Integer.parseInt(integer), pow));
                                         query = "uid=" + userId
                                                 + "&cnid=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.CNID)
                                                 + "&flid=" + integer
@@ -120,22 +132,22 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
                                                 "&sortType=" + shrtTypeNumber;
                                         jsonObject = JSONObject.fromObject(
                                                 AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_CATELISTNEW,
-                                                        query)
+                                                        query, shuKuTwoNumber)
                                         );
-                                        pow = Math.pow(10, integer.trim().length());
+
                                         cateListNew = new CateListNew(jsonObject, "flid=" + integer
                                                 + "&name=" + name
                                                 + "&thitdCateId=" + thirdCateId
                                                 + "&pageSize=20&curpage=1" +
                                                 "&bookStatus=" + bookStatu +
                                                 "&sortType=" + shrtTypeNumber);
-                                        performInspection.addtestFrameList(cateListNew, DoubleOperation.add(number, DoubleOperation.div(Integer.parseInt(integer), pow)));
+                                        performInspection.addtestFrameList(cateListNew, shuKuTwoNumber);
                                     }
                                 }
 
                             }
-                        }catch (Exception e){
-                            performInspection.addtestFrameList(new ErrException(TestCasesPaiHangStackRoom.class,"执行书库二级分类",e,number));
+                        } catch (Exception e) {
+                            performInspection.addtestFrameList(new ErrException(TestCasesPaiHangStackRoom.class, "执行书库二级分类", e, number));
                         }
                     }
                 });

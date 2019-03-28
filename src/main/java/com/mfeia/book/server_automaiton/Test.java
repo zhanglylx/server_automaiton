@@ -32,7 +32,7 @@ import java.util.*;
 public class Test {
     private static final int BOUTIQUE_TAG = 1;//精品代码
     private static List<String> motivational;
-    private static final boolean IS_JAR_RUN = true;
+    private static final boolean IS_JAR_RUN = false;
 
     static {
         motivational = new ArrayList<>();
@@ -77,22 +77,24 @@ public class Test {
             /*
             精品页，排行，搜索会将bookMap填充，所以需要先单独运行
              */
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(), 15));
-            waitThread();
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
-            waitThread();
-            System.out.println(AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesCatalog(), 3));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(), 15));
+//            waitThread();
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
+//            waitThread();
+//            System.out.println("获取到的书籍数量:"+
+//                    AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
+//
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesCatalog(), 3));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
             AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
         } catch (Exception e) {
             RealizePerform.getRealizePerform().addtestFrameList(new ErrException(Test.class, "run", e));
         }

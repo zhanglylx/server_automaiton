@@ -3,6 +3,7 @@ package server_automaiton_gather.server_automaiton_Utils;
 import ZLYUtils.HttpUtils;
 import ZLYUtils.NetworkHeaders;
 import com.mfeia.book.server_automaiton.Book;
+import org.apache.commons.lang.StringUtils;
 import org.apache.http.client.methods.HttpPost;
 import server_automaiton_gather.ErrException;
 import server_automaiton_gather.RealizePerform;
@@ -22,77 +23,88 @@ public class AutoHttpUtils {
         mapHeaders.put("appname", getServerAutomaitonProperties("appname").trim());
     }
 
-    public static String doGet(String propertiesPath, String querys) {
+    public static String doGet(String propertiesPath, String querys, double number) {
         return doGet(getServerAutomaitonProperties(AutomationUtils.getHost()).trim(),
                 getServerAutomaitonProperties(propertiesPath).trim(),
-                querys, getDoHeaders(querys));
+                querys, getDoHeaders(querys), number);
     }
 
-    public static String doGet(String propertiesPath, String querys, Map<String, String> headers) {
+    public static String doGet(String propertiesPath, String querys, Map<String, String> headers, double number) {
         return doGet(getServerAutomaitonProperties(AutomationUtils.getHost()).trim(),
                 getServerAutomaitonProperties(propertiesPath).trim(),
-                querys, headers);
+                querys, headers, number);
     }
 
-    public static String doGet(String host, String path, String querys) {
-        return doGet(host, path, querys, getDoHeaders(querys));
+    public static String doGet(String host, String path, String querys, double number) {
+        return doGet(host, path, querys, getDoHeaders(querys), number);
     }
 
 
-    public static String doGet(String host, String path, String querys, Map<String, String> headers) {
+    public static String doGet(String host, String path, String querys, Map<String, String> headers, double number) {
         NetworkHeaders networkHeaders = new NetworkHeaders();
-        try {
-            return HttpUtils.doGet(HttpUtils.getURI(getUrl(host, path), querys),
-                    headers,
-                    networkHeaders);
-        } finally {
-            checkNetwordHeades(networkHeaders);
-        }
+        Object o = HttpUtils.doGet(HttpUtils.getURI(getUrl(host, path), querys),
+                headers,
+                networkHeaders);
+        return checkResponse(o, networkHeaders, null, number);
     }
-    /**
-     * 检查响应是不是200
-     *
-     * @param networkHeaders
-     */
-    private static void checkNetwordHeades(NetworkHeaders networkHeaders) {
-        if(networkHeaders==null){
+
+    public static String checkResponse(Object response, NetworkHeaders networkHeaders, Object body, double number) {
+        if (body == null) body = "NULL";
+        if (response instanceof Exception) {
             RealizePerform.getRealizePerform().addtestFrameList(
-                    new ErrException(AutoHttpUtils.class, "checkNetwordHeades:NULL" , new Exception()));
-        }else{
-            if (networkHeaders.getResponseCode() != 200)
-                RealizePerform.getRealizePerform().addtestFrameList(
-                        new ErrException(AutoHttpUtils.class, "Response Not 200 :ResponseCode[" +networkHeaders.getResponseCode()+"]"+ networkHeaders.getHttpRequestBase(), new Exception()));
+                    new ErrException(
+                            AutoHttpUtils.class, "checkResponseException:[" + networkHeaders.getStatusLine() + "]", (Exception) response,number),number);
+            return null;
+        } else if (networkHeaders.getStatusLine().getStatusCode() != 200) {
+            RealizePerform.getRealizePerform().addtestFrameList(
+                    new ErrException(
+                            AutoHttpUtils.class, "checkResponse Not 200"
+                            , new Exception()
+                            , networkHeaders.getHttpRequestBase()
+                            , networkHeaders.getStatusLine()
+                            , body
+                            , number
+                    ),number);
+        } else if (response == null) {
+            RealizePerform.getRealizePerform().addtestFrameList(
+                    new ErrException(
+                            AutoHttpUtils.class, "checkResponse IS NULL"
+                            , new Exception()
+                            , networkHeaders.getHttpRequestBase()
+                            , networkHeaders.getStatusLine()
+                            , body
+                            , number
+                    ),number);
         }
-
+        return response.toString();
     }
 
-    public static String doPost(String propertiesPath, Object parm) {
+
+    public static String doPost(String propertiesPath, Object parm, double number) {
         return doPost(getServerAutomaitonProperties(AutomationUtils.getHost()).trim(),
                 getServerAutomaitonProperties(propertiesPath).trim(), parm,
-                getDoHeaders(parm));
+                getDoHeaders(parm), number);
     }
 
-    public static String doPost(String host, String propertiesPath, Object parm) {
+    public static String doPost(String host, String propertiesPath, Object parm, double number) {
         return doPost(host,
                 getServerAutomaitonProperties(propertiesPath).trim(), parm,
-                getDoHeaders(parm));
+                getDoHeaders(parm), number);
     }
 
 
-    public static String doPost(String propertiesPath, Object parm, Map<String, String> headers) {
+    public static String doPost(String propertiesPath, Object parm, Map<String, String> headers, double number) {
         return doPost(getServerAutomaitonProperties(AutomationUtils.getHost()).trim(),
                 getServerAutomaitonProperties(propertiesPath).trim(), parm,
-                headers);
+                headers, number);
     }
 
-    public static String doPost(String host, String path, Object parm, Map<String, String> headers) {
+    public static String doPost(String host, String path, Object parm, Map<String, String> headers, double number) {
         NetworkHeaders networkHeaders = new NetworkHeaders();
-        try {
-            return HttpUtils.doPost(getUrl(host, path), parm,
-                    headers, networkHeaders);
-        } finally {
-            checkNetwordHeades(networkHeaders);
-        }
+        Object o = HttpUtils.doPost(getUrl(host, path), parm,
+                headers, networkHeaders);
+        return checkResponse(o, networkHeaders, parm, number);
+
     }
 
     private static Map<String, String> getDoHeaders(Object querys) {

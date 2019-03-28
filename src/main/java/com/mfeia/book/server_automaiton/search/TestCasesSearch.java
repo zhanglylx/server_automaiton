@@ -22,7 +22,7 @@ public class TestCasesSearch implements AddTestCases {
          */
         JSONObject searchHomePageJson = JSONObject.fromObject(
                 AutoHttpUtils.doGet(
-                        SearchConfig.SERACH_HOME_PAGE, ""));
+                        SearchConfig.SERACH_HOME_PAGE, "", number));
         performInspection.addtestFrameList(new SearchHomePage(searchHomePageJson), number);
         performInspection.addtestFrameList(
                 new SearchBooksCheck(
@@ -35,7 +35,7 @@ public class TestCasesSearch implements AddTestCases {
          */
         JSONObject morebdbooks = JSONObject.fromObject(
                 AutoHttpUtils.doGet(
-                        SearchConfig.SERACH_MOREBDBOOKS, "bdId=21&pageNo=1"));
+                        SearchConfig.SERACH_MOREBDBOOKS, "bdId=21&pageNo=1", number));
         performInspection.addtestFrameList(new Morebdbooks(morebdbooks), number);
         performInspection.addtestFrameList(new SearchBooksCheck(
                 morebdbooks.getJSONArray("list")
@@ -53,7 +53,7 @@ public class TestCasesSearch implements AddTestCases {
                 String caseName = "关键词["+keyword+"] book:"+book;
                 JSONObject searchassociationwords = JSONObject.fromObject(
                         AutoHttpUtils.doGet(
-                                SearchConfig.SERACK_SEARCHASSOCIATIONWORDS, "keyword=" + keyword));
+                                SearchConfig.SERACK_SEARCHASSOCIATIONWORDS, "keyword=" + keyword, number));
                 performInspection.addtestFrameList(
                         new Searchassociationwords(searchassociationwords, keyword).setCaseName(caseName), number);
                   /*
@@ -66,7 +66,7 @@ public class TestCasesSearch implements AddTestCases {
                                 "&version=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.VERCODE)).toString();
 
                 JSONObject searchResult = JSONObject.fromObject(
-                        AutoHttpUtils.doPost(host, path, null, null)
+                        AutoHttpUtils.doPost(host, path, null, null, number)
                 );
                 performInspection.addtestFrameList(new SearchResult(searchResult, keyword).setCaseName(caseName), number);
                 performInspection.addtestFrameList(new SearchBooksCheck(

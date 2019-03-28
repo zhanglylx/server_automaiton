@@ -24,7 +24,7 @@ public class TestCasesDetail implements AddTestCases {
                 AutomationBooksMap.getAutomationBooksMap().getBooksListMap().entrySet()) {
             number = DoubleOperation.add(number, 0.00001);
             JSONObject jsonObject = JSONObject.fromObject(AutoHttpUtils.doGet(
-                    DetailPageConfig.DETAIL_PAGE_BOOK_DETAIL_YS, "bookid=" + booksEntry.getKey()));
+                    DetailPageConfig.DETAIL_PAGE_BOOK_DETAIL_YS, "bookid=" + booksEntry.getKey(),number));
             try {
                 performInspection.addtestFrameList(
                         new Detail(jsonObject, number, booksEntry.getValue()),

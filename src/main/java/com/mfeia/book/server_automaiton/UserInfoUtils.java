@@ -29,7 +29,7 @@ public class UserInfoUtils {
 
     public static void resetHistoryUserId() {
         try {
-            historyUserId = getUserJSONbject(AutomationUtils.getServerAutomaitonProperties(AutomationUtils.TEL)).
+            historyUserId = getUserJSONbject(AutomationUtils.getServerAutomaitonProperties(AutomationUtils.TEL),-1).
                     getJSONObject("data").
                     getString("id");
         } catch (Exception e) {
@@ -56,12 +56,12 @@ public class UserInfoUtils {
         return resetNewUserId();
     }
 
-    public static JSONObject getUserJSONbject(String tel) {
+    public static JSONObject getUserJSONbject(String tel,double number) {
         Map<String, String> map = new HashMap<>();
         map.put("tel", tel);
         map.put("mac",UUID.randomUUID().toString());
         String str =
-                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_USER, map);
+                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_USER, map,number);
         return JSONObject.fromObject(str);
     }
 

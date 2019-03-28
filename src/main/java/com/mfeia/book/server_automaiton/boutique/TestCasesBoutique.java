@@ -28,30 +28,30 @@ public class TestCasesBoutique implements AddTestCases {
             switch (i) {
                 case 0:
                     //精品页
-                    load(getJSONArray(BoutiqueConfig.BOUTIQUE_INDEX, i),
+                    load(getJSONArray(BoutiqueConfig.BOUTIQUE_INDEX, i,number),
                             performInspection,
                             number);
-                    loadRefresh(getJSONArray(BoutiqueConfig.BOUTIQUE_REFRESHBD, i),
+                    loadRefresh(getJSONArray(BoutiqueConfig.BOUTIQUE_REFRESHBD, i,number + d),
                             performInspection,
                             number + d);
                     break;
                 case 1:
                 case 2:
                     //男频，女频
-                    loadList(getJSONArray(BoutiqueConfig.BOUTIQUE_INDEX, i),
+                    loadList(getJSONArray(BoutiqueConfig.BOUTIQUE_INDEX, i,number + d),
                             performInspection,
                             number + d);
-                    loadListRefresh(getJSONArray(BoutiqueConfig.BOUTIQUE_REFRESHBD, i),
+                    loadListRefresh(getJSONArray(BoutiqueConfig.BOUTIQUE_REFRESHBD, i,number + d + 0.01),
                             performInspection,
                             number + d + 0.01);
                     break;
                 default:
                     //出版，新书，完结
-                    loadNewArrivals(getJSONArray(BoutiqueConfig.BOUTIQUE_INDEX, i),
+                    loadNewArrivals(getJSONArray(BoutiqueConfig.BOUTIQUE_INDEX, i,number + d),
                             performInspection,
                             number + d, i);
                     loadListRefresh(JSONObject.fromObject(
-                            AutoHttpUtils.doGet(BoutiqueConfig.BOUTIQUE_REFRESHBD, "type=" + i)),
+                            AutoHttpUtils.doGet(BoutiqueConfig.BOUTIQUE_REFRESHBD, "type=" + i,number + d)),
                             performInspection,
                             number + d);
             }
@@ -59,9 +59,9 @@ public class TestCasesBoutique implements AddTestCases {
 
     }
 
-    private JSONArray getJSONArray(String path, int type) {
+    private JSONArray getJSONArray(String path, int type,double number) {
         return JSONObject.fromObject(
-                AutoHttpUtils.doGet(path, "type=" + type)).getJSONArray("data");
+                AutoHttpUtils.doGet(path, "type=" + type,number)).getJSONArray("data");
     }
 
     private void load(JSONArray jsonArray, PerformInspection performInspection, double number) {
@@ -179,7 +179,7 @@ public class TestCasesBoutique implements AddTestCases {
         performInspection.addtestFrameList(roofFlagSixtenn, number);
         performInspection.addtestFrameList(roofFlagNine, number);
         performInspection.addtestFrameList(roofFlagFifteen, number);
-        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne).setTag(number), number);
+        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne,number), number);
         performInspection.addtestFrameList(new ChangeBook(roofFlagFourteen, number).setTag(number), number);
         performInspection.addtestFrameList(new ChangeTag(roofFlagNine, number).setTag(number), number);
     }
@@ -252,7 +252,7 @@ public class TestCasesBoutique implements AddTestCases {
         performInspection.addtestFrameList(roofFlagOne, number);
         performInspection.addtestFrameList(roofFlagSixtenn, number);
         performInspection.addtestFrameList(roofFlagFifteen, number);
-        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne).setTag(number), number);
+        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne,number).setTag(number), number);
         performInspection.addtestFrameList(new ChangeBook(roofFlagFourteen, number).setTag(number), number);
     }
 
@@ -314,7 +314,7 @@ public class TestCasesBoutique implements AddTestCases {
         }
         performInspection.addtestFrameList(roofFlagZero, number);
         performInspection.addtestFrameList(roofFlagOne, number);
-        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne).setTag(number), number);
+        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne,number).setTag(number), number);
         performInspection.addtestFrameList(roofFlagSeven, number);
         if (roofFlagFive != null)
             performInspection.addtestFrameList(roofFlagFive, number);
@@ -369,7 +369,7 @@ public class TestCasesBoutique implements AddTestCases {
         }
         performInspection.addtestFrameList(roofFlagZero, number);
         performInspection.addtestFrameList(roofFlagOne, number);
-        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne).setTag(number), number);
+        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne,number).setTag(number), number);
     }
 
     /**
@@ -413,7 +413,7 @@ public class TestCasesBoutique implements AddTestCases {
         } else {
             performInspection.addtestFrameList(roofFlagOne, number);
         }
-        performInspection.addtestFrameList(new Morebdbooks(morebdbooksFlagOne), number);
+        performInspection.addtestFrameList(new Morebdbooks(morebdbooksFlagOne,number), number);
 
     }
 

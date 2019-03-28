@@ -29,6 +29,7 @@ import org.apache.http.ssl.SSLContextBuilder;
 import org.apache.http.util.EntityUtils;
 import server_automaiton_gather.ErrException;
 import server_automaiton_gather.RealizePerform;
+import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import server_automaiton_gather.server_automaiton_Utils.PropertiesConfig;
 
@@ -179,27 +180,26 @@ public class HttpUtils {
         return httpBulder.build();
     }
 
-    public static String doGet(String url, String param, Map<String, String> headers) {
+    public static Object doGet(String url, String param, Map<String, String> headers) {
         return doGet(getURI(url, param), headers, null);
     }
 
-    public static String doGet(String url, String param) {
+    public static Object doGet(String url, String param) {
         return doGet(getURI(url, param));
     }
 
-    public static String doGet(URI uri) {
+    public static Object doGet(URI uri) {
         return doGet(uri, null, null);
     }
 
-    public static String doGet(URI uri, Map<String, String> headers
+    public static Object doGet(URI uri, Map<String, String> headers
             , NetworkHeaders networkHeaders) {
-        String result = "";
+        Object result;
         try {
             result = getResponse(getHttpGet(uri, headers), networkHeaders);
         } catch (Exception e) {
-            RealizePerform.getRealizePerform().addtestFrameList(
-                    new ErrException(HttpUtils.class, "doGet", e));
             e.printStackTrace();
+            return e;
         } finally {
             //不可以关闭，不然连接池就会被关闭
 //            httpClient.close();
@@ -207,26 +207,24 @@ public class HttpUtils {
         return result;
     }
 
-    public static String doPostJson(String url, String param) {
+    public static Object doPostJson(String url, String param) {
         return doPostJson(url, param, null, null);
     }
 
 
-    public static String doPost(String url, Object param) {
+    public static Object doPost(String url, Object param) {
         return doPost(url, param, null, null);
     }
 
-    public static String doPost(String url, Map<String, String> param) {
+    public static Object doPost(String url, Map<String, String> param) {
         return doPost(url, param, null, null);
     }
 
     @SuppressWarnings("unchecked")
-    public static String doPost(String url
+    public static Object doPost(String url
             , Object param
             , Map<String, String> requestHead
             , NetworkHeaders networkHeaders) {
-        String resultString = "";
-
         try {
             HttpPost httpPost = getHttpPost(url, requestHead);
             // 创建参数列表
@@ -244,20 +242,20 @@ public class HttpUtils {
                     httpPost.setEntity(entity);
                 }
             }
-            resultString = getResponse(httpPost, networkHeaders);
+            return getResponse(httpPost, networkHeaders);
         } catch (Exception e) {
             RealizePerform.getRealizePerform().addtestFrameList(
                     new ErrException(HttpUtils.class, "doPost", e));
             e.printStackTrace();
+            return e;
         }
-        return resultString;
     }
 
-    public static String doPostJson(String url
+    public static Object doPostJson(String url
             , String param
             , Map<String, String> requestHead
             , NetworkHeaders networkHeaders) {
-        String resultString = "";
+        Object result;
         try {
             // 创建Http Post请求
             HttpPost httpPost = getHttpPost(url, requestHead);
@@ -267,13 +265,13 @@ public class HttpUtils {
             entity.setContentType(CONTENT_TYPE_JSON_URL);
             httpPost.setEntity(entity);
             // 执行http请求
-            resultString = getResponse(httpPost, networkHeaders);
+            return getResponse(httpPost, networkHeaders);
         } catch (Exception e) {
             RealizePerform.getRealizePerform().addtestFrameList(
                     new ErrException(HttpUtils.class, "doPostJson", e));
             e.printStackTrace();
+            return e;
         }
-        return resultString;
     }
 
     private static Header[] getHeaders(Map<String, String> requestHead) {
@@ -309,28 +307,28 @@ public class HttpUtils {
      * @param networkHeaders
      * @return
      */
-    private static String getResponse(HttpRequestBase httpRequestBase
+    private static Object getResponse(HttpRequestBase httpRequestBase
             , NetworkHeaders networkHeaders) {
-        String result = "";
+        String result;
         CloseableHttpResponse closeableHttpResponse = null;
+        long startTime = 0;
+        long endTime = Long.MAX_VALUE;
         try {
-            HttpClient httpClient;
             CloseableHttpClient closeableHttpClient = getHttpClient();
-            long startTime = System.currentTimeMillis();
+            startTime = System.currentTimeMillis();
             closeableHttpResponse = closeableHttpClient.execute(httpRequestBase);
-            if (networkHeaders != null) {
-                networkHeaders.setResponseTime(System.currentTimeMillis() - startTime);
-                networkHeaders.setHttpRequestBase(httpRequestBase);
-            }
+            endTime = System.currentTimeMillis();
             if (closeableHttpResponse.getStatusLine().getStatusCode() != 200) {
                 result = closeableHttpResponse.getStatusLine().getStatusCode() + "";
             } else {
-                responseNetworkHeaders(closeableHttpResponse, networkHeaders);
                 result = EntityUtils.toString(closeableHttpResponse.getEntity(), CHARSET_UTF_8);
             }
         } catch (IOException e) {
             e.printStackTrace();
+            return e;
         } finally {
+            //设置networkHeaders
+            responseNetworkHeaders(httpRequestBase, closeableHttpResponse, networkHeaders, startTime, endTime);
             try {
                 if (closeableHttpResponse != null) closeableHttpResponse.close();
             } catch (IOException e) {
@@ -348,20 +346,25 @@ public class HttpUtils {
      * @param closeableHttpResponse
      * @param networkHeaders
      */
-    private static void responseNetworkHeaders(CloseableHttpResponse closeableHttpResponse
-            , NetworkHeaders networkHeaders) {
+    private static void responseNetworkHeaders(HttpRequestBase httpRequestBase, CloseableHttpResponse closeableHttpResponse
+            , NetworkHeaders networkHeaders, long startTime, long endTime) {
         if (networkHeaders != null) {
-            networkHeaders.setResponseCode(closeableHttpResponse.getStatusLine().getStatusCode());
-            Map<String, List<String>> map = new HashMap<>();
-            List<String> list;
-            for (Header header : closeableHttpResponse.getAllHeaders()) {
-                list = new ArrayList<>();
-                for (HeaderElement element : header.getElements()) {
-                    list.add(element.getName());
+            networkHeaders.setStartTime(startTime);
+            networkHeaders.setEndTime(endTime);
+            networkHeaders.setHttpRequestBase(httpRequestBase);
+            if (closeableHttpResponse != null) {
+                networkHeaders.setStatusLine(closeableHttpResponse.getStatusLine());
+                Map<String, List<String>> map = new HashMap<>();
+                List<String> list;
+                for (Header header : closeableHttpResponse.getAllHeaders()) {
+                    list = new ArrayList<>();
+                    for (HeaderElement element : header.getElements()) {
+                        list.add(element.getName());
+                    }
+                    map.put(header.getName(), list);
                 }
-                map.put(header.getName(), list);
+                networkHeaders.setHeaders(map);
             }
-            networkHeaders.setHeaders(map);
         }
 
     }

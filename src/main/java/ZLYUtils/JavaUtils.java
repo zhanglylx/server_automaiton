@@ -12,6 +12,21 @@ import java.util.regex.Pattern;
 
 public class JavaUtils {
 
+    /**
+     * 将字符串格式化
+     *
+     * @param str
+     * @return
+     */
+    public static String strFormatting(Object... str) {
+        StringBuilder stringBuilder = new StringBuilder();
+        for (Object s : str) {
+            stringBuilder.append("【");
+            stringBuilder.append(s.toString());
+            stringBuilder.append("】");
+        }
+        return stringBuilder.toString();
+    }
 
     /**
      * 获取文件后缀名称
@@ -55,7 +70,6 @@ public class JavaUtils {
     public static int getRandomNumbers(int min, int max) {
         return new Random().nextInt(max) % (max - min + 1) + min;
     }
-
 
 
     /**
@@ -191,7 +205,7 @@ public class JavaUtils {
         if (!file.getName().toLowerCase().endsWith(".txt"))
             throw new IllegalArgumentException("不是txt文件:" + file.getPath());
         List<String> list = new ArrayList<>();
-        BufferedReader bufferedReader=null;
+        BufferedReader bufferedReader = null;
         try {
             bufferedReader =
                     new BufferedReader(
@@ -202,7 +216,7 @@ public class JavaUtils {
                 list.add(msg);
             }
         } finally {
-            if(bufferedReader!=null)bufferedReader.close();
+            if (bufferedReader != null) bufferedReader.close();
         }
         return list;
     }
