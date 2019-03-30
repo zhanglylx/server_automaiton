@@ -12,6 +12,32 @@ import java.util.*;
 public class AutomationBooksMap implements BooksMap {
     private Map<Long, Book> booksList;
     private static AutomationBooksMap automationBooksMap = new AutomationBooksMap();
+    private static int bookMapSstrict=-1;
+    private static String bookMapSstrictInfo = "配置文件限制BookMap：";
+
+    /**
+     * 获取书籍在配置文件中的限制信息
+     *
+     * @return
+     */
+    public static String getBookMapSstrictInfo() {
+        return bookMapSstrictInfo;
+    }
+
+    static {
+        try {
+            bookMapSstrict = Integer.parseInt(AutomationUtils.getServerAutomaitonProperties("bookMap"));
+            if (bookMapSstrict > 0) {
+                bookMapSstrictInfo += bookMapSstrict;
+            } else {
+                bookMapSstrictInfo += "未限制";
+            }
+
+        } catch (Exception e) {
+            bookMapSstrictInfo += "配置文件限制BookMap异常:" + e.toString();
+            RealizePerform.getRealizePerform().addtestFrameList(new ErrException(AutomationBooksMap.class, "bookMapSstrict", e));
+        }
+    }
 
     private AutomationBooksMap() {
         this.booksList = Collections.synchronizedMap(new HashMap<>());
@@ -51,13 +77,13 @@ public class AutomationBooksMap implements BooksMap {
 //            }
 //        }
         try {
-            int bookMap = Integer.parseInt(AutomationUtils.getServerAutomaitonProperties("bookMap"));
-            if (this.booksList.size() >= bookMap && bookMap > 0)
+            if (this.booksList.size() >= bookMapSstrict && bookMapSstrict > 0)
                 return;
+            this.booksList.put(book.getBookId(), book);
         } catch (Exception e) {
             RealizePerform.getRealizePerform().addtestFrameList(new ErrException(AutomationBooksMap.class, "addBook", e));
         }
-        this.booksList.put(book.getBookId(), book);
+
     }
 
 

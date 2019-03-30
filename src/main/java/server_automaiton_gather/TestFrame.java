@@ -424,7 +424,7 @@ public abstract class TestFrame {
         for (boolean b : this.checkBoolean) {
             if (!b) return this.className + ": false";
         }
-        return this.className + ": true";
+        return "<label style=\"color:green\">"+this.className + ": true</label>";
     }
 
     /**

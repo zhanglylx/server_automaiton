@@ -31,7 +31,6 @@ public class HtmlUtils {
             colourList.add("0000CC");
             colourList.add("FF0000");
             colourList.add("CC00FF");
-            colourList.add("FFFF33");
             colourList.add("FFCCFF");
             template = PropertiesConfig.getConfigFile(PropertiesConfig.HTML_STATIC).getParentFile();
             String log = AutomationUtils.getServerAutomaitonProperties("executive.outcomeslog.save.address").trim();

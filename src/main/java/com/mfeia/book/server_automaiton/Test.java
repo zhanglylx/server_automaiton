@@ -1,5 +1,6 @@
 package com.mfeia.book.server_automaiton;
 
+import ZLYUtils.JavaUtils;
 import ZLYUtils.WindosUtils;
 import com.mfeia.book.server_automaiton.background_interface.TestCasesBackgroundInterface;
 import com.mfeia.book.server_automaiton.book_catalog.TestCasesCatalog;
@@ -77,19 +78,19 @@ public class Test {
             /*
             精品页，排行，搜索会将bookMap填充，所以需要先单独运行
              */
-//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG));
+            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(), 15));
-//            waitThread();
+            waitThread();
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
-//            waitThread();
-//            System.out.println("获取到的书籍数量:"+
-//                    AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
-//
+            waitThread();
+            System.out.println("获取到的书籍数量:" +
+                    AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
+
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesCatalog(), 3));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
 //            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
@@ -132,6 +133,15 @@ public class Test {
             html += HtmlUtils.getSeparator(4) + "错误日志结果保存 : "
                     + (logUtils ? HtmlUtils.colourFormatting("成功", "339900") : HtmlUtils.colourFormatting("失败", "CC0000"));
             html += "</br>";
+            String bookMapSize =(HtmlUtils.colourFormatting(
+                    String.valueOf(AutomationBooksMap
+                            .getAutomationBooksMap()
+                            .getBooksListMap()
+                            .size()), HtmlUtils.getRandomColour()));
+
+            html += HtmlUtils.getSeparator(4) +  "共获取到检查书籍 : "
+                    + JavaUtils.strFormatting(bookMapSize, AutomationBooksMap.getBookMapSstrictInfo());
+            html += "</br>";
             html += HtmlUtils.getSeparator(4) + "用例成功执行条数 : "
                     + HtmlUtils.colourFormatting(String.valueOf(RealizePerform.getRealizePerform().getSucceedBranches()), "339900");
             html += "</br>";
@@ -160,7 +170,8 @@ public class Test {
             RealizePerform.getRealizePerform().addtestFrameList(new ErrException(Test.class, "stop", e));
         } finally {
             AutomationUtils.executorServiceShutdown();
-            if(RealizePerform.getRealizePerform().getFailureBranches()>0)MailUtils.sendMail(files, WindosUtils.getDate() + " 自动化脚本执行结果", html);
+            if (RealizePerform.getRealizePerform().getFailureBranches() > 0)
+                MailUtils.sendMail(files, WindosUtils.getDate() + " 自动化脚本执行结果", html);
         }
     }
 

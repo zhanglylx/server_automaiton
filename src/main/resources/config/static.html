@@ -12,20 +12,20 @@
 <br/>
 <strong>共失败:&nbsp;</strong><b><label style="color:red">${failureBranches}</label></b>
 <br/>
-<strong>错误结果集合：</strong>
+<label style="color:red"><strong>错误结果集合：</strong></label>
 
-<br/>
+    <br/>
 <#list errLogss?keys as key>
     <p>
-    <#-- 占位符 &nbsp;-->
-        &nbsp;<strong>${key}</strong>
-    <br/>
+
     <#assign item = errLogss[key]>
-    <#if (item?size)==0>
-        &nbsp;&nbsp;&nbsp;<label style="color:green">测试通过</label>
+        <#if (item?size)!=0>
+        <#-- 占位符 &nbsp;-->
+        &nbsp;<strong>${key}</strong>
     <br/>
     </#if>
     <#list item as itemValue>
+        <br/>
         &nbsp;&nbsp;&nbsp;<label style="color:red">${itemValue}</label>
         <br/>
         <br/>
@@ -33,10 +33,12 @@
     </p>
 </#list>
 <br/> <br/> <br/> <br/>
-<label style="color:violet"><strong>全部结果集合：-------------------------------------------------</strong>
+<label style="color:violet"><strong>全部结果集合：====================
+    =========================================================================================================</strong>
 <#list allLogss?keys as key>
 <p>
     <#-- 占位符 &nbsp;-->
+
     &nbsp;<strong>${key}</strong>
     <br/>
     <#assign item = allLogss[key]>
