@@ -51,6 +51,7 @@ public class AutomationUtils {
     public static final String NEW_RANK_LIST_BDID = "cxNewRankListBDID";
     public static final String NEW_CATE_LIST_FIND = "catelistnewFIND";
     public static final String SHU_KU_IMG = "shuKuImg";
+    public static final String STICK_SLIDESHOWS_AD_URL = "stickSlideshowsAdUrl";
     private static Properties properties;
     private static ThreadPoolExecutor executorService;
 
@@ -72,7 +73,8 @@ public class AutomationUtils {
                     new ErrException(AutomationUtils.class, "初始化", e)
             );
         }
-        String cxbUrlPatten="https?://((cxb-pro)|(cx))\\.((ikanshu)|(cread))\\.((com)|(cn))";
+        String cxbUrlPatten = "https?://((cxb-pro)|(cx))\\.((ikanshu)|(cread))\\.((com)|(cn))";
+        checkRules.put(STICK_SLIDESHOWS_AD_URL, Pattern.compile(cxbUrlPatten+".+"));
         checkRules.put(BOOK_ID, Pattern.compile("\\d{3,15}"));
         checkRules.put(BOOK_NAME, Pattern.compile(".+"));
         checkRules.put(BOOK_INTRO, Pattern.compile(".*"));
@@ -81,18 +83,18 @@ public class AutomationUtils {
         checkRules.put(BOOK_CATEGORY_COLOR, Pattern.compile("#[0-9a-zA-Z]{5,10}"));
         checkRules.put(BOOK_CATEGORY_NAME, Pattern.compile(".+"));
         checkRules.put(BOOK_DETAIL_AD_URL,
-                Pattern.compile(cxbUrlPatten+"/cx/bookdetail\\?bookid=\\d{1,13}\\$parmurl"));
+                Pattern.compile(cxbUrlPatten + "/cx/bookdetail\\?bookid=\\d{1,13}\\$parmurl"));
         checkRules.put(TAG_IMG_URL,
                 Pattern.compile("http://images-pro\\.cread\\.com/cx/endimgs/[0-9a-zA-Z]{1,70}\\.((jpg)|(png))"));
         checkRules.put(AD_IMG_URL,
                 Pattern.compile("http://images-pro\\.cread\\.com/cx/endimgs/[0-9a-zA-Z]{1,70}\\.((jpg)|(png))"));
-        checkRules.put(TAG_URL_DETAIL, Pattern.compile(cxbUrlPatten+"/cx/bookdetail\\?bookid=\\d{1,13}\\$parmurl"));
+        checkRules.put(TAG_URL_DETAIL, Pattern.compile(cxbUrlPatten + "/cx/bookdetail\\?bookid=\\d{1,13}\\$parmurl"));
         checkRules.put(RANK_LIST_AD_URL,
-                Pattern.compile(cxbUrlPatten+"/cx/ranklist.*\\?bdid=\\d+\\$parmurl"));
+                Pattern.compile(cxbUrlPatten + "/cx/ranklist.*\\?bdid=\\d+\\$parmurl"));
         checkRules.put(NEW_RANK_LIST_BDID,
-                Pattern.compile(cxbUrlPatten+"/cx/new/rankList.*\\?bdid=\\d+\\$parmurl"));
+                Pattern.compile(cxbUrlPatten + "/cx/new/rankList.*\\?bdid=\\d+\\$parmurl"));
         checkRules.put(NEW_CATE_LIST_FIND,
-                Pattern.compile(cxbUrlPatten+"//cx/new/catelistnew.*\\?flid=\\d+\\$parmurl"));
+                Pattern.compile(cxbUrlPatten + "//cx/new/catelistnew.*\\?flid=\\d+\\$parmurl"));
         checkRules.put(TAG_NAME, Pattern.compile(".+"));
         checkRules.put(ID, Pattern.compile("\\d+"));
         checkRules.put(TEXT, Pattern.compile(".+"));

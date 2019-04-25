@@ -37,7 +37,7 @@ public class LogUtils {
             printWriter.println("<html>");
             printWriter.println("<head>");
             printWriter.println("<meta http-equiv=\"Content-Type\" content=\"text/html; charset=UTF-8\">");
-            printWriter.println("<title>server_automaiton</title>");
+            printWriter.println("<title>" + savelLog.getName() + "</title>");
             printWriter.println("</head>");
 
         } catch (Exception e) {
@@ -101,13 +101,14 @@ public class LogUtils {
 
                 list.add(msg.replaceAll("at ", "</br>at "));
             }
-            list.add(HtmlUtils.colourFormatting(HtmlUtils.getSeparator(150) + "END", HtmlUtils.getRandomColour(), true));
+            list.add(HtmlUtils.getColourFormatting(HtmlUtils.getSeparator(150) + "END", HtmlUtils.getRandomColour(), true));
             printWriter = new PrintWriter(
                     new OutputStreamWriter(new FileOutputStream(LogUtils.getSavelLogFile()), "UTF-8")
                     , true);
             for (String s : list) {
                 printWriter.println(s);
             }
+            System.out.println("文件格式化Html成功:"+LogUtils.getSavelLogFile());
             return true;
         } catch (Exception e) {
             e.printStackTrace();

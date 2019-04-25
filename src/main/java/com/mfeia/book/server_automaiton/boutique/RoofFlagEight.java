@@ -18,7 +18,7 @@ public class RoofFlagEight extends RoofRoot {
         super(jsonObject,
                 FLAG,
                 1,
-                "置顶5图",
+                jsonObject.getString("name"),
                 Pattern.compile(""),
                 Pattern.compile(""),
                 TAB_NAME_ARRAYS.length);

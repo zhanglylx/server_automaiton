@@ -48,8 +48,7 @@ public class TestCasesStartRelated implements AddTestCases {
                         ,""
                         ,headers,number)
         );
-        performInspection.addtestFrameList(new NewUserIgnoreChannel(newUserIgnoreChannelJson,newUid),number);
-
+        performInspection.addtestFrameList(new NewUserIgnoreChannel(newUserIgnoreChannelJson,newUid,true),number);
         newUid="-1";
         headers.put("uid", newUid);
         newUserIgnoreChannelJson=JSONObject.fromObject(
@@ -57,7 +56,7 @@ public class TestCasesStartRelated implements AddTestCases {
                         ,""
                         ,headers,number)
         );
-        performInspection.addtestFrameList(new NewUserIgnoreChannel(newUserIgnoreChannelJson,newUid),number);
+        performInspection.addtestFrameList(new NewUserIgnoreChannel(newUserIgnoreChannelJson,newUid,false),number);
 
     }
 }

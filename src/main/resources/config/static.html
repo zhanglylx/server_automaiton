@@ -33,15 +33,15 @@
     </p>
 </#list>
 <br/> <br/> <br/> <br/>
-<label style="color:violet"><strong>全部结果集合：====================
+<label style="color:violet"><strong>成功结果集合：====================
     =========================================================================================================</strong>
-<#list allLogss?keys as key>
+<#list succeedLogss?keys as key>
 <p>
     <#-- 占位符 &nbsp;-->
 
     &nbsp;<strong>${key}</strong>
     <br/>
-    <#assign item = allLogss[key]>
+    <#assign item = succeedLogss[key]>
 <#list item as itemValue>
 &nbsp;&nbsp;&nbsp;${itemValue}</label>
 <br/>

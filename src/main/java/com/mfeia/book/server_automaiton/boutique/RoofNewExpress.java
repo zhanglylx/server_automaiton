@@ -36,7 +36,7 @@ public class RoofNewExpress extends RoofRoot {
                 Pattern.compile("更多新书"),
                 AutomationUtils.getCheckRules(
                         AutomationUtils.RANK_LIST_AD_URL
-                ), 10);
+                ), 1);
         addJsonMap("showCount", 10);
     }
 

@@ -14,7 +14,7 @@ public class RoofFlagFourteen extends RoofNewExpress {
     public RoofFlagFourteen(JSONObject jsonObject) {
         super(jsonObject, FLAG,
                 0,
-                "书友在看",
+                jsonObject.getString("name"),
                 Pattern.compile("换一换"),
                 Pattern.compile("client://refresh_text_tag"),
                 4

@@ -246,14 +246,14 @@ public class TestCasesBoutique implements AddTestCases {
                                     new Exception("未找到FLAG"), number), number);
             }
         }
-        performInspection.addtestFrameList(roofNewExpress, number);
-        performInspection.addtestFrameList(roofEditorSelected, number);
-        performInspection.addtestFrameList(roofFlagFourteen, number);
-        performInspection.addtestFrameList(roofFlagOne, number);
-        performInspection.addtestFrameList(roofFlagSixtenn, number);
-        performInspection.addtestFrameList(roofFlagFifteen, number);
-        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne,number).setTag(number), number);
-        performInspection.addtestFrameList(new ChangeBook(roofFlagFourteen, number).setTag(number), number);
+        performInspection.addtestFrameList(roofNewExpress.setCaseName("顶部刷新"), number);
+        performInspection.addtestFrameList(roofEditorSelected.setCaseName("顶部刷新"), number);
+        performInspection.addtestFrameList(roofFlagFourteen.setCaseName("顶部刷新"), number);
+        performInspection.addtestFrameList(roofFlagOne.setCaseName("顶部刷新"), number);
+        performInspection.addtestFrameList(roofFlagSixtenn.setCaseName("顶部刷新"), number);
+        performInspection.addtestFrameList(roofFlagFifteen.setCaseName("顶部刷新"), number);
+        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne,number).setTag(number).setCaseName("顶部刷新"), number);
+        performInspection.addtestFrameList(new ChangeBook(roofFlagFourteen, number).setTag(number).setCaseName("顶部刷新"), number);
     }
 
     /**

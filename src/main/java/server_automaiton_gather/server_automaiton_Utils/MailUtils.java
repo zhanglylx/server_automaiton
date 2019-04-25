@@ -32,6 +32,7 @@ public class MailUtils {
     private static String senderPassword;
     private static final String CHARSET = "UTF-8";
     private static Properties props;
+    private static final long fileMaxSize =45*1024*1024L;
 
     static {
         try {
@@ -60,11 +61,6 @@ public class MailUtils {
             RealizePerform.getRealizePerform().addtestFrameList(new ErrException(MailUtils.class, "load", e));
             e.printStackTrace();
         }
-    }
-
-    public static void main(String[] args) {
-        File[] file = new File[]{HtmlUtils.getExecutiveOutcomeslogFile()};
-        System.out.println(sendMail(file, "测试发送", "测试正文内容"));
     }
 
 
@@ -127,17 +123,29 @@ public class MailUtils {
          */
         msg.setRecipients(MimeMessage.RecipientType.TO, recipientAddress);
         MimeBodyPart mainBody = new MimeBodyPart();
-        mainBody.setContent(content, "text/html;charset=" + CHARSET);
         mimeMultipart.addBodyPart(mainBody);
-        if (null != files)
+        if (null != files) {
+            StringBuilder contentBuilder = new StringBuilder(content);
             for (File file : files) {
+                if (!file.exists()) {
+                    contentBuilder.append(HtmlUtils.getErrInfo("文件不存在:" + file.getPath(), 4));
+                    continue;
+                } else if (!file.isFile()) {
+                    contentBuilder.append(HtmlUtils.getErrInfo("不是一个文件:" + file.getPath(), 4));
+                    continue;
+                } else if (file.length() > fileMaxSize) {
+                    contentBuilder.append(HtmlUtils.getErrInfo("文件超过45MB,未加入附件:" + file.getPath(), 4));
+                    continue;
+                }
                 MimeBodyPart attachment = new MimeBodyPart();
                 DataHandler dh2 = new DataHandler(new FileDataSource(file));
                 attachment.setDataHandler(dh2);
                 attachment.setFileName(MimeUtility.encodeText(dh2.getName()));
                 mimeMultipart.addBodyPart(attachment);
             }
-
+            content = contentBuilder.toString();
+        }
+        mainBody.setContent(content, "text/html;charset=" + CHARSET);
         // 设置整个邮件的关系（将最终的混合"节点"作为邮件的内容添加到邮件对象）
         msg.setContent(mimeMultipart);
         //设置邮件的发送时间,默认立即发送

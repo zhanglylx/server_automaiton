@@ -45,14 +45,9 @@ public class RoofRoot extends TestFrame {
 
     @Override
     public void settingJsonArrayMap(Map<String, Object> jsonArrayMap) {
-        Pattern p = Pattern.compile("(" + AutomationUtils.getCheckRules(
-                AutomationUtils.BOOK_DETAIL_AD_URL
-                ) + ")|(" +
-                        AutomationUtils.getCheckRules(
-                                AutomationUtils.RANK_LIST_AD_URL
-                        ) + ")"
-        );
-        jsonArrayMap.put("adUrl", p);
+        jsonArrayMap.put("adUrl", AutomationUtils.getCheckRules(
+                AutomationUtils.STICK_SLIDESHOWS_AD_URL
+        ));
         jsonArrayMap.put("adImgUrl", AutomationUtils.getCheckRules(
                 AutomationUtils.AD_IMG_URL
         ));

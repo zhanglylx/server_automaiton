@@ -8,11 +8,10 @@ import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
+import server_automaiton_gather.server_automaiton_Utils.HtmlUtils;
 import server_automaiton_gather.server_automaiton_Utils.LogUtils;
 
-import java.io.File;
-import java.io.FileOutputStream;
-import java.io.OutputStreamWriter;
+
 import java.io.PrintStream;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -32,17 +31,12 @@ public abstract class TestFrame {
     private String className = this.getClass().getName();
     private JSONArray jsonArray = new JSONArray();
     private JSONObject jsonObject = new JSONObject();
-    private int jsonArrayIndex = JSON_ARRAY_INDEX_DEFAULT;
-    private static final int JSON_ARRAY_INDEX_DEFAULT = 1;
     private Map<String, Object> logJsonObjectMap = new HashMap<>();
     private Map<String, Object> logJsonArrayMap = new HashMap<>();
-    private JSONArray logJsonArray = new JSONArray();
+    private String logJsonArray = "";
     private JSONObject logJsonObject = new JSONObject();
     private double tag = -1;
     private int showCount = 0;
-
-
-    private String requestBody;
     private static Logger logger = Logger.getLogger(TestFrame.class);
 
     public TestFrame() {
@@ -115,6 +109,7 @@ public abstract class TestFrame {
     }
 
     public final void check(Object object1, Object object2, String testCase, int showCount) {
+
         try {
             this.object1 = object1.toString();
             this.object2 = object2.toString();
@@ -282,11 +277,12 @@ public abstract class TestFrame {
                        String testCaseName,
                        int showCount) {
         this.logJsonArrayMap = jsonArrayMap;
-        this.logJsonArray = jsonArray;
+        this.logJsonArray = jsonArray.toString();
         if (checkJson(jsonArray, jsonArrayMap, testCaseName)) {
             checkJsonArrayShowCount(jsonArray, showCount);
             for (Map.Entry<String, Object> entry : jsonArrayMap.entrySet()) {
                 for (int i = 0; i < jsonArray.size(); i++) {
+                    this.logJsonArray ="["+(i+1)+"]"+ jsonArray.getJSONObject(i).toString();
                     try {
                         if (entry.getValue() != null) {
                             check(entry.getValue(),
@@ -310,9 +306,8 @@ public abstract class TestFrame {
                         errException(testCaseName +
                                 ": " + getJsonTestCase(jsonArray, entry), e);
                     }
-                    this.jsonArrayIndex++;
+
                 }
-                this.jsonArrayIndex = JSON_ARRAY_INDEX_DEFAULT;
             }
         }
     }
@@ -377,37 +372,35 @@ public abstract class TestFrame {
      * @param e
      */
     protected final void errException(String testCase, Exception e) {
+        Map<String, String> textInfoMap = new LinkedHashMap<>();
+        errAdd(false);
+        if (e == null) e = new Exception();
         try {
-            if (e == null) e = new Exception();
             if (!Test.isJarRun()) {
                 PrintStream stream = new PrintStream(System.err, true);
                 stream.println(("\n" + StringUtils.repeat("-", 200) + "\n"
                         + this.className + "[" + this.tag + "]"
                         + "\n{" + testCase + "}异常:\n" +
-                        "JSONOBJECT:" + this.logJsonObject +
-                        "\n" + "JSONOBJECTMAP:" + this.logJsonObjectMap + "\n" +
-                        "JSONARRAYS:[" + this.jsonArrayIndex + "]:" +
+                        "JSON_OBJECT:" + this.logJsonObject +
+                        "\n" + "JSONOBJECT_MAP:" + this.logJsonObjectMap + "\n" +
+                        "JSON_ARRAYS:" +
                         this.logJsonArray +
-                        "\n" + "JSONARRAYSMAP:" + this.logJsonArrayMap));
+                        "\n" + "JSON_ARRAYS_MAP:" + this.logJsonArrayMap));
                 e.printStackTrace(stream);
             }
-
-            Map<String, String> textInfoMap = new LinkedHashMap<>();
             textInfoMap.put("title", JavaUtils.strFormatting(this.toString(), String.valueOf(this.tag)));
             textInfoMap.put("testCase", "{" + testCase + "}异常");
             textInfoMap.put("jsonObject", this.logJsonObject.toString());
             textInfoMap.put("jsonObjectMap", this.logJsonObjectMap.toString());
-            textInfoMap.put("jsonArrays[" + this.jsonArrayIndex + "]", this.logJsonArray.toString());
+            textInfoMap.put("jsonArrays", this.logJsonArray);
             textInfoMap.put("jsonArraysMap", this.logJsonArrayMap.toString());
-            if (this.requestBody != null) textInfoMap.put("requestBody", this.logJsonArrayMap.toString());
-            LogUtils.outErrinfo(textInfoMap, e);
+
         } catch (Exception e1) {
             e1.printStackTrace();
-            Map<String, String> map = new LinkedHashMap<>();
-            map.put(this.getClass().toString(), "errException");
-            LogUtils.outErrinfo(map, e1);
+            e.addSuppressed(e1);
+            textInfoMap.put(this.getClass().toString(), "errException");
         } finally {
-            errAdd(false);
+            LogUtils.outErrinfo(textInfoMap, e);
         }
 
 
@@ -419,12 +412,14 @@ public abstract class TestFrame {
      * @return
      */
     public String toString() {
-        if (this.checkBoolean == null) return this.className + ": false [checkBooleanArrays=null]";
-        if (this.checkBoolean.length == 0) return this.className + ": false [checkBooleanArrays.length=0]";
+        if (this.checkBoolean == null)
+            return HtmlUtils.getColourFormatting(this.className + ": false [checkBooleanArrays=null]", "red");
+        if (this.checkBoolean.length == 0)
+            return HtmlUtils.getColourFormatting(this.className + ": false [checkBooleanArrays.length=0]", "red");
         for (boolean b : this.checkBoolean) {
-            if (!b) return this.className + ": false";
+            if (!b) return HtmlUtils.getColourFormatting(this.className + ": false", "red");
         }
-        return "<label style=\"color:green\">"+this.className + ": true</label>";
+        return HtmlUtils.getColourFormatting(this.className + ": true", "green");
     }
 
     /**
@@ -525,11 +520,5 @@ public abstract class TestFrame {
         return this;
     }
 
-    public String getRequestBody() {
-        return requestBody;
-    }
 
-    public void setRequestBody(String requestBody) {
-        this.requestBody = requestBody;
-    }
 }

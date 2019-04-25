@@ -35,14 +35,14 @@ public class Searchassociationwords extends TestFrame {
     public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
         JSONObject jsonObject = JSONObject.fromObject(object);
         int type = jsonObject.getInt("type");
-        if("type".equals(key))return Pattern.compile("[102]");
+        if("type".equals(key))return Pattern.compile("[1023]");
         if("id".equals(key)){
             if(type == 1){
                 return AutomationUtils.getCheckRules(AutomationUtils.BOOK_ID);
             }else if(type == 2){
                 return Pattern.compile(".*"+this.keyword+".*");
             }else{
-                return "";
+                return Pattern.compile(".*");
             }
         }
         if("text".equals(key)){

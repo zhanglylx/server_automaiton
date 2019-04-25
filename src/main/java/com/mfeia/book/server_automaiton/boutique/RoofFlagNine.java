@@ -16,7 +16,7 @@ public class RoofFlagNine extends RoofRoot {
         super(jsonObject,
                 FLAG,
                 0,
-                "热门标签",
+                jsonObject.getString("name"),
                 Pattern.compile("换一换"),
                 Pattern.compile(""),
                 4);

@@ -71,7 +71,7 @@ public class TestCasesSearch implements AddTestCases {
                 performInspection.addtestFrameList(new SearchResult(searchResult, keyword).setCaseName(caseName), number);
                 performInspection.addtestFrameList(new SearchBooksCheck(
                         searchResult.getJSONArray("list")
-                        , 2, new SearchResult(), true).setCaseName(caseName), number);
+                        , 1, new SearchResult(), true).setCaseName(caseName), number);
             }
         });
 

@@ -21,7 +21,7 @@ public class Book {
                 String authorName,
                 String categoryColor
     ) {
-        this.bookName = bookName;
+        this.bookName = bookName.trim();
         this.bookId = bookId;
         this.authorName = authorName;
         this.bookImg = AutomationUtils.getCheckRules(AutomationUtils.BOOK_COVER,

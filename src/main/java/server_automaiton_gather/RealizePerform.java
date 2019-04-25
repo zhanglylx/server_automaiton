@@ -82,7 +82,11 @@ public class RealizePerform implements PerformInspection {
 
 
     public Map<String, List<String>> getErrLoss() {
-        Map<String, List<String>> errLoss = new TreeMap<>();
+        return getLoss(false);
+    }
+
+    private Map<String, List<String>> getLoss(boolean MakeOrbreak) {
+        Map<String, List<String>> loss = new TreeMap<>();
         synchronized (this) {
             Map.Entry<Double, List<TestFrame>> mapEntry;
             List<String> list;
@@ -92,38 +96,21 @@ public class RealizePerform implements PerformInspection {
                 mapEntry = iterator.next();
                 list = new ArrayList<>();
                 for (TestFrame testFrame : mapEntry.getValue()) {
-                    if (!testFrame.checkCaseResult()) {
+                    if (testFrame.checkCaseResult() == MakeOrbreak) {
                         list.add(testFrame.toString());
                     }
 
                 }
-                errLoss.put(String.valueOf(mapEntry.getKey()), list);
+                loss.put(String.valueOf(mapEntry.getKey()), list);
             }
         }
 
-        return errLoss;
+        return loss;
     }
 
     @Override
-    public Map<String, List<String>> getAllLoss() {
-        Map<String, List<String>> allLoss = new TreeMap<>();
-        synchronized (this) {
-            Map.Entry<Double, List<TestFrame>> mapEntry;
-            List<String> list;
-            for (Iterator<Map.Entry<Double, List<TestFrame>>> iterator =
-                 this.testFrameList.entrySet().iterator();
-                 iterator.hasNext(); ) {
-                mapEntry = iterator.next();
-                list = new ArrayList<>();
-                for (TestFrame testFrame : mapEntry.getValue()) {
-                    list.add(testFrame.toString());
-
-                }
-                allLoss.put(String.valueOf(mapEntry.getKey()), list);
-            }
-        }
-
-        return allLoss;
+    public Map<String, List<String>> getSucceedLoss() {
+        return getLoss(true);
     }
 
     public String toString() {

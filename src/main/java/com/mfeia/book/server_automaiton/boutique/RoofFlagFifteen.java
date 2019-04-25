@@ -16,11 +16,11 @@ public class RoofFlagFifteen extends RoofNewExpress {
         super(jsonObject,
                 FLAG,
                 0,
-                "文学经典",
-                Pattern.compile("更多"),
-                AutomationUtils.getCheckRules(
+                jsonObject.getString("name"),
+                Pattern.compile(".*"),
+                Pattern.compile("("+AutomationUtils.getCheckRules(
                         AutomationUtils.RANK_LIST_AD_URL
-                ),
+                )+")?"),
                 5
         );
     }

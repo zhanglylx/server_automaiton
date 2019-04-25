@@ -15,5 +15,5 @@ public interface PerformInspection {
     void addtestFrameList(final TestFrame testFrame, double number);
     void addtestFrameList(final TestFrame testFrame);
     Map<String,List<String>> getErrLoss();
-    Map<String,List<String>> getAllLoss();
+    Map<String,List<String>> getSucceedLoss();
 }
