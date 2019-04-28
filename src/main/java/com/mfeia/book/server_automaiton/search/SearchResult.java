@@ -54,7 +54,6 @@ public class SearchResult extends TestFrame {
 
     @Override
     public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
-
 //        if (index == 0 && null != this.keyword) return this.keyword;
 //        return true;
         return null;

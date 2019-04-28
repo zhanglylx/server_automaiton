@@ -7,6 +7,7 @@ import server_automaiton_gather.RealizePerform;
 import java.io.*;
 import java.util.Arrays;
 import java.util.Date;
+import java.util.List;
 import java.util.Properties;
 
 import javax.activation.DataHandler;
@@ -64,7 +65,7 @@ public class MailUtils {
     }
 
 
-    public static boolean sendMail(File[] files, String title, String content) {
+    public static boolean sendMail(List<File> files, String title, String content) {
         Transport transport = null;
         try {
             //2、创建定义整个应用程序所需的环境信息的 Session 对象
@@ -105,7 +106,7 @@ public class MailUtils {
      * @throws MessagingException
      * @throws AddressException
      */
-    private static MimeMessage getMimeMessage(Session session, File[] files, String title, String content) throws Exception {
+    private static MimeMessage getMimeMessage(Session session, List<File> files, String title, String content) throws Exception {
         //创建一封邮件的实例对象
         MimeMessage msg = new MimeMessage(session);
         //设置发件人地址

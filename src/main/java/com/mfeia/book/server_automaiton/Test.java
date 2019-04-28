@@ -2,6 +2,7 @@ package com.mfeia.book.server_automaiton;
 
 import ZLYUtils.JavaUtils;
 import ZLYUtils.WindosUtils;
+import ZLYUtils.ZipUtils;
 import com.mfeia.book.server_automaiton.background_interface.TestCasesBackgroundInterface;
 import com.mfeia.book.server_automaiton.book_catalog.TestCasesCatalog;
 import com.mfeia.book.server_automaiton.book_content.TestCasesBookContent;
@@ -46,28 +47,28 @@ public class Test {
             /*
             精品页，排行，搜索会将bookMap填充，所以需要先单独运行
              */
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBoutique(), BOUTIQUE_TAG));
             AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesPaiHangStackRoom(), 15));
-            waitThread();
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
-            waitThread();
-            System.out.println("获取到的书籍数量:" +
-                    AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
-
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesCatalog(), 3));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
-            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
+//            waitThread();
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesSearch(), 20));
+//            waitThread();
+//            System.out.println("获取到的书籍数量:" +
+//                    AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
+//
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesDetail(), 2));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesCatalog(), 3));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBookContent(), 4));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesJenkinsBuild(), 5));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesBackgroundInterface(), 10));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesUserRelated(), 9));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesMakeMoney(), 11));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesIntegralRecord(), 12));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesStartRelated(), 13));
+//            AutomationUtils.addExecute(new RunnableAddTestCasess(new TestCasesShelfRelated(), 14));
         } catch (Exception e) {
             RealizePerform.getRealizePerform().addtestFrameList(new ErrException(Test.class, "run", e));
         }
-        File[] files = new File[]{};
+        List<File> filesList = new ArrayList<>();
         String html = "";
         try {
 
@@ -119,20 +120,22 @@ public class Test {
                     + HtmlUtils.getColourFormatting(HtmlUtils.getMotivationalRandom(), HtmlUtils.getRandomColour());
             html += "</b>";
             if (saveCaseToHtml) {
-                files = Arrays.copyOf(files, files.length + 1);
-                files[files.length - 1] = HtmlUtils.getExecutiveOutcomeslogFile();
+                filesList.add(HtmlUtils.getExecutiveOutcomeslogFile());
             }
             if (logUtils) {
-                files = Arrays.copyOf(files, files.length + 1);
-                files[files.length - 1] = LogUtils.getSavelLogFile();
+                filesList.add(LogUtils.getSavelLogFile());
             }
+            File zip = new File("serverAutomaiton.zip");
+            ZipUtils.toZip(filesList, zip);
+            filesList.clear();
+            filesList.add(zip);
         } catch (Exception e) {
             e.printStackTrace();
             RealizePerform.getRealizePerform().addtestFrameList(new ErrException(Test.class, "stop", e));
         } finally {
             AutomationUtils.executorServiceShutdown();
 //            if (RealizePerform.getRealizePerform().getFailureBranches() > 0)
-            MailUtils.sendMail(files, WindosUtils.getDate() + " 自动化脚本执行结果", html);
+            MailUtils.sendMail(filesList, WindosUtils.getDate() + " 自动化脚本执行结果", html);
         }
     }
 
