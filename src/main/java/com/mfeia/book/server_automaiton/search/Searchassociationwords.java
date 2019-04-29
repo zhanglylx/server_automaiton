@@ -12,7 +12,6 @@ import java.util.regex.Pattern;
  */
 public class Searchassociationwords extends TestFrame {
     private String keyword;
-
     Searchassociationwords(JSONObject jsonObject, String keyword) {
         super("搜索联想词",jsonObject,jsonObject.getJSONArray("data"),1);
         this.keyword = keyword;
@@ -46,7 +45,9 @@ public class Searchassociationwords extends TestFrame {
             }
         }
         if("text".equals(key)){
-            return Pattern.compile(".*"+this.keyword+".*");
+            this.keyword = this.keyword.replace("[","\\[");
+            this.keyword = this.keyword.replace("]","\\]");
+            return Pattern.compile(".*("+this.keyword+").*");
         }
         return null;
     }
