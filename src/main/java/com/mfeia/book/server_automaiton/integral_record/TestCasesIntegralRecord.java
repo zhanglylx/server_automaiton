@@ -10,6 +10,9 @@ import net.sf.json.JSONObject;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * 积分记录
+ */
 public class TestCasesIntegralRecord implements AddTestCases {
     @Override
     public void additionTestCases(final PerformInspection performInspection, double number) throws Exception {

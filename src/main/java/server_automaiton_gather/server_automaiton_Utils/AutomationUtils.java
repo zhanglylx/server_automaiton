@@ -5,10 +5,12 @@ import ZLYUtils.NetworkHeaders;
 import ZLYUtils.WindosUtils;
 import com.mfeia.book.server_automaiton.Book;
 import com.mfeia.book.server_automaiton.Test;
+import org.apache.xmlbeans.impl.tool.Extension;
 import server_automaiton_gather.ErrException;
 import server_automaiton_gather.RealizePerform;
 
 import java.io.*;
+import java.lang.reflect.Parameter;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
@@ -74,8 +76,8 @@ public class AutomationUtils {
             );
         }
         String cxbUrlPatten = "https?://((cxb-pro)|(cx))\\.((ikanshu)|(cread))\\.((com)|(cn))";
-        checkRules.put(STICK_SLIDESHOWS_AD_URL, Pattern.compile(cxbUrlPatten+".+"));
-        checkRules.put(BOOK_ID, Pattern.compile("\\d{3,15}"));
+        checkRules.put(STICK_SLIDESHOWS_AD_URL, Pattern.compile(cxbUrlPatten + ".+"));
+        checkRules.put(BOOK_ID, Pattern.compile("z?\\d{3,15}"));
         checkRules.put(BOOK_NAME, Pattern.compile(".+"));
         checkRules.put(BOOK_INTRO, Pattern.compile(".*"));
         checkRules.put(BOOK_AUTHOR_NAME, Pattern.compile(".+"));
@@ -127,7 +129,7 @@ public class AutomationUtils {
     }
 
 
-    public static Map<String, Object> getCheckBookAll(long bookId) {
+    public static Map<String, Object> getCheckBookAll(String bookId) {
         Map<String, Object> map = new HashMap<>(getCheckBookAll());
         map.put("bookImg", getCheckRules(BOOK_COVER, bookId));
         return map;
@@ -147,9 +149,9 @@ public class AutomationUtils {
     }
 
 
-    public static Object getCheckRules(String key, long bookId) {
+    public static Object getCheckRules(String key, String bookId) {
         if (BOOK_COVER.equals(key))
-            return "https://cdn.ikanshu.cn/book_covers/" + bookId + ".jpg";
+            return Pattern.compile("https:.+/" + bookId + ".jpg");
         return null;
     }
 

@@ -84,10 +84,7 @@ public class HtmlUtils {
 
     public static boolean saveCaseToHtml(PerformInspection performInspection, String date) {
         /** 测试压缩方法1  */
-        FileOutputStream fos1 =null;
         try {
-            fos1 = new FileOutputStream(new File("htmlLog.zip"));
-
             //创建一个合适的Configration对象
             Configuration configuration = new Configuration(Configuration.VERSION_2_3_28);
             // configuration.setDirectoryForTemplateLoading(new File("C:\\MyWork\\Workspace\\Xijie\\WebRoot\\html"));

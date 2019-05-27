@@ -42,7 +42,7 @@ public class SearchBooksCheck extends TestFrame {
 
     @Override
     public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
-        Book book = new Book(JSONObject.fromObject(object).getLong("id")
+        Book book = new Book(JSONObject.fromObject(object).getString("id")
                 , JSONObject.fromObject(object).getString("name")
                 , JSONObject.fromObject(object).getString("author")
                 , JSONObject.fromObject(object).getString("cateColor"));
@@ -50,7 +50,7 @@ public class SearchBooksCheck extends TestFrame {
         if ("IOS_id".equals(key) || "ios_id".equals(key))
             return JSONObject.fromObject(object).getString("id");
         if ("cover".equals(key))
-            return AutomationUtils.getCheckRules(key, JSONObject.fromObject(object).getLong("id"));
+            return AutomationUtils.getCheckRules(key, JSONObject.fromObject(object).getString("id"));
 
         return null;
     }

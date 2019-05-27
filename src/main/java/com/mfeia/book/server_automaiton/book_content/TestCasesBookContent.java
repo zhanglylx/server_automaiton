@@ -22,7 +22,7 @@ public class TestCasesBookContent implements AddTestCases {
         );
         Book books;
         number = DoubleOperation.add(number, 0.20000);
-        for (Iterator<Map.Entry<Long, Book>> iterator =
+        for (Iterator<Map.Entry<String, Book>> iterator =
              AutomationBooksMap.getAutomationBooksMap().getBooksListMap().entrySet().iterator()
              ; iterator.hasNext(); ) {
             number = DoubleOperation.add(number, 0.00001);

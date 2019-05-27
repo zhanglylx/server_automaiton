@@ -75,7 +75,9 @@ public class ZipUtils {
             fos = new FileOutputStream(outSrc);
             zos = new ZipOutputStream(fos);
             for (File srcFile : srcFiles) {
+                System.out.println("开始压缩文件:"+ srcFile.getName());
                 zipOutWrite(zos, srcFile, srcFile.getName());
+                System.out.println("文件压缩完成:"+ srcFile.getName());
             }
             long end = System.currentTimeMillis();
             System.out.println("压缩完成，耗时：" + (end - start) + " ms");

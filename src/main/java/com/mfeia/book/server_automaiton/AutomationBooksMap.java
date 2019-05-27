@@ -10,7 +10,7 @@ import server_automaiton_gather.RealizePerform;
 import java.util.*;
 
 public class AutomationBooksMap implements BooksMap {
-    private Map<Long, Book> booksList;
+    private Map<String, Book> booksList;
     private static AutomationBooksMap automationBooksMap = new AutomationBooksMap();
     private static int bookMapSstrict=-1;
     private static String bookMapSstrictInfo = "配置文件限制BookMap：";
@@ -42,8 +42,8 @@ public class AutomationBooksMap implements BooksMap {
     private AutomationBooksMap() {
         this.booksList = Collections.synchronizedMap(new HashMap<>());
         try {
-            this.booksList.put(811400194l,
-                    new Book(Long.parseLong(AutomationUtils.getServerAutomaitonProperties("inlayBookId")),
+            this.booksList.put(AutomationUtils.getServerAutomaitonProperties("inlayBookId"),
+                    new Book(AutomationUtils.getServerAutomaitonProperties("inlayBookId"),
                             AutomationUtils.getServerAutomaitonProperties("inlayBookName"),
                             AutomationUtils.getServerAutomaitonProperties("inlayBookAuthon"),
                             AutomationUtils.getServerAutomaitonProperties("inlayBookCategoryColor")));
@@ -88,7 +88,7 @@ public class AutomationBooksMap implements BooksMap {
 
 
     @Override
-    public Map<Long, Book> getBooksListMap() {
+    public Map<String, Book> getBooksListMap() {
         return this.booksList;
     }
 
@@ -98,7 +98,7 @@ public class AutomationBooksMap implements BooksMap {
         double initial = DoubleOperation.div(1, Math.pow(10, index));
         double forInitial = initial;
 
-        for (Iterator<Map.Entry<Long, Book>> iterator =
+        for (Iterator<Map.Entry<String, Book>> iterator =
              getBooksListMap().entrySet().iterator()
              ; iterator.hasNext(); ) {
             final double number = forInitial;

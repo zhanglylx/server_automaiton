@@ -12,7 +12,7 @@ import java.util.*;
  */
 public class Phindexys extends TestFrame {
 
-    private String[] name = {"女生", "男生", "出版"};
+    private String[] name = {"男生", "女生", "出版"};
     private Map<String, List<String>> itemId;
     private String actionUrlIdName = AutomationUtils.NEW_RANK_LIST_BDID;
 

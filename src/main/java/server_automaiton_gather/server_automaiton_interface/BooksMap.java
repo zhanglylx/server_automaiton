@@ -7,7 +7,7 @@ import java.util.Map;
 public interface BooksMap {
     void addBook(Book book);
 
-    Map<Long, Book> getBooksListMap();
+    Map<String, Book> getBooksListMap();
 
     void booksMapCirculation(BooksMapCirculationCallBack booksMapCirculationCallBack);
 

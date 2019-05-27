@@ -8,6 +8,7 @@ import org.apache.http.client.methods.HttpPost;
 import server_automaiton_gather.ErrException;
 import server_automaiton_gather.RealizePerform;
 
+import java.net.URI;
 import java.util.HashMap;
 import java.util.Map;
 
@@ -41,8 +42,10 @@ public class AutoHttpUtils {
 
 
     public static String doGet(String host, String path, String querys, Map<String, String> headers, double number) {
+        URI uri = HttpUtils.getURI(getUrl(host, path), querys);
+        RecordLogNetworkRequests.getRecordLogNetworkRequests().addRequests("GET", uri, null, headers, number);
         NetworkHeaders networkHeaders = new NetworkHeaders();
-        Object o = HttpUtils.doGet(HttpUtils.getURI(getUrl(host, path), querys),
+        Object o = HttpUtils.doGet(uri,
                 headers,
                 networkHeaders);
         return checkResponse(o, networkHeaders, null, number);
@@ -53,7 +56,7 @@ public class AutoHttpUtils {
         if (response instanceof Exception) {
             RealizePerform.getRealizePerform().addtestFrameList(
                     new ErrException(
-                            AutoHttpUtils.class, "checkResponseException:[" + networkHeaders.getStatusLine() + "]", (Exception) response,number),number);
+                            AutoHttpUtils.class, "checkResponseException:[" + networkHeaders.getStatusLine() + "]", (Exception) response, number), number);
             return null;
         } else if (networkHeaders.getStatusLine().getStatusCode() != 200) {
             RealizePerform.getRealizePerform().addtestFrameList(
@@ -64,7 +67,7 @@ public class AutoHttpUtils {
                             , networkHeaders.getStatusLine()
                             , body
                             , number
-                    ),number);
+                    ), number);
         } else if (response == null) {
             RealizePerform.getRealizePerform().addtestFrameList(
                     new ErrException(
@@ -74,7 +77,7 @@ public class AutoHttpUtils {
                             , networkHeaders.getStatusLine()
                             , body
                             , number
-                    ),number);
+                    ), number);
         }
         return response.toString();
     }
@@ -100,6 +103,9 @@ public class AutoHttpUtils {
     }
 
     public static String doPost(String host, String path, Object parm, Map<String, String> headers, double number) {
+        RecordLogNetworkRequests.getRecordLogNetworkRequests().addRequests("POST",
+                HttpUtils.getURI(getUrl(host, path), ""), parm, headers, number
+        );
         NetworkHeaders networkHeaders = new NetworkHeaders();
         Object o = HttpUtils.doPost(getUrl(host, path), parm,
                 headers, networkHeaders);

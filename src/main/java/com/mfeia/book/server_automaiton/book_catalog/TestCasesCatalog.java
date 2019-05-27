@@ -20,7 +20,7 @@ public class TestCasesCatalog implements AddTestCases {
     @Override
     public void additionTestCases(final PerformInspection performInspection, double number) throws InterruptedException {
         JSONObject jsonObject;
-        for (Map.Entry<Long, Book> booksEntry :
+        for (Map.Entry<String, Book> booksEntry :
                 AutomationBooksMap.getAutomationBooksMap().getBooksListMap().entrySet()) {
             number = DoubleOperation.add(number, 0.00001);
             try {

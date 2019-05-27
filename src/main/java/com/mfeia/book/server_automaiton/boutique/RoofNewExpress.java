@@ -64,7 +64,7 @@ public class RoofNewExpress extends RoofRoot {
     public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
         JSONObject jsonObject = JSONObject.fromObject(object);
         try {
-            Book books = new Book(jsonObject.getLong("bookid"),
+            Book books = new Book(jsonObject.getString("bookid"),
                     jsonObject.getString("newBookName"),
                     jsonObject.getString("authorName"),
                     jsonObject.getString("categoryColor"));

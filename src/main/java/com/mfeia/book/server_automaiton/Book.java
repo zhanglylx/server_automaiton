@@ -6,17 +6,18 @@ import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Objects;
+import java.util.regex.Pattern;
 
 public class Book {
-    private long bookId;
+    private String bookId;
     private String bookName;
     private String authorName;
-    private String bookImg;
+    private Pattern bookImg;
     private String categoryColor;
     public Book() {
     }
 
-    public Book(long bookId,
+    public Book(String bookId,
                 String bookName,
                 String authorName,
                 String categoryColor
@@ -24,8 +25,8 @@ public class Book {
         this.bookName = bookName.trim();
         this.bookId = bookId;
         this.authorName = authorName;
-        this.bookImg = AutomationUtils.getCheckRules(AutomationUtils.BOOK_COVER,
-                bookId).toString();
+        this.bookImg =AutomationUtils.cast(AutomationUtils.getCheckRules(AutomationUtils.BOOK_COVER,
+                bookId));
         this.categoryColor = categoryColor;
     }
 
@@ -55,11 +56,11 @@ public class Book {
         this.bookName = bookName;
     }
 
-    public long getBookId() {
+    public String getBookId() {
         return bookId;
     }
 
-    public void setBookId(long bookId) {
+    public void setBookId(String bookId) {
         this.bookId = bookId;
     }
 
@@ -71,11 +72,11 @@ public class Book {
         this.authorName = authorName;
     }
 
-    public String getBookImg() {
+    public Pattern getBookImg() {
         return bookImg;
     }
 
-    public void setBookImg(String bookImg) {
+    public void setBookImg(Pattern bookImg) {
         this.bookImg = bookImg;
     }
 
@@ -113,11 +114,11 @@ public class Book {
             }
             return this.bookName.equals(
                     jsObject.getString(AutomationUtils.BOOK_NAME)) &&
-                    this.bookId ==
-                            jsObject.getLong(AutomationUtils.BOOK_ID) &&
+                    this.bookId .equals(
+                            jsObject.getString(AutomationUtils.BOOK_ID)) &&
                     this.authorName.equals(
                             jsObject.getString(AutomationUtils.BOOK_AUTHOR_NAME)) &&
-                    this.bookImg.equals(bookImg);
+                    this.bookImg.matcher(bookImg).matches();
 
         } catch (Exception e) {
             return false;

@@ -10,6 +10,7 @@ import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
 import server_automaiton_gather.server_automaiton_Utils.HtmlUtils;
 import server_automaiton_gather.server_automaiton_Utils.LogUtils;
+import server_automaiton_gather.server_automaiton_Utils.RecordLogNetworkRequests;
 
 
 import java.io.PrintStream;
@@ -37,6 +38,7 @@ public abstract class TestFrame {
     private JSONObject logJsonObject = new JSONObject();
     private double tag = -1;
     private int showCount = 0;
+    private boolean isPrintLog = false;
     private static Logger logger = Logger.getLogger(TestFrame.class);
 
     public TestFrame() {
@@ -282,7 +284,7 @@ public abstract class TestFrame {
             checkJsonArrayShowCount(jsonArray, showCount);
             for (Map.Entry<String, Object> entry : jsonArrayMap.entrySet()) {
                 for (int i = 0; i < jsonArray.size(); i++) {
-                    this.logJsonArray ="["+(i+1)+"]"+ jsonArray.getJSONObject(i).toString();
+                    this.logJsonArray = "[" + (i + 1) + "]" + jsonArray.getJSONObject(i).toString();
                     try {
                         if (entry.getValue() != null) {
                             check(entry.getValue(),
@@ -352,7 +354,7 @@ public abstract class TestFrame {
                         "</br>\n预期结果:[" + expected + "] " +
                                 "</br>\n实际结果:[" + actual + "] </br>");
             } else {
-                errAdd(b);
+                addCaseResult(b);
             }
         } catch (Exception e) {
             errException(testCase, e);
@@ -372,35 +374,42 @@ public abstract class TestFrame {
      * @param e
      */
     protected final void errException(String testCase, Exception e) {
+        addCaseResult(false);
         Map<String, String> textInfoMap = new LinkedHashMap<>();
-        errAdd(false);
         if (e == null) e = new Exception();
         try {
-            if (!Test.isJarRun()) {
-                PrintStream stream = new PrintStream(System.err, true);
-                stream.println(("\n" + StringUtils.repeat("-", 200) + "\n"
-                        + this.className + "[" + this.tag + "]"
-                        + "\n{" + testCase + "}异常:\n" +
-                        "JSON_OBJECT:" + this.logJsonObject +
-                        "\n" + "JSONOBJECT_MAP:" + this.logJsonObjectMap + "\n" +
-                        "JSON_ARRAYS:" +
-                        this.logJsonArray +
-                        "\n" + "JSON_ARRAYS_MAP:" + this.logJsonArrayMap));
-                e.printStackTrace(stream);
+            if (!this.isPrintLog) {
+                if (!Test.isJarRun()) {
+                    PrintStream stream = new PrintStream(System.err, true);
+                    stream.println(("\n" + StringUtils.repeat("-", 200) + "\n"
+                            + this.className + "[" + this.tag + "]"
+                            + "\n{" + testCase + "}异常:\n" +
+                            "request:" + RecordLogNetworkRequests.getRecordLogNetworkRequests().getRequests(this.tag) + "\n" +
+                            "JSON_OBJECT:" + this.logJsonObject +
+                            "\n" + "JSONOBJECT_MAP:" + this.logJsonObjectMap + "\n" +
+                            "JSON_ARRAYS:" +
+                            this.logJsonArray +
+                            "\n" + "JSON_ARRAYS_MAP:" + this.logJsonArrayMap));
+                    e.printStackTrace(stream);
+                }
+                textInfoMap.put("title", JavaUtils.strFormatting(this.toString(), String.valueOf(this.tag)));
+                textInfoMap.put("testCase", "{" + testCase + "}异常");
+                textInfoMap.put("request", RecordLogNetworkRequests.getRecordLogNetworkRequests().getRequests(this.tag));
+                textInfoMap.put("jsonObject", this.logJsonObject.toString());
+                textInfoMap.put("jsonObjectMap", this.logJsonObjectMap.toString());
+                textInfoMap.put("jsonArrays", this.logJsonArray);
+                textInfoMap.put("jsonArraysMap", this.logJsonArrayMap.toString());
             }
-            textInfoMap.put("title", JavaUtils.strFormatting(this.toString(), String.valueOf(this.tag)));
-            textInfoMap.put("testCase", "{" + testCase + "}异常");
-            textInfoMap.put("jsonObject", this.logJsonObject.toString());
-            textInfoMap.put("jsonObjectMap", this.logJsonObjectMap.toString());
-            textInfoMap.put("jsonArrays", this.logJsonArray);
-            textInfoMap.put("jsonArraysMap", this.logJsonArrayMap.toString());
 
         } catch (Exception e1) {
             e1.printStackTrace();
             e.addSuppressed(e1);
             textInfoMap.put(this.getClass().toString(), "errException");
         } finally {
-            LogUtils.outErrinfo(textInfoMap, e);
+            if (!this.isPrintLog) {
+                LogUtils.outErrinfo(textInfoMap, e);
+                this.isPrintLog = true;
+            }
         }
 
 
@@ -441,7 +450,7 @@ public abstract class TestFrame {
      *
      * @param tf
      */
-    private void errAdd(boolean tf) {
+    private void addCaseResult(boolean tf) {
         this.checkBoolean =
                 Arrays.copyOf(this.checkBoolean, this.checkBoolean.length + 1);
         this.checkBoolean[this.checkBoolean.length - 1] = tf;

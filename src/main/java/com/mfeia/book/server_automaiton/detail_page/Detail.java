@@ -35,7 +35,7 @@ public class Detail extends TestFrame {
         JSONArray jsonArray = this.getJsonObject().getJSONArray("otherBookList");
 
         for (int i = 0; i < jsonArray.size(); i++) {
-            final long bookid = jsonArray.getJSONObject(i).getLong("bookId");
+            final String bookid = jsonArray.getJSONObject(i).getString("bookId");
             TestFrame testFrame = new TestFrame() {
                 @Override
                 public void settingJsonArrayMap(Map<String, Object> jsonArrayMap) {
@@ -88,7 +88,7 @@ public class Detail extends TestFrame {
     @Override
     public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
         return AutomationUtils.getCheckRules(
-                AutomationUtils.BOOK_COVER, ((JSONObject) object).getLong("bookId")
+                AutomationUtils.BOOK_COVER, ((JSONObject) object).getString("bookId")
         );
     }
 
