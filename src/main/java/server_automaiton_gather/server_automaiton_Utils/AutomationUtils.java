@@ -55,20 +55,14 @@ public class AutomationUtils {
     public static final String SHU_KU_IMG = "shuKuImg";
     public static final String STICK_SLIDESHOWS_AD_URL = "stickSlideshowsAdUrl";
     private static Properties properties;
-    private static ThreadPoolExecutor executorService;
+
 
     private static String caseStartTime;
 
     static {
         caseStartTime = WindosUtils.getDate();
-
         try {
-
             properties = PropertiesConfig.getPropertiesConfig(PropertiesConfig.SERVER_AUTOMAITON_CONFIG);
-            executorService = (ThreadPoolExecutor) Executors.newFixedThreadPool(
-                    Integer.parseInt(properties.getProperty("executorService")));
-
-
         } catch (IOException e) {
             e.printStackTrace();
             RealizePerform.getRealizePerform().addtestFrameList(
@@ -151,7 +145,7 @@ public class AutomationUtils {
 
     public static Object getCheckRules(String key, String bookId) {
         if (BOOK_COVER.equals(key))
-            return Pattern.compile("https:.+/" + bookId + ".jpg");
+            return Pattern.compile("https://images-pro.cread.com/((book_covers)|(211/images))/" + bookId + ".jpg");
         return null;
     }
 
@@ -171,27 +165,7 @@ public class AutomationUtils {
         return cast(obj);
     }
 
-    public static int getExecutorServiceActiveCount() {
-        return executorService.getActiveCount();
-    }
 
-    public static void addExecute(Runnable runnable) throws Exception {
-        if (!executorService.isShutdown()) {
-            executorService.execute(runnable);
-        } else {
-            throw new Exception("executorService Is power off");
-        }
-
-    }
-
-    public static void executorServiceShutdown() {
-        if (!executorService.isShutdown())
-            executorService.shutdown();
-    }
-
-    public static boolean executorServiceisTerminated() {
-        return executorService.isTerminated();
-    }
 
 
     public static String getCaseStartTime() {

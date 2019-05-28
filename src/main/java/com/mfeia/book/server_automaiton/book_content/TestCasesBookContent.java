@@ -4,6 +4,7 @@ import ZLYUtils.DoubleOperation;
 import com.mfeia.book.server_automaiton.*;
 import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_Utils.ThreadPoolUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 import net.sf.json.JSONObject;
@@ -35,7 +36,7 @@ public class TestCasesBookContent implements AddTestCases {
                         new ChapterRead(jsonObject, books, number), number);
                 final double numberRecommend = number;
                 final Book bookRecommend = books;
-                AutomationUtils.addExecute(new Runnable() {
+                ThreadPoolUtils.addExecute(new Runnable() {
                     @Override
                     public void run() {
                         JSONObject jsonObject = JSONObject.fromObject(AutoHttpUtils.doPost(

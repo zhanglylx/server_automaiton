@@ -39,14 +39,14 @@ public class RealizePerform implements PerformInspection {
         }
         synchronized (this) {
             List<TestFrame> list = new ArrayList<>();
-            if (this.testFrameList.containsKey(number)) {
-                list = this.testFrameList.get(number);
-                list.add(testFrame);
-                this.testFrameList.put(number, list);
-            } else {
-                list.add(testFrame);
-                this.testFrameList.put(number, list);
-            }
+//            if (this.testFrameList.containsKey(number)) {
+//                list = this.testFrameList.get(number);
+//                list.add(testFrame);
+//                this.testFrameList.put(number, list);
+//            } else {
+//                list.add(testFrame);
+//                this.testFrameList.put(number, list);
+//            }
             if (testFrame.setTag(number).stratCheck().checkCaseResult()) {
                 this.succeedBranches++;
             } else {

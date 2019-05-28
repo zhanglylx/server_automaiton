@@ -7,6 +7,7 @@ import net.sf.json.JSONObject;
 import server_automaiton_gather.ErrException;
 import server_automaiton_gather.server_automaiton_Utils.AutoHttpUtils;
 import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_Utils.ThreadPoolUtils;
 import server_automaiton_gather.server_automaiton_interface.AddTestCases;
 import server_automaiton_gather.server_automaiton_interface.PerformInspection;
 
@@ -36,7 +37,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
             Map.Entry<String, List<String>> m = iterator.next();
             final String name = m.getKey();
             for (final String integer : m.getValue()) {
-                AutomationUtils.addExecute(new Runnable() {
+                ThreadPoolUtils.addExecute(new Runnable() {
                     @Override
                     public void run() {
 
@@ -83,7 +84,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
             Map.Entry<String, List<String>> m = iterator.next();
             final String name = m.getKey();
             for (final String integer : m.getValue()) {
-                AutomationUtils.addExecute(new Runnable() {
+                ThreadPoolUtils.addExecute(new Runnable() {
                     @Override
                     public void run() {
                         try {
