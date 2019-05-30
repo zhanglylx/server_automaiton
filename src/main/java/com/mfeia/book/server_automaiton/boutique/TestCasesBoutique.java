@@ -167,23 +167,25 @@ public class TestCasesBoutique implements AddTestCases {
 
             }
         }
-        performInspection.addtestFrameList(roofBanner, number);
-        performInspection.addtestFrameList(roofFiveImage, number);
-        performInspection.addtestFrameList(roofNewExpress, number);
-        performInspection.addtestFrameList(roofEditorSelected, number);
-        performInspection.addtestFrameList(roofFlagFourteen, number);
-        performInspection.addtestFrameList(roofMinBanner1, number);
-        performInspection.addtestFrameList(roofMinBanner2, number);
-        performInspection.addtestFrameList(roofFlagSeven, number);
-        performInspection.addtestFrameList(roofFlagOne, number);
-        performInspection.addtestFrameList(roofFlagSixtenn, number);
-        performInspection.addtestFrameList(roofFlagNine, number);
-        performInspection.addtestFrameList(roofFlagFifteen, number);
-        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne,number), number);
-        performInspection.addtestFrameList(new ChangeBook(roofFlagFourteen, number).setTag(number), number);
-        performInspection.addtestFrameList(new ChangeTag(roofFlagNine, number).setTag(number), number);
+        addTestFrame(performInspection,roofBanner,number);
+        addTestFrame(performInspection,roofFiveImage, number);
+        addTestFrame(performInspection,roofNewExpress, number);
+        addTestFrame(performInspection,roofEditorSelected, number);
+        addTestFrame(performInspection,roofFlagFourteen, number);
+        addTestFrame(performInspection,roofMinBanner1, number);
+        addTestFrame(performInspection,roofMinBanner2, number);
+        addTestFrame(performInspection,roofFlagSeven, number);
+        addTestFrame(performInspection,roofFlagOne, number);
+        addTestFrame(performInspection,roofFlagSixtenn, number);
+        addTestFrame(performInspection,roofFlagNine, number);
+        addTestFrame(performInspection,roofFlagFifteen, number);
+        addTestFrame(performInspection,new Morebdbooks(MorebdbooksFlagOne,number), number);
+        addTestFrame(performInspection,new ChangeBook(roofFlagFourteen, number).setTag(number), number);
+        addTestFrame(performInspection,new ChangeTag(roofFlagNine, number).setTag(number), number);
     }
-
+    private void addTestFrame(PerformInspection performInspection,TestFrame testFrame,double number){
+       if(testFrame!=null)performInspection.addtestFrameList(testFrame,number);
+    }
     /**
      * 精品顶部刷新
      *
@@ -246,14 +248,14 @@ public class TestCasesBoutique implements AddTestCases {
                                     new Exception("未找到FLAG"), number), number);
             }
         }
-        performInspection.addtestFrameList(roofNewExpress.setCaseName("顶部刷新"), number);
-        performInspection.addtestFrameList(roofEditorSelected.setCaseName("顶部刷新"), number);
-        performInspection.addtestFrameList(roofFlagFourteen.setCaseName("顶部刷新"), number);
-        performInspection.addtestFrameList(roofFlagOne.setCaseName("顶部刷新"), number);
-        performInspection.addtestFrameList(roofFlagSixtenn.setCaseName("顶部刷新"), number);
-        performInspection.addtestFrameList(roofFlagFifteen.setCaseName("顶部刷新"), number);
-        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne,number).setTag(number).setCaseName("顶部刷新"), number);
-        performInspection.addtestFrameList(new ChangeBook(roofFlagFourteen, number).setTag(number).setCaseName("顶部刷新"), number);
+        addTestFrame(performInspection,roofNewExpress.setCaseName("顶部刷新"), number);
+        addTestFrame(performInspection,roofEditorSelected.setCaseName("顶部刷新"), number);
+        addTestFrame(performInspection,roofFlagFourteen.setCaseName("顶部刷新"), number);
+        addTestFrame(performInspection,roofFlagOne.setCaseName("顶部刷新"), number);
+        addTestFrame(performInspection,roofFlagSixtenn.setCaseName("顶部刷新"), number);
+        addTestFrame(performInspection,roofFlagFifteen.setCaseName("顶部刷新"), number);
+        addTestFrame(performInspection,new Morebdbooks(MorebdbooksFlagOne,number).setTag(number).setCaseName("顶部刷新"), number);
+        addTestFrame(performInspection,new ChangeBook(roofFlagFourteen, number).setTag(number).setCaseName("顶部刷新"), number);
     }
 
     /**
@@ -312,12 +314,12 @@ public class TestCasesBoutique implements AddTestCases {
                                     new Exception("未找到FLAG"), number), number);
             }
         }
-        performInspection.addtestFrameList(roofFlagZero, number);
-        performInspection.addtestFrameList(roofFlagOne, number);
-        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne,number).setTag(number), number);
-        performInspection.addtestFrameList(roofFlagSeven, number);
+        addTestFrame(performInspection,roofFlagZero, number);
+        addTestFrame(performInspection,roofFlagOne, number);
+        addTestFrame(performInspection,new Morebdbooks(MorebdbooksFlagOne,number).setTag(number), number);
+        addTestFrame(performInspection,roofFlagSeven, number);
         if (roofFlagFive != null)
-            performInspection.addtestFrameList(roofFlagFive, number);
+            addTestFrame(performInspection,roofFlagFive, number);
     }
 
 
@@ -367,9 +369,9 @@ public class TestCasesBoutique implements AddTestCases {
                                     new Exception("未找到FLAG"), number), number);
             }
         }
-        performInspection.addtestFrameList(roofFlagZero, number);
-        performInspection.addtestFrameList(roofFlagOne, number);
-        performInspection.addtestFrameList(new Morebdbooks(MorebdbooksFlagOne,number).setTag(number), number);
+        addTestFrame(performInspection,roofFlagZero, number);
+        addTestFrame(performInspection,roofFlagOne, number);
+        addTestFrame(performInspection,new Morebdbooks(MorebdbooksFlagOne,number).setTag(number), number);
     }
 
     /**
@@ -404,16 +406,16 @@ public class TestCasesBoutique implements AddTestCases {
 
         if (type == 5) {
             if (roofFlagOne == null) {
-                performInspection.addtestFrameList(new ErrException(this.getClass(), "type=5", new Exception(
+                addTestFrame(performInspection,new ErrException(this.getClass(), "type=5", new Exception(
                         new NullPointerException()), number), number);
             } else {
-                performInspection.addtestFrameList(roofFlagOne.setShow(1), number);
+                addTestFrame(performInspection,roofFlagOne.setShow(1), number);
             }
 
         } else {
-            performInspection.addtestFrameList(roofFlagOne, number);
+            addTestFrame(performInspection,roofFlagOne, number);
         }
-        performInspection.addtestFrameList(new Morebdbooks(morebdbooksFlagOne,number), number);
+        addTestFrame(performInspection,new Morebdbooks(morebdbooksFlagOne,number), number);
 
     }
 
