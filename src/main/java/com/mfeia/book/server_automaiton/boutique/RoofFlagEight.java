@@ -12,7 +12,7 @@ import java.util.regex.Pattern;
 public class RoofFlagEight extends RoofRoot {
     public static final int FLAG = 8;
     private static final String[] TAB_NAME_ARRAYS =
-            new String[]{"男频", "女频", "出版", "新书", "完结"};
+            new String[]{"男频", "女频", "完本", "新书", "出版"};
 
     public RoofFlagEight(JSONObject jsonObject) {
         super(jsonObject,
@@ -37,7 +37,6 @@ public class RoofFlagEight extends RoofRoot {
 
     @Override
     public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
-
         return TAB_NAME_ARRAYS[index];
     }
 
