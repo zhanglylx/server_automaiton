@@ -28,6 +28,7 @@ public class AutomationUtils {
     public static final String CNID = "cnid";
     public static final String VERCODE = "vercode";
     public static final String TEL = "tel";
+    public static final String VERSION="version";
 
     /*
      * 匹配规则
@@ -69,7 +70,8 @@ public class AutomationUtils {
                     new ErrException(AutomationUtils.class, "初始化", e)
             );
         }
-        String cxbUrlPatten = "https?://((cxb-pro)|(cx))\\.((ikanshu)|(cread))\\.((com)|(cn))";
+        String cxbUrlPatten = "https?://cxb-pro\\.cread\\.com";
+        String h5="(http://h5-freebook\\.cread\\.com/ranklist\\?bdid=\\d+\\&dbredirect=\\$parmurl)";
         checkRules.put(STICK_SLIDESHOWS_AD_URL, Pattern.compile(cxbUrlPatten + ".+"));
         checkRules.put(BOOK_ID, Pattern.compile("z?\\d{3,15}"));
         checkRules.put(BOOK_NAME, Pattern.compile(".+"));
@@ -86,7 +88,7 @@ public class AutomationUtils {
                 Pattern.compile("http://images-pro\\.cread\\.com/cx/endimgs/[0-9a-zA-Z]{1,70}\\.((jpg)|(png))"));
         checkRules.put(TAG_URL_DETAIL, Pattern.compile(cxbUrlPatten + "/cx/bookdetail\\?bookid=\\d{1,13}\\$parmurl"));
         checkRules.put(RANK_LIST_AD_URL,
-                Pattern.compile(cxbUrlPatten + "/cx/ranklist.*\\?bdid=\\d+\\$parmurl"));
+                Pattern.compile("("+cxbUrlPatten + "/cx/ranklist.*\\?bdid=\\d+\\$parmurl)")+"|"+h5);
         checkRules.put(NEW_RANK_LIST_BDID,
                 Pattern.compile(cxbUrlPatten + "/cx/new/rankList.*\\?bdid=\\d+\\$parmurl"));
         checkRules.put(NEW_CATE_LIST_FIND,
@@ -96,8 +98,9 @@ public class AutomationUtils {
         checkRules.put(TEXT, Pattern.compile(".+"));
         checkRules.put(TAG_URL_CLIENT,
                 Pattern.compile("client://channel_[1-5]"));
+        String mfzsShuKu="https?://images-pro\\.cread\\.com/cx/endimgs/[0-9a-zA-Z]{1,70}\\.png";
         checkRules.put(SHU_KU_IMG,
-                Pattern.compile("https://images-pro\\.cread\\.com/cx/endimgs/[0-9a-zA-Z]{1,70}\\.png"));
+                Pattern.compile(mfzsShuKu+","+mfzsShuKu));
 
     }
 

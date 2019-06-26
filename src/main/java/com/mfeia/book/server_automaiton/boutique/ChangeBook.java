@@ -66,7 +66,7 @@ public class ChangeBook extends RoofNewExpress {
                     AutoHttpUtils.doGet(path,
                             IterativeParameter != null ?
                                     query + "&" + IterativeParameter + "=" + i
-                                    : query,this.getTag()
+                                    : query,this.getTag(),this.getClass()
                     )
             );
             this.setJsonObject(jsonObject);

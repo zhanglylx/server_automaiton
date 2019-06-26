@@ -26,7 +26,7 @@ public class Morebdbooks extends RoofNewExpress {
                             AutoHttpUtils.doGet(
                                     BoutiqueConfig.BOUTIQUE_MOREBD_BOOKS,
                                     "bdId=" + id +
-                                            "&pageNo=1", number)
+                                            "&pageNo=1", number,this.getClass())
                     )
             );
             this.setJsonArray(this.getJsonObject().getJSONArray("list"));

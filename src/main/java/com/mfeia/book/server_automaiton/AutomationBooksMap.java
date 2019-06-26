@@ -13,7 +13,7 @@ import java.util.*;
 public class AutomationBooksMap implements BooksMap {
     private Map<String, Book> booksList;
     private static AutomationBooksMap automationBooksMap = new AutomationBooksMap();
-    private static int bookMapSstrict=-1;
+    private static int bookMapSstrict = -1;
     private static String bookMapSstrictInfo = "配置文件限制BookMap：";
 
     /**
@@ -94,7 +94,7 @@ public class AutomationBooksMap implements BooksMap {
     }
 
     @Override
-    public void booksMapCirculation(BooksMapCirculationCallBack booksMapCirculationCallBack) {
+    public void booksMapCirculation(BooksMapCirculationCallBack booksMapCirculationCallBack, double n) {
         int index = String.valueOf(getBooksListMap().size()).length();
         double initial = DoubleOperation.div(1, Math.pow(10, index));
         double forInitial = initial;
@@ -111,7 +111,7 @@ public class AutomationBooksMap implements BooksMap {
 
                         try {
                             booksMapCirculationCallBack.bookCirculation(book,
-                                    number);
+                                    DoubleOperation.add(n, number));
                         } catch (Exception e) {
                             RealizePerform.getRealizePerform().addtestFrameList(new ErrException(AutomationBooksMap.class,
                                     "booksMapCirculation_bookCirculation异常", e)

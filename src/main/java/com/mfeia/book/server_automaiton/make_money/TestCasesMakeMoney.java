@@ -38,7 +38,7 @@ public class TestCasesMakeMoney implements AddTestCases {
                                 "&uid=" + newUserId +
                                 "&status=0" +
                                 "&type=0" +
-                                "&myTaskId=" + listEarnIntegralByHd.getMyTaskId(), number)
+                                "&myTaskId=" + listEarnIntegralByHd.getMyTaskId(), number,ReceiveTaskOrReward.class)
         );
         ReceiveTaskOrReward receiveTaskOrReward = new ReceiveTaskOrReward(
                 jsonObject);
@@ -50,7 +50,7 @@ public class TestCasesMakeMoney implements AddTestCases {
                 AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_TASK_STATUS_UPDATE,
                         "id=" + receiveTaskOrReward.getMyTaskId() +
                                 "&uid=" + newUserId +
-                                "&status=1", number)
+                                "&status=1", number,TaskStatusUpdate.class)
         );
         performInspection.addtestFrameList(new TaskStatusUpdate(jsonObject), number);
 
@@ -59,7 +59,7 @@ public class TestCasesMakeMoney implements AddTestCases {
                 AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_TASK_STATUS_UPDATE,
                         "id=" + receiveTaskOrReward.getMyTaskId() +
                                 "&uid=" + newUserId +
-                                "&status=2", number)
+                                "&status=2", number,TaskStatusUpdate.class)
         );
         performInspection.addtestFrameList(new TaskStatusUpdate(jsonObject), number);
 
@@ -71,7 +71,7 @@ public class TestCasesMakeMoney implements AddTestCases {
                                 "&uid=" + newUserId +
                                 "&status=2" +
                                 "&type=2" +
-                                "&myTaskId=" + receiveTaskOrReward.getMyTaskId(), number)
+                                "&myTaskId=" + receiveTaskOrReward.getMyTaskId(), number,TestFrame.class)
         );
 
         ListEarnIntegralByHd finalListEarnIntegralByHd = listEarnIntegralByHd;
@@ -124,28 +124,28 @@ public class TestCasesMakeMoney implements AddTestCases {
             @Override
             public void customCheck() {
                 check(finalListEarnIntegralByHd.getRewardIntegral(),
-                        getUserIntegral(newUserId, number),
+                        getUserIntegral(newUserId, number,TestFrame.class),
                         "检查时长任务完成后积分是否增加到账户中,用户ID:" + newUserId);
             }
         }, number);
     }
 
-    private int getUserIntegral(String newUserId, double number) {
-        return getListEarnIntegralByHdJSONObject(newUserId, number).getInt("integral");
+    private int getUserIntegral(String newUserId, double number,Class c) {
+        return getListEarnIntegralByHdJSONObject(newUserId, number,c).getInt("integral");
     }
 
-    private JSONObject getListEarnIntegralByHdJSONObject(String newUserId, double number) {
+    private JSONObject getListEarnIntegralByHdJSONObject(String newUserId, double number,Class c) {
         return JSONObject.fromObject(
                 AutoHttpUtils.doGet(MakeMoneyConfig.MAKE_MONEY_LIST_EARN_INTERGRAL_BY_HD,
                         "cnid=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.CNID) +
                                 "&uid=" + newUserId +
-                                "&updatetime=0", number)
+                                "&updatetime=0", number,c)
         );
     }
 
     private ListEarnIntegralByHd getListEarnIntegralByHd(String newUserId,double number) {
         return new ListEarnIntegralByHd(
-                getListEarnIntegralByHdJSONObject(newUserId,number).getJSONArray("listObj").getJSONObject(0)
+                getListEarnIntegralByHdJSONObject(newUserId,number,ListEarnIntegralByHd.class).getJSONArray("listObj").getJSONObject(0)
                         .getJSONArray("listTask").getJSONObject(0));
 
     }

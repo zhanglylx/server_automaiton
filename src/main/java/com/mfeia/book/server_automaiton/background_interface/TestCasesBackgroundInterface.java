@@ -63,7 +63,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("time", "9");
         uriBuilder.addParameter("checksum", "10");
         JSONObject jsonObject = JSONObject.fromObject(
-                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_INTERFACE_DR_CALL_BACL, uriBuilder.build().getQuery(),number)
+                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_INTERFACE_DR_CALL_BACL, uriBuilder.build().getQuery(),number,DrCallBack.class)
         );
 
         performInspection.addtestFrameList(new DrCallBack(jsonObject), number);
@@ -84,7 +84,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("order", "10");
         uriBuilder.addParameter("sign", "11");
         JSONObject jsonObject = JSONObject.fromObject(
-                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_FINGER, uriBuilder.build().getQuery(),number)
+                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_FINGER, uriBuilder.build().getQuery(),number,Finger.class)
         );
         performInspection.addtestFrameList(new Finger(jsonObject), number);
     }
@@ -97,7 +97,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("transactionid", "3");
         String weChatPayCallback =
                 AutoHttpUtils.doGet(
-                        BackgroundInterfaceConfig.BACKGROUND_WECHATPAYCALLBACK, uriBuilder.build().getQuery(),number);
+                        BackgroundInterfaceConfig.BACKGROUND_WECHATPAYCALLBACK, uriBuilder.build().getQuery(),number,WeChatPayCallback.class);
         JSONObject jsonObject = new JSONObject();
         jsonObject.accumulate("message", weChatPayCallback);
         performInspection.addtestFrameList(new WeChatPayCallback(jsonObject), number);
@@ -119,7 +119,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("Signature", "6");
         uriBuilder.addParameter("t", "7");
         String str =
-                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_CALLBACK, uriBuilder.build().getQuery(),number);
+                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_CALLBACK, uriBuilder.build().getQuery(),number,Callback.class);
         performInspection.addtestFrameList(new Callback(new JSONObject().accumulate("message", str)), number);
     }
 
@@ -134,7 +134,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("state", "2");
         uriBuilder.addParameter("version", "3");
         String str =
-                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_TTLOGIN, uriBuilder.build().getQuery(),number);
+                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_TTLOGIN, uriBuilder.build().getQuery(),number,TtLogin.class);
         performInspection.addtestFrameList(new TtLogin(new JSONObject().accumulate("message", str)), number);
     }
 
@@ -149,7 +149,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         map.put("uid", "1");
         map.put("taskdata", "2");
         JSONObject jsonObject = JSONObject.fromObject(
-                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_TASK_SYNCHRO, map,number));
+                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_TASK_SYNCHRO, map,number,TaskSynchro.class));
         performInspection.addtestFrameList(new TaskSynchro(jsonObject), number);
     }
 
@@ -172,7 +172,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         JSONObject jsonObject = JSONObject.fromObject(
                 AutoHttpUtils.doGet(
                         BackgroundInterfaceConfig.BACKGROUND_DUI_BA_CREADUTADD,
-                        uriBuilder.build().getQuery(),number)
+                        uriBuilder.build().getQuery(),number,DuibaCreditAdd.class)
         );
         performInspection.addtestFrameList(new DuibaCreditAdd(jsonObject), number);
     }
@@ -192,7 +192,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("uid", "3");
         uriBuilder.addParameter("orderNum", "3");
         String str =
-                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_DUI_BA_CREDIT_CONFIRM, uriBuilder.build().getQuery(),number);
+                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_DUI_BA_CREDIT_CONFIRM, uriBuilder.build().getQuery(),number,DuibaCreditConfirm.class);
         performInspection.addtestFrameList(new DuibaCreditConfirm(new JSONObject().accumulate("message", str)), number);
     }
 
@@ -220,7 +220,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         uriBuilder.addParameter("ip", "3");
         uriBuilder.addParameter("params", "3");
         String str =
-                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_DUI_BA_CREDIT_CONSUME, uriBuilder.build().getQuery(),number);
+                AutoHttpUtils.doGet(BackgroundInterfaceConfig.BACKGROUND_DUI_BA_CREDIT_CONSUME, uriBuilder.build().getQuery(),number,DuibaCreditConsume.class);
         performInspection.addtestFrameList(new DuibaCreditConsume(JSONObject.fromObject(str)), number);
     }
 
@@ -240,7 +240,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         map.put("oldPrice", "5");
         map.put("price", "6");
         String str =
-                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_VIPMESSAGE, map,number);
+                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_VIPMESSAGE, map,number,VipMessage.class);
         performInspection.addtestFrameList(new VipMessage(JSONObject.fromObject(str)), number);
     }
 
@@ -266,7 +266,7 @@ public class TestCasesBackgroundInterface implements AddTestCases {
         Map<String, String> map = new HashMap<>();
         map.put("userId", UserInfoUtils.getNewUserId());
         String str =
-                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_ORDER_INFO, map,number);
+                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_ORDER_INFO, map,number,AppletOrderInfo.class);
         performInspection.addtestFrameList(new AppletOrderInfo(JSONObject.fromObject(str)), number);
     }
 

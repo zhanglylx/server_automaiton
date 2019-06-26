@@ -26,7 +26,7 @@ public class TestCasesCatalog implements AddTestCases {
             try {
                 jsonObject = JSONObject.fromObject(AutoHttpUtils.doGet(
                         BookCatalogConfig.BOOK_CATALOG_GETVOLUME, "bookId=" + booksEntry.getKey()
-                        , number
+                        , number,Catalog.class
                 ));
                 performInspection.addtestFrameList(
                         new Catalog(jsonObject, jsonObject.getJSONArray("list"), number,
@@ -35,7 +35,7 @@ public class TestCasesCatalog implements AddTestCases {
                 );
                 jsonObject = JSONObject.fromObject(AutoHttpUtils.doGet(
                         BookCatalogConfig.BOOK_CATALOG_IS_CHAOTER_UPDATE, "updatetime=0&bookId=" + booksEntry.getKey()
-                        , number));
+                        , number,IsChapterUpdate.class));
                 performInspection.addtestFrameList(
                         new IsChapterUpdate(jsonObject, booksEntry.getValue(), number), number
                 );

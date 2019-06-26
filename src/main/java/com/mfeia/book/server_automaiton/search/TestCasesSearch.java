@@ -1,5 +1,6 @@
 package com.mfeia.book.server_automaiton.search;
 
+import ZLYUtils.DoubleOperation;
 import ZLYUtils.HttpUtils;
 import com.mfeia.book.server_automaiton.AutomationBooksMap;
 import com.mfeia.book.server_automaiton.Book;
@@ -22,7 +23,7 @@ public class TestCasesSearch implements AddTestCases {
          */
         JSONObject searchHomePageJson = JSONObject.fromObject(
                 AutoHttpUtils.doGet(
-                        SearchConfig.SERACH_HOME_PAGE, "", number));
+                        SearchConfig.SERACH_HOME_PAGE, "", number,SearchHomePage.class));
         performInspection.addtestFrameList(new SearchHomePage(searchHomePageJson), number);
         performInspection.addtestFrameList(
                 new SearchBooksCheck(
@@ -35,7 +36,7 @@ public class TestCasesSearch implements AddTestCases {
          */
         JSONObject morebdbooks = JSONObject.fromObject(
                 AutoHttpUtils.doGet(
-                        SearchConfig.SERACH_MOREBDBOOKS, "bdId=21&pageNo=1", number));
+                        SearchConfig.SERACH_MOREBDBOOKS, "bdId=21&pageNo=1", number,Morebdbooks.class));
         performInspection.addtestFrameList(new Morebdbooks(morebdbooks), number);
         performInspection.addtestFrameList(new SearchBooksCheck(
                 morebdbooks.getJSONArray("list")
@@ -45,7 +46,6 @@ public class TestCasesSearch implements AddTestCases {
         AutomationBooksMap.getAutomationBooksMap().booksMapCirculation(new BooksMapCirculationCallBack() {
             @Override
             public void bookCirculation(Book book, double circulationNumber) throws Exception {
-
                 /*
                搜索查询词
                 */
@@ -53,9 +53,9 @@ public class TestCasesSearch implements AddTestCases {
                 String caseName = "关键词["+keyword+"] book:"+book;
                 JSONObject searchassociationwords = JSONObject.fromObject(
                         AutoHttpUtils.doGet(
-                                SearchConfig.SERACK_SEARCHASSOCIATIONWORDS, "keyword=" + keyword, number));
+                                SearchConfig.SERACK_SEARCHASSOCIATIONWORDS, "keyword=" + keyword, circulationNumber,Searchassociationwords.class));
                 performInspection.addtestFrameList(
-                        new Searchassociationwords(searchassociationwords, keyword).setCaseName(caseName), number);
+                        new Searchassociationwords(searchassociationwords, keyword).setCaseName(caseName), circulationNumber);
                   /*
                    搜索结果
                   */
@@ -63,17 +63,17 @@ public class TestCasesSearch implements AddTestCases {
                 String path = HttpUtils.getURI(
                         AutomationUtils.getServerAutomaitonProperties(SearchConfig.SERACK_SEARCHRESULT),
                         "keyword=" + keyword + "&pageNo=1" +
-                                "&version=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.VERCODE)).toString();
+                                "&version=" + AutomationUtils.getServerAutomaitonProperties(AutomationUtils.VERSION)).toString();
 
                 JSONObject searchResult = JSONObject.fromObject(
-                        AutoHttpUtils.doPost(host, path, null, null, number)
+                        AutoHttpUtils.doPost(host, path, null, null, circulationNumber,SearchResult.class)
                 );
-                performInspection.addtestFrameList(new SearchResult(searchResult, keyword).setCaseName(caseName), number);
+                performInspection.addtestFrameList(new SearchResult(searchResult, keyword).setCaseName(caseName), circulationNumber);
                 performInspection.addtestFrameList(new SearchBooksCheck(
                         searchResult.getJSONArray("list")
-                        , 1, new SearchResult(), true).setCaseName(caseName), number);
+                        , 1, new SearchResult(), true).setCaseName(caseName), circulationNumber);
             }
-        });
+        },number);
 
 //          暂时先不用
 //        /**

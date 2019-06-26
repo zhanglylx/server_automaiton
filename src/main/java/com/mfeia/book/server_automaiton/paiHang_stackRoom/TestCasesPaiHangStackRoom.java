@@ -22,7 +22,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
     @Override
     public void additionTestCases(PerformInspection performInspection, double number) throws Exception {
         JSONObject paiHangJson = JSONObject.fromObject(
-                AutoHttpUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_PHINDEXYS, "", number)
+                AutoHttpUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_PHINDEXYS, "", number,Phindexys.class)
         );
         Phindexys phindexys = new Phindexys(paiHangJson);
         phindexys.setTag(number);
@@ -53,7 +53,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
                                 + "&name=" + name
                                 + "&index=1&pageSize=20&curpage=1";
                         JSONObject jsonObject = JSONObject.fromObject(
-                                AutoHttpUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_NEWRANKLIST, query, nb)
+                                AutoHttpUtils.doGet(PaiHangStackRoomConfig.PAI_HANG_NEWRANKLIST, query, nb,NewRankList.class)
                         );
 
                         performInspection.addtestFrameList(new NewRankList(jsonObject)
@@ -68,14 +68,14 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
     执行书库
      */
         JSONObject stackRoomJson = JSONObject.fromObject(
-                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_FINDEXYS, "", number)
+                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_FINDEXYS, "", number,StackRoom.class)
         );
         StackRoom stackRoom = new StackRoom(stackRoomJson);
         stackRoom.setTag(number);
         performInspection.addtestFrameList(stackRoom, number);
         //免追书库
         JSONObject catelogueJson = JSONObject.fromObject(
-                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STATCK_ROOM_MZ_CATELOGUE, "", number)
+                AutoHttpUtils.doGet(PaiHangStackRoomConfig.STATCK_ROOM_MZ_CATELOGUE, "", number,Catelogue.class)
         );
         performInspection.addtestFrameList(new Catelogue(catelogueJson), number);
 
@@ -99,7 +99,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
                                     + "&name=" + name
                                     + "&thitdCateId=0&pageSize=20&curpage=1&bookStatus=0&sortType=0";
                             JSONObject jsonObject = JSONObject.fromObject(
-                                    AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_CATELISTNEW, query, shuKuTwoNumber)
+                                    AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_CATELISTNEW, query, shuKuTwoNumber,CateListNew.class)
                             );
 
                             CateListNew cateListNew = new CateListNew(jsonObject, "flid=" + integer + "&name=" + name + "&thitdCateId=0&pageSize=20&curpage=1&bookStatus=0&sortType=0");
@@ -133,7 +133,7 @@ public class TestCasesPaiHangStackRoom implements AddTestCases {
                                                 "&sortType=" + shrtTypeNumber;
                                         jsonObject = JSONObject.fromObject(
                                                 AutoHttpUtils.doGet(PaiHangStackRoomConfig.STACK_ROOM_CATELISTNEW,
-                                                        query, shuKuTwoNumber)
+                                                        query, shuKuTwoNumber,CateListNew.class)
                                         );
 
                                         cateListNew = new CateListNew(jsonObject, "flid=" + integer

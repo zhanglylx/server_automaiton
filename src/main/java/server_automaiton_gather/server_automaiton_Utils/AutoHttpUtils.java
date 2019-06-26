@@ -24,26 +24,26 @@ public class AutoHttpUtils {
         mapHeaders.put("appname", getServerAutomaitonProperties("appname").trim());
     }
 
-    public static String doGet(String propertiesPath, String querys, double number) {
+    public static String doGet(String propertiesPath, String querys, double number,Class c) {
         return doGet(getServerAutomaitonProperties(AutomationUtils.getHost()).trim(),
                 getServerAutomaitonProperties(propertiesPath).trim(),
-                querys, getDoHeaders(querys), number);
+                querys, getDoHeaders(querys), number,c);
     }
 
-    public static String doGet(String propertiesPath, String querys, Map<String, String> headers, double number) {
+    public static String doGet(String propertiesPath, String querys, Map<String, String> headers, double number,Class c) {
         return doGet(getServerAutomaitonProperties(AutomationUtils.getHost()).trim(),
                 getServerAutomaitonProperties(propertiesPath).trim(),
-                querys, headers, number);
+                querys, headers, number,c);
     }
 
-    public static String doGet(String host, String path, String querys, double number) {
-        return doGet(host, path, querys, getDoHeaders(querys), number);
+    public static String doGet(String host, String path, String querys, double number,Class c) {
+        return doGet(host, path, querys, getDoHeaders(querys), number,c);
     }
 
 
-    public static String doGet(String host, String path, String querys, Map<String, String> headers, double number) {
+    public static String doGet(String host, String path, String querys, Map<String, String> headers, double number,Class c) {
         URI uri = HttpUtils.getURI(getUrl(host, path), querys);
-        RecordLogNetworkRequests.getRecordLogNetworkRequests().addRequests("GET", uri, null, headers, number);
+        RecordLogNetworkRequests.getRecordLogNetworkRequests().addRequests("GET", uri, null, headers, number,c);
         NetworkHeaders networkHeaders = new NetworkHeaders();
         Object o = HttpUtils.doGet(uri,
                 headers,
@@ -83,28 +83,28 @@ public class AutoHttpUtils {
     }
 
 
-    public static String doPost(String propertiesPath, Object parm, double number) {
+    public static String doPost(String propertiesPath, Object parm, double number,Class c) {
         return doPost(getServerAutomaitonProperties(AutomationUtils.getHost()).trim(),
                 getServerAutomaitonProperties(propertiesPath).trim(), parm,
-                getDoHeaders(parm), number);
+                getDoHeaders(parm), number,c);
     }
 
-    public static String doPost(String host, String propertiesPath, Object parm, double number) {
+    public static String doPost(String host, String propertiesPath, Object parm, double number,Class c) {
         return doPost(host,
                 getServerAutomaitonProperties(propertiesPath).trim(), parm,
-                getDoHeaders(parm), number);
+                getDoHeaders(parm), number,c);
     }
 
 
-    public static String doPost(String propertiesPath, Object parm, Map<String, String> headers, double number) {
+    public static String doPost(String propertiesPath, Object parm, Map<String, String> headers, double number,Class c) {
         return doPost(getServerAutomaitonProperties(AutomationUtils.getHost()).trim(),
                 getServerAutomaitonProperties(propertiesPath).trim(), parm,
-                headers, number);
+                headers, number,c);
     }
 
-    public static String doPost(String host, String path, Object parm, Map<String, String> headers, double number) {
+    public static String doPost(String host, String path, Object parm, Map<String, String> headers, double number,Class c) {
         RecordLogNetworkRequests.getRecordLogNetworkRequests().addRequests("POST",
-                HttpUtils.getURI(getUrl(host, path), ""), parm, headers, number
+                HttpUtils.getURI(getUrl(host, path), ""), parm, headers, number,c
         );
         NetworkHeaders networkHeaders = new NetworkHeaders();
         Object o = HttpUtils.doPost(getUrl(host, path), parm,

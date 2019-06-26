@@ -49,22 +49,22 @@ public class Test {
              */
             ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesBoutique(), BOUTIQUE_TAG));
             ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesPaiHangStackRoom(), 15));
-//            ThreadPoolUtils.waitThread();
-//            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesSearch(), 20));
-//            ThreadPoolUtils.waitThread();
-//            System.out.println("获取到的书籍数量:" +
-//                    AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
-//
-//            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesDetail(), 2));
-//            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesCatalog(), 3));
-//            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesBookContent(), 4));
+            ThreadPoolUtils.waitThread();
+            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesSearch(), 20));
+            ThreadPoolUtils.waitThread();
+            System.out.println("获取到的书籍数量:" +
+                    AutomationBooksMap.getAutomationBooksMap().getBooksListMap().size());
+
+            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesDetail(), 2));
+            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesCatalog(), 3));
+            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesBookContent(), 4));
 //            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesJenkinsBuild(), 5));
-//            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesBackgroundInterface(), 10));
-//            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesUserRelated(), 9));
-//            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesMakeMoney(), 11));
-//            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesIntegralRecord(), 12));
-//            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesStartRelated(), 13));
-//            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesShelfRelated(), 14));
+            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesBackgroundInterface(), 10));
+            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesUserRelated(), 9));
+            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesMakeMoney(), 11));
+            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesIntegralRecord(), 12));
+            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesStartRelated(), 13));
+            ThreadPoolUtils.addExecute(new RunnableAddTestCasessUtils(new TestCasesShelfRelated(), 14));
         } catch (Exception e) {
             RealizePerform.getRealizePerform().addtestFrameList(new ErrException(Test.class, "run", e));
         }
@@ -82,6 +82,7 @@ public class Test {
                 }
                 Thread.sleep(1000);
             }
+            //取消一个log文件
 //            boolean saveCaseToHtml = HtmlUtils.saveCaseToHtml(RealizePerform.getRealizePerform(), AutomationUtils.getCaseStartTime());
             boolean logUtils = LogUtils.logHtmlFormatting();
             html = HtmlUtils.getHtmlHeaders("server_automaiton");
@@ -92,6 +93,7 @@ public class Test {
             html += "</br>";
             html += HtmlUtils.getColourFormatting(HtmlUtils.getSeparator(4) + "今天，由松鼠接口智能检测系统为大家汇报" + HtmlUtils.getColourFormatting("【免费电子书】", HtmlUtils.getRandomColour()) + "执行结果", "663399");
             html += "</br>";
+            //取消一个log文件
 //            html += HtmlUtils.getSeparator(4) + "执行汇总结果保存 :  "
 //                    + (saveCaseToHtml ? HtmlUtils.getColourFormatting("成功", "339900") : HtmlUtils.getColourFormatting("失败", "CC0000"));
             html += "</br>";
@@ -120,6 +122,7 @@ public class Test {
             html += HtmlUtils.getSeparator(100)
                     + HtmlUtils.getColourFormatting(HtmlUtils.getMotivationalRandom(), HtmlUtils.getRandomColour());
             html += "</b>";
+            //取消一个log文件
 //            if (saveCaseToHtml) {
 //                filesList.add(HtmlUtils.getExecutiveOutcomeslogFile());
 //            }

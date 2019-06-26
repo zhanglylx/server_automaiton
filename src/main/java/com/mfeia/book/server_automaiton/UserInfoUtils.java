@@ -61,11 +61,11 @@ public class UserInfoUtils {
         map.put("tel", tel);
         map.put("mac",UUID.randomUUID().toString());
         String str =
-                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_USER, map,number);
+                AutoHttpUtils.doPost(BackgroundInterfaceConfig.BACKGROUND_USER, map,number,UserInfoUtils.class);
         return JSONObject.fromObject(str);
     }
 
     public static String getNewMac(){
-        return  "ikanshu-test-"+UUID.randomUUID().toString()+System.currentTimeMillis();
+        return  "ikanshu-GetCread-"+UUID.randomUUID().toString()+System.currentTimeMillis();
     }
 }

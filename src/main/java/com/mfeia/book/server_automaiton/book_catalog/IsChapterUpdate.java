@@ -28,7 +28,7 @@ public class IsChapterUpdate extends TestFrame {
             jsonMap.put("isUpdate",0);
         }else{
             jsonMap.put("isUpdate",1);
-            jsonMap.put("updatetime", Pattern.compile("\\d{13}"));
+            jsonMap.put("updatetime", Pattern.compile("\\d{10,13}"));
         }
 
     }

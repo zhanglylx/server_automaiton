@@ -9,6 +9,6 @@ public interface BooksMap {
 
     Map<String, Book> getBooksListMap();
 
-    void booksMapCirculation(BooksMapCirculationCallBack booksMapCirculationCallBack);
+    void booksMapCirculation(BooksMapCirculationCallBack booksMapCirculationCallBack,double number);
 
 }

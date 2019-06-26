@@ -3,14 +3,11 @@ package server_automaiton_gather;
 import ZLYUtils.JavaUtils;
 import com.mfeia.book.server_automaiton.Test;
 import org.apache.log4j.Logger;
-import server_automaiton_gather.server_automaiton_Utils.AutomationUtils;
+import server_automaiton_gather.server_automaiton_Utils.*;
 import net.sf.json.JSON;
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
 import org.apache.commons.lang.StringUtils;
-import server_automaiton_gather.server_automaiton_Utils.HtmlUtils;
-import server_automaiton_gather.server_automaiton_Utils.LogUtils;
-import server_automaiton_gather.server_automaiton_Utils.RecordLogNetworkRequests;
 
 
 import java.io.PrintStream;
@@ -29,7 +26,7 @@ public abstract class TestFrame {
     private Map<String, Object> jsonMap = new HashMap<>();
     private String object1 = null;
     private String object2 = null;
-    private String className = this.getClass().getName();
+    private String caseName = this.getClass().getName();
     private JSONArray jsonArray = new JSONArray();
     private JSONObject jsonObject = new JSONObject();
     private Map<String, Object> logJsonObjectMap = new HashMap<>();
@@ -246,7 +243,7 @@ public abstract class TestFrame {
         } catch (Exception e) {
             errException(false,
                     "[settingJsonArray]解析异常:["
-                            + this.className + "]"
+                            + this.caseName + "]"
                             + e.toString());
         }
     }
@@ -260,7 +257,7 @@ public abstract class TestFrame {
         } catch (Exception e) {
             errException(false,
                     "[settingJsonMap]解析异常:["
-                            + this.className + "]"
+                            + this.caseName + "]"
                             + e.toString());
         }
     }
@@ -382,9 +379,9 @@ public abstract class TestFrame {
                 if (!Test.isJarRun()) {
                     PrintStream stream = new PrintStream(System.err, true);
                     stream.println(("\n" + StringUtils.repeat("-", 200) + "\n"
-                            + this.className + "[" + this.tag + "]"
+                            + this.caseName + "[" + this.tag + "]"
                             + "\n{" + testCase + "}异常:\n" +
-                            "request:" + RecordLogNetworkRequests.getRecordLogNetworkRequests().getRequests(this.tag) + "\n" +
+                            "request:" + RecordLogNetworkRequests.getRecordLogNetworkRequests().getRequests(this.tag,this.getClass()) + "\n" +
                             "JSON_OBJECT:" + this.logJsonObject +
                             "\n" + "JSONOBJECT_MAP:" + this.logJsonObjectMap + "\n" +
                             "JSON_ARRAYS:" +
@@ -394,7 +391,7 @@ public abstract class TestFrame {
                 }
                 textInfoMap.put("title", JavaUtils.strFormatting(this.toString(), String.valueOf(this.tag)));
                 textInfoMap.put("testCase", "{" + testCase + "}异常");
-                textInfoMap.put("request", RecordLogNetworkRequests.getRecordLogNetworkRequests().getRequests(this.tag));
+                textInfoMap.put("request", RecordLogNetworkRequests.getRecordLogNetworkRequests().getRequests(this.tag,this.getClass()));
                 textInfoMap.put("jsonObject", this.logJsonObject.toString());
                 textInfoMap.put("jsonObjectMap", this.logJsonObjectMap.toString());
                 textInfoMap.put("jsonArrays", this.logJsonArray);
@@ -422,13 +419,13 @@ public abstract class TestFrame {
      */
     public String toString() {
         if (this.checkBoolean == null)
-            return HtmlUtils.getColourFormatting(this.className + ": false [checkBooleanArrays=null]", "red");
+            return HtmlUtils.getColourFormatting(this.caseName + ": false [checkBooleanArrays=null]", "red");
         if (this.checkBoolean.length == 0)
-            return HtmlUtils.getColourFormatting(this.className + ": false [checkBooleanArrays.length=0]", "red");
+            return HtmlUtils.getColourFormatting(this.caseName + ": false [checkBooleanArrays.length=0]", "red");
         for (boolean b : this.checkBoolean) {
-            if (!b) return HtmlUtils.getColourFormatting(this.className + ": false", "red");
+            if (!b) return HtmlUtils.getColourFormatting(this.caseName + ": false", "red");
         }
-        return HtmlUtils.getColourFormatting(this.className + ": true", "green");
+        return HtmlUtils.getColourFormatting(this.caseName + ": true", "green");
     }
 
     /**
@@ -494,7 +491,7 @@ public abstract class TestFrame {
     }
 
     public void addCaseName(Object text) {
-        this.className += " " + text;
+        this.caseName += " " + text;
     }
 
     public double getTag() {
@@ -513,13 +510,15 @@ public abstract class TestFrame {
 
     public TestFrame setCaseName(Object caseNmae, boolean coverage) {
         if (coverage) {
-            this.className = JavaUtils.strFormatting(this.getClass().getName(), caseNmae.toString());
+            this.caseName = JavaUtils.strFormatting(this.getClass().getName(), caseNmae.toString());
         } else {
-            this.className += JavaUtils.strFormatting(caseNmae.toString());
+            this.caseName += JavaUtils.strFormatting(caseNmae.toString());
         }
         return this;
     }
-
+    public String getCaseName(){
+        return this.caseName;
+    }
     public int getShowCount() {
         return showCount;
     }

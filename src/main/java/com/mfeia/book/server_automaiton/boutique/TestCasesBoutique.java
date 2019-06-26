@@ -51,7 +51,7 @@ public class TestCasesBoutique implements AddTestCases {
                             performInspection,
                             number + d, i);
                     loadListRefresh(JSONObject.fromObject(
-                            AutoHttpUtils.doGet(BoutiqueConfig.BOUTIQUE_REFRESHBD, "type=" + i,number + d)),
+                            AutoHttpUtils.doGet(BoutiqueConfig.BOUTIQUE_REFRESHBD, "type=" + i,number + d,TestCasesBoutique.class)),
                             performInspection,
                             number + d);
             }
@@ -61,7 +61,7 @@ public class TestCasesBoutique implements AddTestCases {
 
     private JSONArray getJSONArray(String path, int type,double number) {
         return JSONObject.fromObject(
-                AutoHttpUtils.doGet(path, "type=" + type,number)).getJSONArray("data");
+                AutoHttpUtils.doGet(path, "type=" + type,number,TestCasesBoutique.class)).getJSONArray("data");
     }
 
     private void load(JSONArray jsonArray, PerformInspection performInspection, double number) {

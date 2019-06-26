@@ -11,8 +11,6 @@ import java.util.regex.Pattern;
  */
 public class RoofFlagEight extends RoofRoot {
     public static final int FLAG = 8;
-    private static final String[] TAB_NAME_ARRAYS =
-            new String[]{"男频", "女频", "完本", "新书", "出版"};
 
     public RoofFlagEight(JSONObject jsonObject) {
         super(jsonObject,
@@ -21,7 +19,7 @@ public class RoofFlagEight extends RoofRoot {
                 jsonObject.getString("name"),
                 Pattern.compile(""),
                 Pattern.compile(""),
-                TAB_NAME_ARRAYS.length);
+                5);
     }
 
     @Override
@@ -32,12 +30,7 @@ public class RoofFlagEight extends RoofRoot {
                 AutomationUtils.TAG_URL_CLIENT));
         jsonMap.put("tagImgUrl", AutomationUtils.getCheckRules(
                 AutomationUtils.TAG_IMG_URL));
-        jsonMap.put("tagName", null);
-    }
-
-    @Override
-    public Object customCheckJsonArrayObject(Object object, int index, String key, int size) {
-        return TAB_NAME_ARRAYS[index];
+        jsonMap.put("tagName", AutomationUtils.getCheckRules(AutomationUtils.TEXT));
     }
 
 
