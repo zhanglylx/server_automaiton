@@ -13,7 +13,7 @@ public class NewRankList extends RoofNewExpress {
         super();
         this.setJsonObject(jsonObject);
         this.setJsonArray(jsonObject.getJSONObject("data").getJSONArray("dataList"));
-        this.setShowCount(20);
+        this.setShowCount(1);
 
     }
     @Override

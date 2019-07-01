@@ -15,7 +15,7 @@ public class RoofFlagOne extends RoofNewExpress {
                 jsonObject.getString("name"),
                 Pattern.compile(".*"),
                 Pattern.compile("("+AutomationUtils.getCheckRules(AutomationUtils.RANK_LIST_AD_URL)+")?"),
-                jsonObject.getInt("showCount") == 3 ? 3 : 10
+                1
         );
     }
 }

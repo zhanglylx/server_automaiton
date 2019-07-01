@@ -148,7 +148,9 @@ public class AutomationUtils {
 
     public static Object getCheckRules(String key, String bookId) {
         if (BOOK_COVER.equals(key))
-            return Pattern.compile("https://images-pro.cread.com/((book_covers)|(211/images))/" + bookId + ".jpg");
+            return Pattern.compile(
+                    "(https://images-pro.cread.com/((book_covers)|(211/images))/" + bookId + ".jpg)|" +
+                            "https://cdn.ikanshu.cn/book_covers/"+ bookId + ".jpg");
         return null;
     }
 

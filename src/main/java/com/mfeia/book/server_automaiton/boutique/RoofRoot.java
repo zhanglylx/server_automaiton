@@ -70,7 +70,7 @@ public class RoofRoot extends TestFrame {
         jsonMap.put("show", this.show);
         jsonMap.put("name", this.name);
         jsonMap.put("actionName", this.actionName);
-        jsonMap.put("actionUrl", this.actionUrl);
+        if(getJsonObject().containsKey("actionUrl"))jsonMap.put("actionUrl", this.actionUrl);
 
     }
 
