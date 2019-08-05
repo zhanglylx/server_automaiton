@@ -72,7 +72,7 @@ public class AutomationUtils {
         }
         String cxbUrlPatten = "https?://cxb-pro\\.cread\\.com";
         String h5="(http://h5-freebook\\.cread\\.com/ranklist\\?bdid=\\d+\\&dbredirect=\\$parmurl)";
-        checkRules.put(STICK_SLIDESHOWS_AD_URL, Pattern.compile(cxbUrlPatten + ".+"));
+        checkRules.put(STICK_SLIDESHOWS_AD_URL, Pattern.compile("https?:.+"));
         checkRules.put(BOOK_ID, Pattern.compile("z?\\d{3,15}"));
         checkRules.put(BOOK_NAME, Pattern.compile(".+"));
         checkRules.put(BOOK_INTRO, Pattern.compile(".*"));
