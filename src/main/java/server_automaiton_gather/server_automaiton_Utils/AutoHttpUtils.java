@@ -18,10 +18,11 @@ public class AutoHttpUtils {
     private static final Map<String, String> mapHeaders = new HashMap<>();
 
     static {
-        mapHeaders.put("version", getServerAutomaitonProperties("version"));
+        mapHeaders.put("version", getServerAutomaitonProperties("version").trim());
         mapHeaders.put("cnid", getServerAutomaitonProperties(AutomationUtils.CNID).trim());
         mapHeaders.put("uid", getServerAutomaitonProperties("uid").trim());
         mapHeaders.put("appname", getServerAutomaitonProperties("appname").trim());
+        mapHeaders.put("packname",getServerAutomaitonProperties("packname").trim());
     }
 
     public static String doGet(String propertiesPath, String querys, double number,Class c) {
